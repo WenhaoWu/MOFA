@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">ArchitectMuseo</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="location_fetching">Trying to find out where you are</string>
+    <string name="compass_accuracy_low">Please re-calibrate compass by waving your device in a figure 8 motion.</string>
+
+    <string-array name="crap">
+        <item>1 Building Recognition</item>
+    </string-array>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_activity__poi">Activity_POIActivity</string>
+    <string name="title_activity_activity__poimain_list_view">Activity_POIMainListView</string>
+
+</resources>
