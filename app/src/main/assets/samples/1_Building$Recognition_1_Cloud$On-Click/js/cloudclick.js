@@ -34,10 +34,10 @@ var Recognition = {
 
         this.imgButton = new AR.ImageResource("assets/bbutton.png");
 
-        this.pageOneButton = this.createWwwButton("http://www.google.fi", 0.5, {
+        /*this.pageOneButton = this.createWwwButton("http://www.google.fi", 0.5, {
                             offsetX: 0,
                             offsetY: 0
-                        });
+                        });*/
 
         console.log("after button");
 	},
@@ -48,7 +48,10 @@ var Recognition = {
 		    if(Recognition.pageOneButton == null){
                 console.log("OMFG");
             }
-
+            Recognition.pageOneButton = Recognition.createWwwButton(response.targetInfo.name, 0.5, {
+                offsetX: 0,
+                offsetY: 0
+            });
 			Recognition.wineLabelAugmentation = new AR.Trackable2DObject(Recognition.tracker, response.targetInfo.name , {
 				drawables: {
 					//cam: [Recognition.imgOverlay]
@@ -57,7 +60,7 @@ var Recognition = {
 
 			});
 			console.log(response.targetInfo.name);
-			this.targetName = response.targetInfo.name;
+			//this.targetName = response.targetInfo.name;
 		} else {
 			$('#errorMessage').html("<div class='errorMessage'>Recognition failed! Try to stand in front of building</div>");
 			setTimeout(function() {
@@ -85,7 +88,7 @@ var Recognition = {
 	                        console.log("INSIDE FUNCTION");
                             options.onClick = function() {
                                 //AR.context.openInBrowser(url);
-                                document.location = "architectsdk://craphost1?name=" + this.targetName;
+                                document.location = "architectsdk://craphost1?name=" + url;
 
                             };
                             return new AR.ImageDrawable(this.imgButton, size, options);
