@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.yevgen.architectmuseo.CamActivity;
 import com.example.yevgen.architectmuseo.POINotification.Activity_POIActivity;
 import com.example.yevgen.architectmuseo.POINotification.Object_POI;
 import com.example.yevgen.architectmuseo.R;
@@ -90,7 +92,18 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LinearLayout myView = (LinearLayout) inflater.inflate(R.layout.fragment_poi_list_tab, container, false);
+        CoordinatorLayout myView = (CoordinatorLayout) inflater.inflate(R.layout.fragment_poi_list_tab, container, false);
+
+        FloatingActionButton fab_cam = (FloatingActionButton)myView.findViewById(R.id.poi_list_fab_cam);
+        fab_cam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getContext(), CamActivity.class);
+                startActivity(intent);
+            }
+        });
+
         final ListView listView = (ListView) myView.findViewById(R.id.POIlistview);
 
         String url = null;

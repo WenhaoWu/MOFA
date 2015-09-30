@@ -5,12 +5,13 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,16 +27,19 @@ public class Activity_POIActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poi);
 
-        Button b1 = (Button)findViewById(R.id.btn_jumpToCam);
-        b1.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab_cam = (FloatingActionButton)findViewById(R.id.poi_detail_fab_cam);
+        fab_cam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra("Image_Flag", "True");
                 intent.setClass(getBaseContext(), CamActivity.class);
                 startActivity(intent);
             }
         });
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.poi_detail_toolbar);
+        toolbar.setTitle("Detail");
+        setSupportActionBar(toolbar);
 
         ImageView targetImg = (ImageView)findViewById(R.id.img_target);
         targetImg.setImageResource(R.drawable.target_test);

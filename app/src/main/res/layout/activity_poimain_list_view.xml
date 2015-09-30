@@ -11,7 +11,7 @@
     tools:context=".Activity_POIMainListView">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/poi_list_toolbar"
         android:minHeight="?attr/actionBarSize"
         android:background="@color/pri"
         android:layout_width="match_parent"

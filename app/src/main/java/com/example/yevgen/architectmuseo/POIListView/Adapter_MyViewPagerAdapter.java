@@ -11,7 +11,7 @@ public class Adapter_MyViewPagerAdapter extends FragmentPagerAdapter{
 
     final int PAGE_COUNT = 3;
 
-    private String tabTitles[] = new String[]{"Nearest", "MostViewed", "Recommend"};
+    private String tabTitles[] = new String[]{"Near", "Popular", "Suggest"};
 
     public Adapter_MyViewPagerAdapter(FragmentManager fm) {
         super(fm);
