@@ -1,4 +1,4 @@
-package com.example.yevgen.architectmuseo;
+package com.example.yevgen.architectmuseo.POIRecognition;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.yevgen.architectmuseo.POIListView.Activity_POIMainListView;
 import com.example.yevgen.architectmuseo.POINotification.Receiver_AlarmReceiver;
+import com.example.yevgen.architectmuseo.R;
 import com.wikitude.architect.ArchitectView;
 import com.wikitude.architect.ArchitectView.ArchitectUrlListener;
 import com.wikitude.architect.StartupConfiguration;
@@ -22,7 +23,7 @@ import com.wikitude.architect.StartupConfiguration.CameraPosition;
 
 import java.io.IOException;
 
-public abstract class AbstractArchitectCamActivity extends AppCompatActivity implements ArchitectViewHolderInterface{
+public abstract class AbstractArchitectCamActivity extends AppCompatActivity implements ArchitectViewHolderInterface {
 
 	/**
 	 * holds the Wikitude SDK AR-View, this is where camera, markers, compass, 3D models etc. are rendered

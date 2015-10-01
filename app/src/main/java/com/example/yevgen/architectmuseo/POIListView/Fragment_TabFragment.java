@@ -1,13 +1,17 @@
 package com.example.yevgen.architectmuseo.POIListView;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +28,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.yevgen.architectmuseo.CamActivity;
 import com.example.yevgen.architectmuseo.POINotification.Activity_POIActivity;
 import com.example.yevgen.architectmuseo.POINotification.Object_POI;
+import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
 import com.example.yevgen.architectmuseo.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -92,6 +96,30 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        /********For showing the loading message for 3 seconds before it receive data. ********/
+        final ProgressDialog dialog=new ProgressDialog(getContext());
+        dialog.setMessage("Getting data from back end");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
+
+        Thread welcomeThread = new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    super.run();
+                    sleep(3*1000);//Delay of 3 seconds
+                    dialog.hide();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        welcomeThread.start();
+        /********For showing the loading message for 3 seconds before it receive data. ********/
+
         CoordinatorLayout myView = (CoordinatorLayout) inflater.inflate(R.layout.fragment_poi_list_tab, container, false);
 
         FloatingActionButton fab_cam = (FloatingActionButton)myView.findViewById(R.id.poi_list_fab_cam);
@@ -113,7 +141,7 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
             switch (sortingMethodID) {
                 case 0:
                     mGoogleApiClient.connect();
-                    url = "http://users.metropolia.fi/~dinhtr/arkkitehtuurimuseo_by_metropolia/includes/poi.json";
+                    url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
                     break;
                 case 1:
                     //setListViewByMostviewed();
@@ -122,7 +150,7 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
                     //setListViewByRecomend();
                     break;
                 default:
-                    url = "http://users.metropolia.fi/~dinhtr/arkkitehtuurimuseo_by_metropolia/includes/poi.json";
+                    url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
                     break;
             }
         }
@@ -141,17 +169,19 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
                         for (int i = 0; i < response.length(); i++) {
 
                             String name = null;
+                            String imgBase64 = null;
                             double lat = 0;
                             double lng = 0;
                             try {
-                                name = response.getJSONObject(i).getString("name");
+                                name = response.getJSONObject(i).getString("poi_name");
                                 lat = response.getJSONObject(i).getDouble("lat");
                                 lng = response.getJSONObject(i).getDouble("lng");
+                                imgBase64 = response.getJSONObject(i).getString("image");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
-                            Object_POI temp = new Object_POI(lat, lng, name, i);
+                            Object_POI temp = new Object_POI(lat, lng, name, i, imgBase64);
                             result.add(temp);
                         }
 
@@ -168,7 +198,6 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
                             }
                         };
                         listView.setOnItemClickListener(onItemClickListener);
-
 
                     }
                 },
@@ -212,6 +241,10 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
             TextView Title = (TextView) rowView.findViewById(R.id.POIRowFriLine);
             TextView Coordi = (TextView)rowView.findViewById(R.id.POIRowSecLine);
             ImageView imageView = (ImageView) rowView.findViewById(R.id.POIRowImage);
+
+            byte[] decodedString = Base64.decode(values.get(position).getImgBase64(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            imageView.setImageBitmap(decodedByte);
 
             Title.setText(values.get(position).getName());
             Coordi.setText("lat: "+values.get(position).getLatitude()+" lng: "+values.get(position).getLongitude());

@@ -1,4 +1,4 @@
-package com.example.yevgen.architectmuseo;
+package com.example.yevgen.architectmuseo.POIRecognition;
 
 import com.wikitude.architect.ArchitectView.ArchitectUrlListener;
 

@@ -1,4 +1,4 @@
-package com.example.yevgen.architectmuseo;
+package com.example.yevgen.architectmuseo.POIRecognition;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.example.yevgen.architectmuseo.POINotification.Activity_POIActivity;
 import com.example.yevgen.architectmuseo.POINotification.Service_LocationTrackingService;
+import com.example.yevgen.architectmuseo.R;
+import com.example.yevgen.architectmuseo.WikitudeSDKConstants;
 import com.wikitude.architect.ArchitectView.ArchitectUrlListener;
 import com.wikitude.architect.StartupConfiguration.CameraPosition;
 
