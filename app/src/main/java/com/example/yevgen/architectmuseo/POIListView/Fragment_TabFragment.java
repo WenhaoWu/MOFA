@@ -3,15 +3,12 @@ package com.example.yevgen.architectmuseo.POIListView;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,29 +94,6 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        /********For showing the loading message for 3 seconds before it receive data. ********/
-        final ProgressDialog dialog=new ProgressDialog(getContext());
-        dialog.setMessage("Getting data from back end");
-        dialog.setCancelable(false);
-        dialog.setInverseBackgroundForced(false);
-        dialog.show();
-
-        Thread welcomeThread = new Thread() {
-
-            @Override
-            public void run() {
-                try {
-                    super.run();
-                    sleep(3*1000);//Delay of 3 seconds
-                    dialog.hide();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        welcomeThread.start();
-        /********For showing the loading message for 3 seconds before it receive data. ********/
-
         CoordinatorLayout myView = (CoordinatorLayout) inflater.inflate(R.layout.fragment_poi_list_tab, container, false);
 
         FloatingActionButton fab_cam = (FloatingActionButton)myView.findViewById(R.id.poi_list_fab_cam);
@@ -163,6 +137,30 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+
+                        /********For showing the loading message for 3 seconds before it receive data. ********/
+                        final ProgressDialog dialog=new ProgressDialog(getContext());
+                        dialog.setMessage("Getting data from back end");
+                        dialog.setCancelable(false);
+                        dialog.setInverseBackgroundForced(false);
+                        dialog.show();
+
+                        Thread welcomeThread = new Thread() {
+
+                            @Override
+                            public void run() {
+                                try {
+                                    super.run();
+                                    sleep(3*1000);//Delay of 3 seconds
+                                    dialog.hide();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+                        welcomeThread.start();
+                        /********For showing the loading message for 3 seconds before it receive data. ********/
+
                         Log.e("Response size", response.length() + "");
                         final ArrayList<Object_POI> result = new ArrayList<>();
 
@@ -215,7 +213,6 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
 
         /**/
 
-
         return myView;
     }
 
@@ -242,10 +239,11 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
             TextView Coordi = (TextView)rowView.findViewById(R.id.POIRowSecLine);
             ImageView imageView = (ImageView) rowView.findViewById(R.id.POIRowImage);
 
+            /*
             byte[] decodedString = Base64.decode(values.get(position).getImgBase64(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             imageView.setImageBitmap(decodedByte);
-
+            */
             Title.setText(values.get(position).getName());
             Coordi.setText("lat: "+values.get(position).getLatitude()+" lng: "+values.get(position).getLongitude());
             return rowView;

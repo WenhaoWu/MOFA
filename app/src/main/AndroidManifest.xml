@@ -45,17 +45,10 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
             android:name=".POIRecognition.CamActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" >
 
         </activity>
-
-
-        <activity android:name=".MainSamplesListActivity" />
 
         <receiver
             android:name=".POINotification.Receiver_AlarmReceiver"
