@@ -38,7 +38,7 @@ public class Activity_POIActivity extends AppCompatActivity {
         });
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.poi_detail_toolbar);
-        toolbar.setTitle("Detail");
+        toolbar.setTitle("Point Of Interest");
         setSupportActionBar(toolbar);
 
         ImageView targetImg = (ImageView)findViewById(R.id.img_target);

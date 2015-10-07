@@ -53,6 +53,7 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
     protected Location mCurrentLocation;
     protected StableArrayAdapter adapter;
 
+    private ProgressDialog progress;
 
     public static Fragment_TabFragment newInstance(int ID) {
         Fragment_TabFragment fragment = new Fragment_TabFragment();
@@ -93,6 +94,35 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
+        /********For showing the loading message for 3 seconds before it receive data. ********/
+        /*
+        final ProgressDialog dialog=new ProgressDialog(getContext());
+        dialog.setMessage("Getting data from back end");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
+        Thread welcomeThread = new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    super.run();
+                    sleep(3*1000);//Delay of 3 seconds
+                    dialog.hide();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        welcomeThread.start();
+
+        /********For showing the loading message for 3 seconds before it receive data. ********/
+        progress = new ProgressDialog(getContext());
+        progress.setTitle("Loading");
+        progress.setMessage("Retrieving data from backend...");
+        progress.show();
 
         CoordinatorLayout myView = (CoordinatorLayout) inflater.inflate(R.layout.fragment_poi_list_tab, container, false);
 
@@ -137,29 +167,6 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-
-                        /********For showing the loading message for 3 seconds before it receive data. ********/
-                        final ProgressDialog dialog=new ProgressDialog(getContext());
-                        dialog.setMessage("Getting data from back end");
-                        dialog.setCancelable(false);
-                        dialog.setInverseBackgroundForced(false);
-                        dialog.show();
-
-                        Thread welcomeThread = new Thread() {
-
-                            @Override
-                            public void run() {
-                                try {
-                                    super.run();
-                                    sleep(3*1000);//Delay of 3 seconds
-                                    dialog.hide();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        };
-                        welcomeThread.start();
-                        /********For showing the loading message for 3 seconds before it receive data. ********/
 
                         Log.e("Response size", response.length() + "");
                         final ArrayList<Object_POI> result = new ArrayList<>();
@@ -212,7 +219,7 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
         }
 
         /**/
-
+        progress.dismiss();
         return myView;
     }
 
@@ -232,6 +239,7 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.layout_poi_list_row_layout, parent, false);
 
@@ -244,6 +252,7 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             imageView.setImageBitmap(decodedByte);
             */
+
             Title.setText(values.get(position).getName());
             Coordi.setText("lat: "+values.get(position).getLatitude()+" lng: "+values.get(position).getLongitude());
             return rowView;
