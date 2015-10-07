@@ -61,7 +61,7 @@
         </service>
 
         <activity
-            android:name=".POINotification.Activity_POIActivity"
+            android:name=".POIDetail.Activity_POIActivity"
             android:label="@string/title_activity_activity__poi" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

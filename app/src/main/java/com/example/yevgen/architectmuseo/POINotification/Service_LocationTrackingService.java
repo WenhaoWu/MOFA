@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity;
 import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -181,7 +182,7 @@ public class Service_LocationTrackingService extends IntentService implements Go
     }
 
 
-    public interface VolleyCallback{
+    private interface VolleyCallback{
         void onSuccess(double result);
     }
 

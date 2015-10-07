@@ -25,7 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.yevgen.architectmuseo.POINotification.Activity_POIActivity;
+import com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity;
 import com.example.yevgen.architectmuseo.POINotification.Object_POI;
 import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
 import com.example.yevgen.architectmuseo.R;
@@ -34,7 +34,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -182,7 +181,7 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
                                 lat = response.getJSONObject(i).getDouble("lat");
                                 lng = response.getJSONObject(i).getDouble("lng");
                                 imgBase64 = response.getJSONObject(i).getString("image");
-                            } catch (JSONException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 

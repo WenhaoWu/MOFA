@@ -10,7 +10,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.yevgen.architectmuseo.POINotification.Activity_POIActivity;
+import com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity;
 import com.example.yevgen.architectmuseo.POINotification.Service_LocationTrackingService;
 import com.example.yevgen.architectmuseo.R;
 import com.example.yevgen.architectmuseo.WikitudeSDKConstants;
