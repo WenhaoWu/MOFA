@@ -1,5 +1,6 @@
 package com.example.yevgen.architectmuseo.POIDetail;
 
+import android.graphics.Matrix;
 import android.support.v4.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -39,9 +40,26 @@ public class Fragment_ImageFragment extends Fragment {
             String imgbase64 = arguments.getString(PIC_URI);
             byte[] decodedString = Base64.decode(imgbase64, Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            Poi_Image.setImageBitmap(decodedByte);
+            Bitmap SizedBm = getSizedBm(decodedByte, 1500, 800);
+            Poi_Image.setImageBitmap(SizedBm);
         }
 
         return rootView;
+    }
+
+    private Bitmap getSizedBm(Bitmap bm, int disWidth, int disHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float)disWidth)/width;
+        float scaleHeight = ((float)disHeight)/height;
+        Matrix matrix = new Matrix();
+
+        //resize the bit map
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // recreate the new bitmap
+        Bitmap result = Bitmap.createBitmap(bm, 0,0, width, height, matrix, false);
+        bm.recycle();
+        return result;
     }
 }

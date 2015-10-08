@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.yevgen.architectmuseo.POIListView.Activity_POIMainListView;
 import com.example.yevgen.architectmuseo.POINotification.Receiver_AlarmReceiver;
 import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
 import com.example.yevgen.architectmuseo.R;
@@ -147,6 +148,13 @@ public class Activity_POIActivity extends AppCompatActivity {
             cancelAlarm();
             return true;
         }
+        else if(id == R.id.show_list){
+            Intent intent = new Intent();
+            intent.setClass(getBaseContext(), Activity_POIMainListView.class);
+            startActivity(intent);
+
+        }
+
 
         return super.onOptionsItemSelected(item);
     }

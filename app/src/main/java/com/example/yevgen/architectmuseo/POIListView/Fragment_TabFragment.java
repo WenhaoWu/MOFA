@@ -3,12 +3,15 @@ package com.example.yevgen.architectmuseo.POIListView;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,16 +147,20 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
             switch (sortingMethodID) {
                 case 0:
                     mGoogleApiClient.connect();
+                    //url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
                     url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
                     break;
                 case 1:
                     //setListViewByMostviewed();
+                    url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/compress.json";
                     break;
                 case 2:
                     //setListViewByRecomend();
+                    url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/compress.json";
                     break;
                 default:
-                    url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
+                    //url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
+                    url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/compress.json";
                     break;
             }
         }
@@ -168,6 +175,7 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
                     public void onResponse(JSONArray response) {
 
                         Log.e("Response size", response.length() + "");
+
                         final ArrayList<Object_POI> result = new ArrayList<>();
 
                         for (int i = 0; i < response.length(); i++) {
@@ -180,11 +188,10 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
                                 name = response.getJSONObject(i).getString("poi_name");
                                 lat = response.getJSONObject(i).getDouble("lat");
                                 lng = response.getJSONObject(i).getDouble("lng");
-                                imgBase64 = response.getJSONObject(i).getString("image");
+                                imgBase64 = response.getJSONObject(i).getString("image").toString();
                             } catch (Exception e) {
-                                e.printStackTrace();
+                                Log.e("Response Error", e.toString());
                             }
-
                             Object_POI temp = new Object_POI(lat, lng, name, i, imgBase64);
                             result.add(temp);
                         }
@@ -246,11 +253,11 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
             TextView Coordi = (TextView)rowView.findViewById(R.id.POIRowSecLine);
             ImageView imageView = (ImageView) rowView.findViewById(R.id.POIRowImage);
 
-            /*
+            /**/
             byte[] decodedString = Base64.decode(values.get(position).getImgBase64(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             imageView.setImageBitmap(decodedByte);
-            */
+
 
             Title.setText(values.get(position).getName());
             Coordi.setText("lat: "+values.get(position).getLatitude()+" lng: "+values.get(position).getLongitude());
