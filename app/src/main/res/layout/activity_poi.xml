@@ -19,17 +19,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/image_pager"
+        <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"/>
+            android:layout_weight="0.5">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/image_pager"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"/>
+
+            <com.liangfeizc.slidepageindicator.CirclePageIndicator
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageIndicator"
+                android:layout_gravity="bottom|center_horizontal"
+                app:indicator_spacing="5dp"
+                app:indicator_type="circle"
+                android:layout_marginBottom="10dp"/>
+
+        </FrameLayout>
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/POITitle"
-            android:textSize="50sp"
+            android:textSize="40sp"
             android:text="Test"/>
 
     </LinearLayout>

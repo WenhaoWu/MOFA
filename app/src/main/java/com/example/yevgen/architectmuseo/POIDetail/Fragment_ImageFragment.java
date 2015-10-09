@@ -40,7 +40,7 @@ public class Fragment_ImageFragment extends Fragment {
             String imgbase64 = arguments.getString(PIC_URI);
             byte[] decodedString = Base64.decode(imgbase64, Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            Bitmap SizedBm = getSizedBm(decodedByte, 1500, 800);
+            Bitmap SizedBm = getSizedBm(decodedByte, 1550, 1070); // fit 5 inch 1920*1080 vertical screen most
             Poi_Image.setImageBitmap(SizedBm);
         }
 

@@ -152,15 +152,13 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
                     break;
                 case 1:
                     //setListViewByMostviewed();
-                    url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/compress.json";
                     break;
                 case 2:
                     //setListViewByRecomend();
-                    url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/compress.json";
                     break;
                 default:
                     //url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
-                    url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/compress.json";
+                    url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
                     break;
             }
         }

@@ -76,7 +76,7 @@ public class Activity_POIMainListView extends AppCompatActivity {
         long firstMillis = System.currentTimeMillis();
         //setup periodic alarm every 10 seconds
         AlarmManager alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, 10000, pIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, 5*1000, pIntent);
 
     }
 

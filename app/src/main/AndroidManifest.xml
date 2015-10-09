@@ -64,14 +64,12 @@
             android:name=".POIDetail.Activity_POIActivity"
             android:label="@string/title_activity_activity__poi" >
 
-
         </activity>
 
         <activity
             android:name=".POIListView.Activity_POIMainListView"
             android:label="@string/title_activity_activity__poimain_list_view"
             android:theme="@style/AppTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <!--  -->

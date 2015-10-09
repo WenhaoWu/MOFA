@@ -25,6 +25,7 @@ import com.example.yevgen.architectmuseo.POIListView.Activity_POIMainListView;
 import com.example.yevgen.architectmuseo.POINotification.Receiver_AlarmReceiver;
 import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
 import com.example.yevgen.architectmuseo.R;
+import com.liangfeizc.slidepageindicator.CirclePageIndicator;
 
 import org.json.JSONArray;
 
@@ -34,6 +35,7 @@ import java.util.List;
 public class Activity_POIActivity extends AppCompatActivity {
 
     public final static String ARG_Name = "PoiName";
+    private CirclePageIndicator mPageIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +79,12 @@ public class Activity_POIActivity extends AppCompatActivity {
 
                     }
                 });
+                mPageIndicator = (CirclePageIndicator) findViewById(R.id.imageIndicator);
+                mPageIndicator.setViewPager(pager);
             }
         });
+
+
 
         TextView titleTextView = (TextView)findViewById(R.id.POITitle);
         Intent intent = getIntent();
