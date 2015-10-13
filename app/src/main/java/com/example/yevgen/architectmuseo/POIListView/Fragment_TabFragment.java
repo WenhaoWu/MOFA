@@ -178,19 +178,21 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
 
                         for (int i = 0; i < response.length(); i++) {
 
-                            String name = null;
-                            String imgBase64 = null;
-                            double lat = 0;
-                            double lng = 0;
+                            String name = null, imgBase64 = null, descrip = null;
+                            double lat = 0, lng =0;
+                            int id = 0;
                             try {
                                 name = response.getJSONObject(i).getString("poi_name");
                                 lat = response.getJSONObject(i).getDouble("lat");
                                 lng = response.getJSONObject(i).getDouble("lng");
-                                imgBase64 = response.getJSONObject(i).getString("image").toString();
+                                imgBase64 = response.getJSONObject(i).getString("image");
+                                descrip = response.getJSONObject(i).getString("description");
+                                id = response.getJSONObject(i).getInt("id");
+
                             } catch (Exception e) {
                                 Log.e("Response Error", e.toString());
                             }
-                            Object_POI temp = new Object_POI(lat, lng, name, i, imgBase64);
+                            Object_POI temp = new Object_POI(lat, lng, name, id, imgBase64,descrip);
                             result.add(temp);
                         }
 
@@ -202,6 +204,8 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Intent intent = new Intent();
                                 intent.putExtra(Activity_POIActivity.ARG_Name, result.get(position).getName());
+                                intent.putExtra(Activity_POIActivity.ARG_Des, result.get(position).getDescrip());
+                                intent.putExtra(Activity_POIActivity.ARG_ID, result.get(position).getID());
                                 intent.setClass(getContext(), Activity_POIActivity.class);
                                 startActivity(intent);
                             }

@@ -11,14 +11,20 @@ public class Object_POI {
     private String name;
     private String imgBase64;
     private int ID;
+    private String descrip;
 
 
-    public Object_POI(double latitude, double longitude, String name, int ID, String imgBase64) {
+    public Object_POI(double latitude, double longitude, String name, int ID, String imgBase64, String descrip) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;
         this.ID = ID;
         this.imgBase64 = imgBase64;
+        this.descrip = descrip;
+    }
+
+    public int getID() {
+        return ID;
     }
 
     public double getLatitude() {
@@ -44,5 +50,9 @@ public class Object_POI {
     @Override
     public String toString() {
         return "Name: "+name;
+    }
+
+    public String getDescrip() {
+        return descrip;
     }
 }

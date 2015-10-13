@@ -101,6 +101,7 @@ public class CamActivity extends AbstractArchitectCamActivity {
 					Intent intent = new Intent();
 					intent.setClass(getBaseContext(), Activity_POIActivity.class);
                     intent.putExtra(Activity_POIActivity.ARG_Name, invokedUri.getQueryParameter("name"));
+					intent.putExtra(Activity_POIActivity.ARG_Des, "Test");
                     Log.e("ResponseFromJS", invokedUri.getQueryParameter("name"));
                     startActivity(intent);
 				}
@@ -125,7 +126,7 @@ public class CamActivity extends AbstractArchitectCamActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        unregisterReceiver(receiver);
+        //unregisterReceiver(receiver);
     }
 
     public class Receiver_DistanceResponseReceiver extends BroadcastReceiver {

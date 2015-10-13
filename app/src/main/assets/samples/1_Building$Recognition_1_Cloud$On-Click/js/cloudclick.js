@@ -32,7 +32,7 @@ var Recognition = {
         });
 		//var imgUrl = "http://www.arkkitehtuurimuseo.fi/wikitude/img/Kallion_kirkko2.png";
 
-        this.imgButton = new AR.ImageResource("assets/bbutton.png");
+        this.imgButton = new AR.ImageResource("assets/status.png");
 
         /*this.pageOneButton = this.createWwwButton("http://www.google.fi", 0.5, {
                             offsetX: 0,

@@ -1,8 +1,8 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:id="@+id/CoordiLay">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -22,12 +22,14 @@
         <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5">
+            android:layout_weight="0.5"
+            android:layout_gravity="top">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/image_pager"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"/>
+                android:layout_height="fill_parent"
+                android:layout_gravity="top"/>
 
             <com.liangfeizc.slidepageindicator.CirclePageIndicator
                 android:layout_width="wrap_content"
@@ -43,10 +45,25 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:id="@+id/POITitle"
             android:textSize="40sp"
-            android:text="Test"/>
+            android:text="Test"
+            android:layout_weight="0.2"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
+            android:id="@+id/POIDescription"
+            android:text="30sp"
+            android:maxLines="6"
+            android:scrollbars="vertical"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_gravity="top"/>
 
     </LinearLayout>
 

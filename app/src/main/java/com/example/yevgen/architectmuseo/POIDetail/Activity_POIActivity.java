@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.yevgen.architectmuseo.Constains_BackendAPI_Url;
 import com.example.yevgen.architectmuseo.POIListView.Activity_POIMainListView;
 import com.example.yevgen.architectmuseo.POINotification.Receiver_AlarmReceiver;
 import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
@@ -35,6 +36,8 @@ import java.util.List;
 public class Activity_POIActivity extends AppCompatActivity {
 
     public final static String ARG_Name = "PoiName";
+    public final static String ARG_Des = "PoiDescript";
+    public final static String ARG_ID = "PoiId";
     private CirclePageIndicator mPageIndicator;
 
     @Override
@@ -55,6 +58,9 @@ public class Activity_POIActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.poi_detail_toolbar);
         toolbar.setTitle("Point Of Interest");
         setSupportActionBar(toolbar);
+
+        TextView titleTextView = (TextView)findViewById(R.id.POITitle);
+        TextView desTextView = (TextView)findViewById(R.id.POIDescription);
 
         final ViewPager pager = (ViewPager)findViewById(R.id.image_pager);
         final Adapter_ImageSlideAdapter slideAdapter = new Adapter_ImageSlideAdapter(getSupportFragmentManager());
@@ -84,11 +90,13 @@ public class Activity_POIActivity extends AppCompatActivity {
             }
         });
 
-
-
-        TextView titleTextView = (TextView)findViewById(R.id.POITitle);
         Intent intent = getIntent();
+
         titleTextView.setText(intent.getStringExtra(ARG_Name));
+
+        String descrip = intent.getStringExtra(ARG_Des);
+        desTextView.setText(descrip.trim());
+
     }
 
     private interface VolleyCallback{
@@ -96,7 +104,8 @@ public class Activity_POIActivity extends AppCompatActivity {
     }
 
     public double getPicList(final VolleyCallback callback){
-        String url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
+        //String url = Constains_BackendAPI_Url.URL_POIDetail+getIntent().getIntExtra(ARG_ID, 0)+"'";
+        String url = Constains_BackendAPI_Url.URL_POIList;
         Log.e("URL", url);
 
         final List<String> result = new ArrayList<String>();
@@ -112,7 +121,7 @@ public class Activity_POIActivity extends AppCompatActivity {
                             try {
                                 imgBase64_temp = response.getJSONObject(i).getString("image");
                             } catch (Exception e) {
-                                e.printStackTrace();
+                                Log.e("JsonPharseError", e.toString());
                             }
                             result.add(imgBase64_temp);
                         }
@@ -137,7 +146,6 @@ public class Activity_POIActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_activity__poi, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
