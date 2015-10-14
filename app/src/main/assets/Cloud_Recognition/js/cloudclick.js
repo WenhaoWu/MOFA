@@ -88,7 +88,7 @@ var Recognition = {
 	                        console.log("INSIDE FUNCTION");
                             options.onClick = function() {
                                 //AR.context.openInBrowser(url);
-                                document.location = "architectsdk://craphost1?name=" + url;
+                                document.location = "architectsdk://snapShotButton?name=" + url;
 
                             };
                             return new AR.ImageDrawable(this.imgButton, size, options);

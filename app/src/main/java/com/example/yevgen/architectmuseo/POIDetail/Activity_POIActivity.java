@@ -55,11 +55,10 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         try{
             mediaPlayer.setDataSource(url);
         } catch(Exception e){
-            Log.e("ERRRRORROROROROR",e.toString());
+            Log.e("Cannot open given URL",e.toString());
         }
         mediaPlayer.setOnPreparedListener(this);
         mediaPlayer.prepareAsync();
-        //fab_media = (FloatingActionButton)findViewById(R.id.poi_detail_fab_media);
 
         FloatingActionButton fab_cam = (FloatingActionButton)findViewById(R.id.poi_detail_fab_cam);
         fab_cam.setOnClickListener(new View.OnClickListener() {
