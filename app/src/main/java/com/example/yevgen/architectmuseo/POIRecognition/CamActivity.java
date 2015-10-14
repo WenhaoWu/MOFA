@@ -56,7 +56,7 @@ public class CamActivity extends AbstractArchitectCamActivity {
 	public String getARchitectWorldPath() {
 		//Log.e("CamAct_WP", getIntent().getExtras().getString("activityArchitectWorldUrl"));
 		//return getIntent().getExtras().getString("activityArchitectWorldUrl");
-		return "samples/1_Building$Recognition_1_Cloud$On-Click/index.html";
+		return "Cloud_Recognition/index.html";
 	}
 
 	@Override

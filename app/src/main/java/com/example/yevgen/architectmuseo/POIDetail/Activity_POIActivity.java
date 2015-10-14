@@ -71,24 +71,6 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
             }
         });
 
-       /* FloatingActionButton sound = (FloatingActionButton)findViewById(R.id.donate_with_google);
-        sound.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://soundcloud.com/user-998510025/saywhat";
-                MediaPlayer mediaPlayer = new MediaPlayer();
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                try {
-                    mediaPlayer.setDataSource(url);
-                    mediaPlayer.prepare(); // might take long! (for buffering, etc)
-                    mediaPlayer.start();
-                } catch(Exception e){
-                   Log.e("ERRRRORROROROROR",e.toString());
-                }
-
-            }
-        });*/
-
         Toolbar toolbar = (Toolbar)findViewById(R.id.poi_detail_toolbar);
         toolbar.setTitle("Point Of Interest");
         setSupportActionBar(toolbar);
