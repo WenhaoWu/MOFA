@@ -4,6 +4,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
@@ -33,17 +36,30 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Activity_POIActivity extends AppCompatActivity {
+public class Activity_POIActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener{
 
     public final static String ARG_Name = "PoiName";
     public final static String ARG_Des = "PoiDescript";
     public final static String ARG_ID = "PoiId";
     private CirclePageIndicator mPageIndicator;
+    private MediaPlayer mediaPlayer = null;
+    FloatingActionButton fab_media;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poi);
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        String url = "https://api.soundcloud.com/tracks/228179666/stream?client_id=76bf4a478f95a82ca090ecd8fa5b99db";
+        try{
+            mediaPlayer.setDataSource(url);
+        } catch(Exception e){
+            Log.e("ERRRRORROROROROR",e.toString());
+        }
+        mediaPlayer.setOnPreparedListener(this);
+        mediaPlayer.prepareAsync();
+        //fab_media = (FloatingActionButton)findViewById(R.id.poi_detail_fab_media);
 
         FloatingActionButton fab_cam = (FloatingActionButton)findViewById(R.id.poi_detail_fab_cam);
         fab_cam.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +70,24 @@ public class Activity_POIActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+       /* FloatingActionButton sound = (FloatingActionButton)findViewById(R.id.donate_with_google);
+        sound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://soundcloud.com/user-998510025/saywhat";
+                MediaPlayer mediaPlayer = new MediaPlayer();
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                try {
+                    mediaPlayer.setDataSource(url);
+                    mediaPlayer.prepare(); // might take long! (for buffering, etc)
+                    mediaPlayer.start();
+                } catch(Exception e){
+                   Log.e("ERRRRORROROROROR",e.toString());
+                }
+
+            }
+        });*/
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.poi_detail_toolbar);
         toolbar.setTitle("Point Of Interest");
@@ -97,6 +131,17 @@ public class Activity_POIActivity extends AppCompatActivity {
         String descrip = intent.getStringExtra(ARG_Des);
         desTextView.setText(descrip.trim());
 
+    }
+
+    @Override
+    public void onPrepared(final MediaPlayer mp) {
+        fab_media = (FloatingActionButton)findViewById(R.id.poi_detail_fab_media);
+        fab_media.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mp.start();
+            }
+        });
     }
 
     private interface VolleyCallback{
