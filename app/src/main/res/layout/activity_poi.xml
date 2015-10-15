@@ -4,88 +4,98 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:id="@+id/CoordiLay">
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1"
-        android:id="@+id/viewA">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/poi_detail_toolbar"
-            android:minHeight="?attr/actionBarSize"
-            android:background="@color/pri"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1"
+            android:id="@+id/viewA">
 
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:layout_gravity="top">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/poi_detail_toolbar"
+                android:minHeight="?attr/actionBarSize"
+                android:background="@color/pri"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/image_pager"
+            <FrameLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:layout_gravity="top">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/image_pager"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="top"/>
+
+                <com.liangfeizc.slidepageindicator.CirclePageIndicator
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageIndicator"
+                    android:layout_gravity="bottom|center_horizontal"
+                    app:indicator_spacing="5dp"
+                    app:indicator_type="circle"
+                    android:layout_marginBottom="10dp"/>
+
+            </FrameLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/POITitle"
+                android:textSize="40sp"
+                android:text="Test"
+                android:layout_weight="0.2"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.3"
+                android:id="@+id/POIDescription"
+                android:text="30sp"
+                android:maxLines="6"
+                android:scrollbars="vertical"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_gravity="top"/>
 
-            <com.liangfeizc.slidepageindicator.CirclePageIndicator
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right">
+
+            <android.support.design.widget.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageIndicator"
-                android:layout_gravity="bottom|center_horizontal"
-                app:indicator_spacing="5dp"
-                app:indicator_type="circle"
-                android:layout_marginBottom="10dp"/>
+                android:id="@+id/poi_detail_fab_cam"
+                android:layout_margin="16dp"
+                android:clickable="true"
+                android:src="@drawable/ic_photo_camera_black_24dp"/>
 
-        </FrameLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/poi_detail_fab_media"
+                android:layout_margin="16dp"
+                android:clickable="true"
+                android:src="@drawable/ic_audiotrack_black_24dp"
+                android:layout_below="@+id/poi_detail_fab_cam" />
 
+        </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:id="@+id/POITitle"
-            android:textSize="40sp"
-            android:text="Test"
-            android:layout_weight="0.2"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+    </FrameLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.3"
-            android:id="@+id/POIDescription"
-            android:text="30sp"
-            android:maxLines="6"
-            android:scrollbars="vertical"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_gravity="top"/>
-
-    </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/poi_detail_fab_cam"
-        android:layout_margin="16dp"
-        android:clickable="true"
-        android:src="@drawable/ic_photo_camera_black_24dp"
-        app:layout_anchor="@id/viewA"
-        app:layout_anchorGravity="bottom|end"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/poi_detail_fab_media"
-        android:layout_margin="16dp"
-        android:clickable="true"
-        android:src="@drawable/ic_audiotrack_black_24dp"
-        app:layout_anchor="@id/viewA"
-        app:layout_anchorGravity="bottom|start"/>
 
 </android.support.design.widget.CoordinatorLayout>
 

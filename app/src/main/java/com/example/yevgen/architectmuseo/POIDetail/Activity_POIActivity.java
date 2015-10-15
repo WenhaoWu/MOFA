@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
@@ -74,15 +73,15 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         toolbar.setTitle("Point Of Interest");
         setSupportActionBar(toolbar);
 
-        TextView titleTextView = (TextView)findViewById(R.id.POITitle);
-        TextView desTextView = (TextView)findViewById(R.id.POIDescription);
+        final TextView titleTextView = (TextView)findViewById(R.id.POITitle);
+        final TextView desTextView = (TextView)findViewById(R.id.POIDescription);
 
         final ViewPager pager = (ViewPager)findViewById(R.id.image_pager);
         final Adapter_ImageSlideAdapter slideAdapter = new Adapter_ImageSlideAdapter(getSupportFragmentManager());
-        getPicList(new VolleyCallback() {
+        getDetail(new VolleyCallback() {
             @Override
-            public void onSuccess(List<String> result) {
-                slideAdapter.setList(result);
+            public void onSuccess(List<String> pic_List, String title, String descrip) {
+                slideAdapter.setList(pic_List);
                 pager.setAdapter(slideAdapter);
                 pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
@@ -102,15 +101,14 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                 });
                 mPageIndicator = (CirclePageIndicator) findViewById(R.id.imageIndicator);
                 mPageIndicator.setViewPager(pager);
+
+                titleTextView.setText(title);
+
+                desTextView.setText(descrip);
             }
-        });
 
-        Intent intent = getIntent();
+        }, 42);
 
-        titleTextView.setText(intent.getStringExtra(ARG_Name));
-
-        String descrip = intent.getStringExtra(ARG_Des);
-        desTextView.setText(descrip.trim());
 
     }
 
@@ -126,12 +124,12 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
     }
 
     private interface VolleyCallback{
-        void onSuccess(List<String> result);
+        void onSuccess(List<String> pic_List, String title, String descrip);
     }
 
-    public double getPicList(final VolleyCallback callback){
+    public double getDetail(final VolleyCallback callback, int id){
         //String url = Constains_BackendAPI_Url.URL_POIDetail+getIntent().getIntExtra(ARG_ID, 0)+"'";
-        String url = Constains_BackendAPI_Url.URL_POIList;
+        String url = Constains_BackendAPI_Url.URL_POIDetail+ id +"'";
         Log.e("URL", url);
 
         final List<String> result = new ArrayList<String>();
@@ -142,16 +140,19 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.e("Response Size", response.length()+"");
+                        String title_temp = null, descrip_temp = null;
                         for (int i=0; i<response.length(); i++){
-                            String imgBase64_temp = "iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAABgFBMVEX////+/v77+/z8/Pz6+/vb3OC+wMeytLzFx8zw8PLCxcq0t77P0dXu7vC5u8Kztr7c3uH39/i9vsWztb3x8fPS09iytbzMzdL19fa3uMCxs7vz8/Te4OOws7qytLvk5eevsbnk5ej19vf5+vru7/Hn6Or9/f309PXn5+r9/f6tsLerrrausbi7vsTV1trx8vP6+vvh4uXb3N/T1dmqrbW7vMPs7e7Excupq7Tm5+nHyc+nqrOvsrr9/v6mqbGwsrrl5un///+srrakp7Ceoqujpq+go6yipK3AwsilqLChpK2boKj4+Pn5+fqYnKadoKqWmaScnqmVmKOanaiytL2Vl6KZnKamqbKTl6KXm6WZnKeipa+YmqXJy9CPkp6TlqGkpq/j4+aMj5ySlaDp6uyQk56FiJX7+/vc3eGOkZ2NkJz8/P2lp7CNkJuIi5fr7O7Y2d2Mj5uprLSKjpmLj5rg4eSKjZnLzNKIjJj29veHipaAhJCGipXX2NzR0tff3+LqOSweAAAAAXRSTlMAQObYZgAAAYRJREFUeNrt1Nk3QlEUx/FfInKTpCRjkbEroWsmZJ5F5jLP8zzzr7sWy0t7n+UsD1583s7Dd+21zln74N/fM6QYISU1zZSeARnmTEVRLJCQZc3W2SSKHHuuTnFIJM68Dy6JIt9doHMXSiRFxbqSUkiweDwetxcyXB6rsww/Ue6rqHBUAqjypQBl1Tab11EjfDyLu9bvV+sC9QCCDRl5fp1qbwyCUdmkhr6omQGXEvqmNYNkbGllqW2gtHcIdHYRRWO3QLinF0mCfRFebRYI3v4BVqQBFNPgEGuYvuCRQdZoD72zY/2s0DgoE5NTLAV0Mj3DsjJJdJY1xySxedbCBCjBxSXWZBsoxuVpngkUw0o0xlqlx8QTa7x1Bwgbm1sCkW3q39raEYk6DUgSTgjt7iHJ/oHIYTqSHR2fCJyegXB+IXDcC4Lh8op1fQPSduKWo4Fxd8+YeQAnfEq62AArZ+iRYoFA4crTh+eO+P5NwLr2eXBByPhi1+yv5q+9e2vRtLgPv/UOcaQrXbMkXkMAAAAASUVORK5CYII=";
+                            String imgBase64_temp = "";
                             try {
                                 imgBase64_temp = response.getJSONObject(i).getString("image");
+                                title_temp = response.getJSONObject(i).getString("poi_name");
+                                descrip_temp = response.getJSONObject(i).getString("description");
                             } catch (Exception e) {
                                 Log.e("JsonPharseError", e.toString());
                             }
                             result.add(imgBase64_temp);
                         }
-                        callback.onSuccess(result);
+                        callback.onSuccess(result,title_temp,descrip_temp);
                     }
                 },
                 new Response.ErrorListener() {

@@ -28,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.yevgen.architectmuseo.Constains_BackendAPI_Url;
 import com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity;
 import com.example.yevgen.architectmuseo.POINotification.Object_POI;
 import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
@@ -147,8 +148,10 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
             switch (sortingMethodID) {
                 case 0:
                     mGoogleApiClient.connect();
-                    //url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
-                    url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
+                    url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/distance_matrix.php?lat=60.221354&lng=24.804587";
+                    //url = Constains_BackendAPI_Url.URL_POIList;
+                    //url = url + 60.221354+ "&lng="+24.804587;
+                    Log.e("POIList URL", url);
                     break;
                 case 1:
                     //setListViewByMostviewed();
@@ -158,7 +161,7 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
                     break;
                 default:
                     //url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
-                    url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
+                    url = Constains_BackendAPI_Url.URL_POIList;
                     break;
             }
         }
@@ -178,21 +181,18 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
 
                         for (int i = 0; i < response.length(); i++) {
 
-                            String name = null, imgBase64 = null, descrip = null;
-                            double lat = 0, lng =0;
-                            int id = 0;
+                            String name = null, imgBase64 = null;
+                            int id = 0, disTo=0;
                             try {
                                 name = response.getJSONObject(i).getString("poi_name");
-                                lat = response.getJSONObject(i).getDouble("lat");
-                                lng = response.getJSONObject(i).getDouble("lng");
-                                imgBase64 = response.getJSONObject(i).getString("image");
-                                descrip = response.getJSONObject(i).getString("description");
+                                disTo = response.getJSONObject(i).getInt("distance");
+                                imgBase64 = response.getJSONObject(i).getString("compressed_image");
                                 id = response.getJSONObject(i).getInt("id");
 
                             } catch (Exception e) {
                                 Log.e("Response Error", e.toString());
                             }
-                            Object_POI temp = new Object_POI(lat, lng, name, id, imgBase64,descrip);
+                            Object_POI temp = new Object_POI(0, 0, name, id, imgBase64,null,disTo);
                             result.add(temp);
                         }
 
@@ -252,7 +252,7 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
             View rowView = inflater.inflate(R.layout.layout_poi_list_row_layout, parent, false);
 
             TextView Title = (TextView) rowView.findViewById(R.id.POIRowFriLine);
-            TextView Coordi = (TextView)rowView.findViewById(R.id.POIRowSecLine);
+            TextView Disto = (TextView)rowView.findViewById(R.id.POIRowSecLine);
             ImageView imageView = (ImageView) rowView.findViewById(R.id.POIRowImage);
 
             /**/
@@ -262,7 +262,7 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
 
 
             Title.setText(values.get(position).getName());
-            Coordi.setText("lat: "+values.get(position).getLatitude()+" lng: "+values.get(position).getLongitude());
+            Disto.setText(values.get(position).getDisTo()+" m");
             return rowView;
         }
     }

@@ -2,7 +2,7 @@ package com.example.yevgen.architectmuseo.POIDetail;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
@@ -35,40 +35,43 @@ public class Fragment_ImageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_poi_detail, container, false);
         ImageView Poi_Image = (ImageView)rootView.findViewById(R.id.fragment_image);
-        /*
-        Poi_Image.setAdjustViewBounds(true);
-        Poi_Image.setMaxHeight(Poi_Image.getHeight());
-        Poi_Image.setMaxWidth(Poi_Image.getWidth());
-        Poi_Image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        */
+
         int width = getActivity().getResources().getDisplayMetrics().widthPixels;
         int height= getActivity().getResources().getDisplayMetrics().heightPixels;
-        Log.e("ImageView", width+" and "+height);
+        Log.e("ImageView", width + " and " + height);
         Bundle arguments = getArguments();
         if (arguments != null){
             String imgbase64 = arguments.getString(PIC_URI);
             byte[] decodedString = Base64.decode(imgbase64, Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            Bitmap SizedBm = getSizedBm(decodedByte, width, height/2); // fit 5 inch 1920*1080 vertical screen most
-            Poi_Image.setImageBitmap(SizedBm);
+
+            //keep the ratio
+            //Bitmap idealBM = scaleBitmap(decodedByte, Poi_Image);
+            //Poi_Image.setImageBitmap(idealBM);
+
+            //dont keep the ratio
+            BitmapDrawable ob = new BitmapDrawable(getResources(), decodedByte);
+            Poi_Image.setBackground(ob);
         }
 
         return rootView;
     }
 
-    private Bitmap getSizedBm(Bitmap bm, int disWidth, int disHeight) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = ((float)disWidth)/width;
-        float scaleHeight = ((float)disHeight)/height;
-        Matrix matrix = new Matrix();
 
-        //resize the bit map
-        matrix.postScale(scaleWidth, scaleHeight);
+    private Bitmap scaleBitmap(Bitmap bitMap, ImageView imageView){
+        int bmWidth=bitMap.getWidth();
+        int bmHeight=bitMap.getHeight();
 
-        // recreate the new bitmap
-        Bitmap result = Bitmap.createBitmap(bm, 0,0, width, height, matrix, false);
-        bm.recycle();
-        return result;
+        int ivWidth=getActivity().getResources().getDisplayMetrics().widthPixels;
+        int ivHeight=getActivity().getResources().getDisplayMetrics().heightPixels;
+
+        int new_width=ivWidth;
+        int new_height = (int) Math.floor((double) bmHeight *( (double) new_width / (double) bmWidth));
+
+        Log.e("ImageView", "wid="+new_width+" hei="+new_height);
+
+        Bitmap newbitMap = Bitmap.createScaledBitmap(bitMap,new_width,new_height, true);
+
+        return newbitMap;
     }
 }

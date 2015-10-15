@@ -13,8 +13,8 @@ public class Network_POIListGetter {
 
     public Network_POIListGetter() {
         POIList= new ArrayList<Object_POI>();
-        POIList.add(new Object_POI(60.221345 , 24.804708, "School", 1, null, null));
-        POIList.add(new Object_POI(60.221345, 24.804, "Stadium", 2, null, null));
+        POIList.add(new Object_POI(60.221345 , 24.804708, "School", 1, null, null, 0));
+        POIList.add(new Object_POI(60.221345, 24.804, "Stadium", 2, null, null, 0));
     }
 
 

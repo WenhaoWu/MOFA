@@ -105,6 +105,7 @@ public class CamActivity extends AbstractArchitectCamActivity {
     @Override
     protected void onStop() {
         super.onStop();
+		//unregisterReceiver(receiver);
     }
 
     public class Receiver_DistanceResponseReceiver extends BroadcastReceiver {

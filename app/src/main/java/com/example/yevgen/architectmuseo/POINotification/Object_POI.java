@@ -12,15 +12,24 @@ public class Object_POI {
     private String imgBase64;
     private int ID;
     private String descrip;
+    private int disTo;
 
 
-    public Object_POI(double latitude, double longitude, String name, int ID, String imgBase64, String descrip) {
+
+
+    public Object_POI(double latitude, double longitude, String name, int ID, String imgBase64, String descrip, int disTo) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;
         this.ID = ID;
         this.imgBase64 = imgBase64;
         this.descrip = descrip;
+        this.disTo = disTo;
+
+    }
+
+    public int getDisTo() {
+        return disTo;
     }
 
     public int getID() {
