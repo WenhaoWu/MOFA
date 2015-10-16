@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -33,9 +32,6 @@ import com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity;
 import com.example.yevgen.architectmuseo.POINotification.Object_POI;
 import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
 import com.example.yevgen.architectmuseo.R;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 
 import org.json.JSONArray;
 
@@ -45,23 +41,25 @@ import java.util.List;
 /**
  * Created by wenhaowu on 23/09/15.
  */
-public class Fragment_TabFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class Fragment_TabFragment extends Fragment  {
 
     private static final String ARG_PARM1 = "SortingMethodID";
-    public static final String ARG_PARM2 = "POIName";
+    public static final String ARG_PARM2 = "LocationString";
     private static final String TAG = "Fragment_Tab";
 
 
-    protected GoogleApiClient mGoogleApiClient;
-    protected Location mCurrentLocation;
+
     protected StableArrayAdapter adapter;
 
     private ProgressDialog progress;
 
-    public static Fragment_TabFragment newInstance(int ID) {
+    private String locationStr = "";
+
+    public static Fragment_TabFragment newInstance(int ID, String locatStr) {
         Fragment_TabFragment fragment = new Fragment_TabFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARM1, ID);
+        args.putString(ARG_PARM2, locatStr);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,27 +70,9 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        buildGoogleApiClient();
-    }
-
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this.getContext())
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
     }
 
 
-    @Override
-    public void onConnected(Bundle bundle) {
-        if (mCurrentLocation == null) {
-            mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            if (mCurrentLocation != null) {
-                Log.e(TAG + " Location", mCurrentLocation.toString());
-            }
-        }
-    }
 
     @Nullable
     @Override
@@ -147,9 +127,9 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
             int sortingMethodID = getArguments().getInt(ARG_PARM1);
             switch (sortingMethodID) {
                 case 0:
-                    mGoogleApiClient.connect();
-                    url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/distance_matrix.php?lat=60.221354&lng=24.804587";
-                    //url = Constains_BackendAPI_Url.URL_POIList;
+                    //url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/distance_matrix.php?lat=60.221354&lng=24.804587";
+                    url = Constains_BackendAPI_Url.URL_POIList+locationStr;
+                    locationStr = getArguments().getString(ARG_PARM2);
                     //url = url + 60.221354+ "&lng="+24.804587;
                     Log.e("POIList URL", url);
                     break;
@@ -267,18 +247,5 @@ public class Fragment_TabFragment extends Fragment implements GoogleApiClient.Co
         }
     }
 
-    @Override
-    public void onConnectionSuspended(int i) {
-        // The connection to Google Play services was lost for some reason. We call connect() to
-        // attempt to re-establish the connection.
-        Log.i(TAG, "Connection suspended");
-        mGoogleApiClient.connect();
-    }
 
-    @Override
-    public void onConnectionFailed(ConnectionResult result) {
-        // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
-        // onConnectionFailed.
-        Log.e(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
-    }
 }

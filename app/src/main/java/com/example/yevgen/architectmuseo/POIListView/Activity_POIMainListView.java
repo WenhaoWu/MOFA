@@ -24,7 +24,7 @@ public class Activity_POIMainListView extends AppCompatActivity {
         setContentView(R.layout.activity_poimain_list_view);
 
         ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
-        Adapter_MyViewPagerAdapter viewPagerAdapter = new Adapter_MyViewPagerAdapter(getSupportFragmentManager());
+        Adapter_MyViewPagerAdapter viewPagerAdapter = new Adapter_MyViewPagerAdapter(getSupportFragmentManager(), getIntent().getStringExtra("LocationStr"));
         viewPager.setOffscreenPageLimit(viewPagerAdapter.getCount()-1);
         viewPager.setAdapter(viewPagerAdapter);
 

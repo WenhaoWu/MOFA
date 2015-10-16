@@ -5,8 +5,8 @@ package com.example.yevgen.architectmuseo;
  */
 public class Constains_BackendAPI_Url {
     public static final String URL_POIList =
-            //"http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/distance_matrix.php?lat=";//+60+"&lng="24;
-            "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
+            "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/distance_matrix.php?lat=";//+60+"&lng="24;
+            //"http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
 
     public static final String URL_POIDetail =
             "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi_detail.php?id='";//+id(int)+"'"

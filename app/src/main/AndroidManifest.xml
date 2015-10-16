@@ -43,13 +43,11 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".POIRecognition.CamActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait">
-
+            android:screenOrientation="portrait" >
         </activity>
 
         <receiver
@@ -65,24 +63,26 @@
         <activity
             android:name=".POIDetail.Activity_POIActivity"
             android:label="@string/title_activity_activity__poi"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".POIListView.Activity_POIMainListView"
+            android:label="@string/title_activity_activity__poimain_list_view"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <!--  -->
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+        <activity android:name=".POIListView.Activity_ListBefore" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <activity
-            android:name=".POIListView.Activity_POIMainListView"
-            android:label="@string/title_activity_activity__poimain_list_view"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait">
-
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

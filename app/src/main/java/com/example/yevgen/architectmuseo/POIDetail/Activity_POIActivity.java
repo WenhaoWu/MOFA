@@ -107,7 +107,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                 desTextView.setText(descrip);
             }
 
-        }, 42);
+        }, getIntent().getIntExtra(ARG_ID, 42));
 
 
     }
