@@ -1,6 +1,5 @@
 package com.example.yevgen.architectmuseo.POIListView;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -41,7 +40,7 @@ import java.util.List;
 /**
  * Created by wenhaowu on 23/09/15.
  */
-public class Fragment_TabFragment extends Fragment  {
+public class Fragment_TabFragment extends Fragment {
 
     private static final String ARG_PARM1 = "SortingMethodID";
     public static final String ARG_PARM2 = "LocationString";
@@ -51,15 +50,13 @@ public class Fragment_TabFragment extends Fragment  {
 
     protected StableArrayAdapter adapter;
 
-    private ProgressDialog progress;
-
-    private String locationStr = "";
-
     public static Fragment_TabFragment newInstance(int ID, String locatStr) {
         Fragment_TabFragment fragment = new Fragment_TabFragment();
+
         Bundle args = new Bundle();
         args.putInt(ARG_PARM1, ID);
         args.putString(ARG_PARM2, locatStr);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,9 +67,8 @@ public class Fragment_TabFragment extends Fragment  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
-
-
 
     @Nullable
     @Override
@@ -101,11 +97,7 @@ public class Fragment_TabFragment extends Fragment  {
         };
         welcomeThread.start();
 
-        /********For showing the loading message for 3 seconds before it receive data. ********/
-        progress = new ProgressDialog(getContext());
-        progress.setTitle("Loading");
-        progress.setMessage("Retrieving data from backend...");
-        progress.show();
+       */
 
         CoordinatorLayout myView = (CoordinatorLayout) inflater.inflate(R.layout.fragment_poi_list_tab, container, false);
 
@@ -127,10 +119,8 @@ public class Fragment_TabFragment extends Fragment  {
             int sortingMethodID = getArguments().getInt(ARG_PARM1);
             switch (sortingMethodID) {
                 case 0:
-                    //url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/distance_matrix.php?lat=60.221354&lng=24.804587";
+                    String locationStr = getArguments().getString(ARG_PARM2);
                     url = Constains_BackendAPI_Url.URL_POIList+locationStr;
-                    locationStr = getArguments().getString(ARG_PARM2);
-                    //url = url + 60.221354+ "&lng="+24.804587;
                     Log.e("POIList URL", url);
                     break;
                 case 1:
@@ -206,10 +196,9 @@ public class Fragment_TabFragment extends Fragment  {
             queue.add(jsonArrayRequest);
         }
 
-        /**/
-        progress.dismiss();
         return myView;
     }
+
 
 
     private class StableArrayAdapter extends ArrayAdapter<Object_POI> {

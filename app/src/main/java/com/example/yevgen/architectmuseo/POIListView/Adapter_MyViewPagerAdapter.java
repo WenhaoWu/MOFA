@@ -9,15 +9,14 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 public class Adapter_MyViewPagerAdapter extends FragmentPagerAdapter{
 
-    final int PAGE_COUNT = 3;
-    private final String locatStr;
+    private final int PAGE_COUNT = 3;
+    private String locatStr;
 
     private String tabTitles[] = new String[]{"Near", "Popular", "Suggest"};
 
 
-    public Adapter_MyViewPagerAdapter(FragmentManager fm, String locationStr) {
+    public Adapter_MyViewPagerAdapter(FragmentManager fm) {
         super(fm);
-        locatStr = locationStr;
     }
 
 
@@ -25,13 +24,13 @@ public class Adapter_MyViewPagerAdapter extends FragmentPagerAdapter{
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return Fragment_TabFragment.newInstance(0, locatStr);
+                return Fragment_TabFragment.newInstance(0, getLocationStr());
             case 1:
-                return Fragment_TabFragment.newInstance(1, null);
+                return Fragment_TabFragment.newInstance(1, getLocationStr());
             case 2:
-                return Fragment_TabFragment.newInstance(2, null);
+                return Fragment_TabFragment.newInstance(2,getLocationStr());
             default:
-                return Fragment_TabFragment.newInstance(0, null);
+                return Fragment_TabFragment.newInstance(0,getLocationStr());
         }
     }
 
@@ -48,4 +47,7 @@ public class Adapter_MyViewPagerAdapter extends FragmentPagerAdapter{
         return locatStr;
     }
 
+    public void setLocatStr(String locatStr) {
+        this.locatStr = locatStr;
+    }
 }

@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -15,26 +16,38 @@ import android.view.MenuItem;
 
 import com.example.yevgen.architectmuseo.POINotification.Receiver_AlarmReceiver;
 import com.example.yevgen.architectmuseo.R;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
-public class Activity_POIMainListView extends AppCompatActivity {
+public class Activity_POIMainListView extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+    private static final String TAG = "POIMainActivity";
+
+    protected GoogleApiClient mGoogleApiClient;
+    protected Location mCurrentLocation;
+    protected String locationStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poimain_list_view);
+        buildGoogleApiClient();
+        mGoogleApiClient.connect();
 
-        ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
-        Adapter_MyViewPagerAdapter viewPagerAdapter = new Adapter_MyViewPagerAdapter(getSupportFragmentManager(), getIntent().getStringExtra("LocationStr"));
-        viewPager.setOffscreenPageLimit(viewPagerAdapter.getCount()-1);
-        viewPager.setAdapter(viewPagerAdapter);
-
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.fixed_tabs);
-        tabLayout.setupWithViewPager(viewPager);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.poi_list_toolbar);
         toolbar.setTitle("Demo");
         setSupportActionBar(toolbar);
 
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(getBaseContext())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 
     @Override
@@ -76,7 +89,7 @@ public class Activity_POIMainListView extends AppCompatActivity {
         long firstMillis = System.currentTimeMillis();
         //setup periodic alarm every 10 seconds
         AlarmManager alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, 5*1000, pIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, 5 * 1000, pIntent);
 
     }
 
@@ -87,5 +100,51 @@ public class Activity_POIMainListView extends AppCompatActivity {
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarm.cancel(pIntent);
     }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        if (mCurrentLocation == null) {
+            mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            locationStr= mCurrentLocation.getLatitude()+"&lng="+mCurrentLocation.getLongitude();
+            Log.e(TAG, locationStr);
+
+            //Logic of tab view
+            Adapter_MyViewPagerAdapter viewPagerAdapter = new Adapter_MyViewPagerAdapter(getSupportFragmentManager());
+            viewPagerAdapter.setLocatStr(locationStr);
+
+            ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
+            viewPager.setOffscreenPageLimit(viewPagerAdapter.getCount() - 1);
+            viewPager.setAdapter(viewPagerAdapter);
+
+            TabLayout tabLayout = (TabLayout)findViewById(R.id.fixed_tabs);
+            tabLayout.setupWithViewPager(viewPager);
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        // The connection to Google Play services was lost for some reason. We call connect() to
+        // attempt to re-establish the connection.
+        Log.i(TAG, "Connection suspended");
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
+        // onConnectionFailed.
+        Log.e(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
+    }
+
+
+
+
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+
+        super.onStop();
+    }
+
 }
 
