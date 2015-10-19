@@ -137,10 +137,10 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
 
     public double getDetail(final VolleyCallback callback, int id){
         //String url = Constains_BackendAPI_Url.URL_POIDetail+getIntent().getIntExtra(ARG_ID, 0)+"'";
-        String url = Constains_BackendAPI_Url.URL_POIDetail+ id +"'";
+        String url = Constains_BackendAPI_Url.URL_POIDetail+ String.valueOf(id);
         Log.e("URL", url);
 
-        final List<String> result = new ArrayList<String>();
+        final List<String> PicResult = new ArrayList<String>();
         RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -149,6 +149,8 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                     public void onResponse(JSONArray response) {
                         Log.e("Response Size", response.length()+"");
                         String title_temp = null, descrip_temp = null;
+                        int pic_count=0;
+                        /*
                         for (int i=0; i<response.length(); i++){
                             String imgBase64_temp = "";
                             try {
@@ -158,9 +160,25 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                             } catch (Exception e) {
                                 Log.e("JsonPharseError", e.toString());
                             }
-                            result.add(imgBase64_temp);
+                            PicResult.add(imgBase64_temp);
                         }
-                        callback.onSuccess(result,title_temp,descrip_temp);
+                        */
+
+
+                        try {
+                            title_temp = response.getJSONObject(0).getString("poi_name");
+                            //descrip_temp = response.getJSONObject(0).getString("description");
+
+                            pic_count = response.getJSONObject(1).getJSONArray("multiple_image").length();
+
+                        } catch (Exception e) {
+                            Log.e("JsonPharseError", e.toString());
+                        }
+
+                        Log.e("Pic_count", "try "+pic_count);
+
+
+                        callback.onSuccess(PicResult,title_temp,descrip_temp);
                     }
                 },
                 new Response.ErrorListener() {
