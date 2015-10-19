@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -227,7 +228,9 @@ public class Fragment_TabFragment extends Fragment {
             /**/
             byte[] decodedString = Base64.decode(values.get(position).getImgBase64(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            imageView.setImageBitmap(decodedByte);
+            //imageView.setImageBitmap(decodedByte);
+            BitmapDrawable ob = new BitmapDrawable(getResources(), decodedByte);
+            imageView.setBackground(ob);
 
 
             Title.setText(values.get(position).getName());

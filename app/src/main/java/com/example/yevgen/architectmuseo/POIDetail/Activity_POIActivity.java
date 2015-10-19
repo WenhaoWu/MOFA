@@ -167,7 +167,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
 
                         try {
                             title_temp = response.getJSONObject(0).getString("poi_name");
-                            //descrip_temp = response.getJSONObject(0).getString("description");
+                            descrip_temp = response.getJSONObject(0).getString("description");
 
                             pic_count = response.getJSONObject(1).getJSONArray("multiple_image").length();
                             for (int i=0; i<pic_count; i++){
