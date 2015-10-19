@@ -115,10 +115,18 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
     @Override
     public void onPrepared(final MediaPlayer mp) {
         fab_media = (FloatingActionButton)findViewById(R.id.poi_detail_fab_media);
+
         fab_media.setOnClickListener(new View.OnClickListener() {
+            boolean isPlaying = false;
             @Override
             public void onClick(View v) {
-                mp.start();
+
+                if (isPlaying) {
+                    mp.pause();
+                }else{
+                    mp.start();
+                }
+                isPlaying = !isPlaying;
             }
         });
     }
