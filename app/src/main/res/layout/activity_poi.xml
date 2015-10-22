@@ -1,6 +1,6 @@
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:id="@+id/CoordiLay">
@@ -75,22 +75,33 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right">
 
-            <android.support.design.widget.FloatingActionButton
+            <com.getbase.floatingactionbutton.FloatingActionsMenu
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/poi_detail_fab_cam"
-                android:layout_margin="16dp"
-                android:clickable="true"
-                android:src="@drawable/ic_photo_camera_black_24dp"/>
+                android:id="@+id/poi_detail_fabMenu"
+                fab:fab_addButtonColorNormal="@color/pri_dark"
+                fab:fab_labelStyle="@style/menu_labels_style"
+                fab:fab_labelsPosition="left">
 
-            <android.support.design.widget.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/poi_detail_fab_media"
-                android:layout_margin="16dp"
-                android:clickable="true"
-                android:src="@drawable/ic_audiotrack_black_24dp"
-                android:layout_below="@+id/poi_detail_fab_cam" />
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/poi_detail_fab_media"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    fab:fab_colorNormal="@color/pri_dark"
+                    fab:fab_title="Audio"
+                    fab:fab_colorPressed="@color/white_pressed"
+                    fab:fab_icon="@drawable/ic_audiotrack_black_24dp" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/poi_detail_fab_cam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    fab:fab_colorNormal="@color/pri_dark"
+                    fab:fab_title="Camera"
+                    fab:fab_colorPressed="@color/white_pressed"
+                    fab:fab_icon="@drawable/ic_photo_camera_black_24dp"/>
+
+            </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
         </RelativeLayout>
 

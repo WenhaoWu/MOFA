@@ -6,6 +6,7 @@ import android.util.Log;
  * Created by wenhaowu on 14/09/15.
  */
 public class Object_POI {
+
     private double latitude;
     private double longitude;
     private String name;
@@ -13,8 +14,6 @@ public class Object_POI {
     private int ID;
     private String descrip;
     private int disTo;
-
-
 
 
     public Object_POI(double latitude, double longitude, String name, int ID, String imgBase64, String descrip, int disTo) {

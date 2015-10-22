@@ -28,6 +28,7 @@ dependencies {
     compile project(":volley")
     compile 'com.android.support:design:23.0.0'
     compile 'com.liangfeizc:SlidePageIndicator:1.1.0@aar'
+    compile 'com.getbase:floatingactionbutton:1.10.0'
 }
 
 repositories {

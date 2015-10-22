@@ -6,4 +6,8 @@
     <item name="bac" type="color">#FFFDE7</item>
     <item name="txt" type="color">#455a64</item>
     <item name="nav" type="color">#FDD835</item>
+
+    <color name="white">#fafafa</color>
+    <color name="white_pressed">#f1f1f1</color>
+    <color name="black_semi_transparent">#B2000000</color>
 </resources>

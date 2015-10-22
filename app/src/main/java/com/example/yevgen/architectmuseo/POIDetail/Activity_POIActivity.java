@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,8 +29,9 @@ import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
 import com.example.yevgen.architectmuseo.R;
 import com.liangfeizc.slidepageindicator.CirclePageIndicator;
 
-import org.json.JSONArray;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
     public final static String ARG_ID = "PoiId";
     private CirclePageIndicator mPageIndicator;
     private MediaPlayer mediaPlayer = null;
-    FloatingActionButton fab_media;
+    private FloatingActionButton fab_media, fab_cam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         mediaPlayer.setOnPreparedListener(this);
         mediaPlayer.prepareAsync();
 
-        FloatingActionButton fab_cam = (FloatingActionButton)findViewById(R.id.poi_detail_fab_cam);
+        fab_cam = (FloatingActionButton)findViewById(R.id.poi_detail_fab_cam);
         fab_cam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +68,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                 startActivity(intent);
             }
         });
+
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.poi_detail_toolbar);
         toolbar.setTitle("Point Of Interest");

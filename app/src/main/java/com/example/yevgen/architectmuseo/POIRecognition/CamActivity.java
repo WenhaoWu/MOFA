@@ -3,12 +3,12 @@ package com.example.yevgen.architectmuseo.POIRecognition;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity;
 import com.example.yevgen.architectmuseo.POINotification.Service_LocationTrackingService;
 import com.example.yevgen.architectmuseo.R;
@@ -23,10 +23,14 @@ public class CamActivity extends AbstractArchitectCamActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		/*
 		IntentFilter filter = new IntentFilter(Receiver_DistanceResponseReceiver.PROCESS_RESPONSE);
 		filter.addCategory(Intent.CATEGORY_DEFAULT);
 		receiver = new Receiver_DistanceResponseReceiver();
 		registerReceiver(receiver, filter);
+		*/
+
 		String imageFlag;
 		if (savedInstanceState == null){
 			Bundle extras = getIntent().getExtras();
