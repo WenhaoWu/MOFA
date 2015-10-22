@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -79,9 +80,21 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
 
         final ViewPager pager = (ViewPager)findViewById(R.id.image_pager);
         final Adapter_ImageSlideAdapter slideAdapter = new Adapter_ImageSlideAdapter(getSupportFragmentManager());
+
         getDetail(new VolleyCallback() {
             @Override
             public void onSuccess(List<String> pic_List, String title, String descrip) {
+
+                //sending the picture list to full screen image view
+                SharedPreferences sp = getSharedPreferences("my_prefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putInt("Picture_size", pic_List.size());
+                for (int i=0; i<pic_List.size(); i++){
+                    editor.remove("Picture_"+i);
+                    editor.putString("Picture_"+i, pic_List.get(i));
+                }
+                editor.commit();
+
                 slideAdapter.setList(pic_List);
                 pager.setAdapter(slideAdapter);
                 pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -100,6 +113,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
 
                     }
                 });
+
                 mPageIndicator = (CirclePageIndicator) findViewById(R.id.imageIndicator);
                 mPageIndicator.setViewPager(pager);
 
@@ -151,20 +165,6 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                         Log.e("Response Size", response.length()+"");
                         String title_temp = null, descrip_temp = null;
                         int pic_count=0;
-                        /*
-                        for (int i=0; i<response.length(); i++){
-                            String imgBase64_temp = "";
-                            try {
-                                imgBase64_temp = response.getJSONObject(i).getString("image");
-                                title_temp = response.getJSONObject(i).getString("poi_name");
-                                descrip_temp = response.getJSONObject(i).getString("description");
-                            } catch (Exception e) {
-                                Log.e("JsonPharseError", e.toString());
-                            }
-                            PicResult.add(imgBase64_temp);
-                        }
-                        */
-
 
                         try {
                             title_temp = response.getJSONObject(0).getString("poi_name");

@@ -1,5 +1,6 @@
 package com.example.yevgen.architectmuseo.POIDetail;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -20,6 +21,7 @@ import com.example.yevgen.architectmuseo.R;
 public class Fragment_ImageFragment extends Fragment {
 
     private static final String PIC_URI = "PictureURI";
+    private static final String PIC_Index = "PictureIndex";
 
     public static Fragment_ImageFragment newInstance(final String imgBase64){
         Bundle arguments = new Bundle();
@@ -36,9 +38,6 @@ public class Fragment_ImageFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_poi_detail, container, false);
         ImageView Poi_Image = (ImageView)rootView.findViewById(R.id.fragment_image);
 
-        int width = getActivity().getResources().getDisplayMetrics().widthPixels;
-        int height= getActivity().getResources().getDisplayMetrics().heightPixels;
-        Log.e("ImageView", width + " and " + height);
         Bundle arguments = getArguments();
         if (arguments != null){
             String imgbase64 = arguments.getString(PIC_URI);
@@ -53,6 +52,15 @@ public class Fragment_ImageFragment extends Fragment {
             BitmapDrawable ob = new BitmapDrawable(getResources(), decodedByte);
             Poi_Image.setBackground(ob);
         }
+
+        Poi_Image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getContext(), Activity_ImageFullView.class);
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }

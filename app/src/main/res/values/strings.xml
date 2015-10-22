@@ -12,5 +12,6 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_activity__poi">Activity_POIActivity</string>
     <string name="title_activity_activity__poimain_list_view">Activity_POIMainListView</string>
+    <string name="title_activity_activity__image_full_view">Activity_ImageFullView</string>
 
 </resources>
