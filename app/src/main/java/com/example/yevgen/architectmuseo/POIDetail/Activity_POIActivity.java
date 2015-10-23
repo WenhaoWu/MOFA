@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -49,6 +50,10 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poi);
+
+        final int POI_id = getIntent().getIntExtra(ARG_ID,42);
+        final SharedPreferences sp = getSharedPreferences("my_prefs", MODE_PRIVATE);
+
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         String url = "https://api.soundcloud.com/tracks/228179666/stream?client_id=76bf4a478f95a82ca090ecd8fa5b99db";
@@ -81,12 +86,12 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         final ViewPager pager = (ViewPager)findViewById(R.id.image_pager);
         final Adapter_ImageSlideAdapter slideAdapter = new Adapter_ImageSlideAdapter(getSupportFragmentManager());
 
+        //set image slider picture, title and description. We get it from backend
         getDetail(new VolleyCallback() {
             @Override
             public void onSuccess(List<String> pic_List, String title, String descrip) {
 
                 //sending the picture list to full screen image view
-                SharedPreferences sp = getSharedPreferences("my_prefs", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putInt("Picture_size", pic_List.size());
                 for (int i=0; i<pic_List.size(); i++){
@@ -122,8 +127,32 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                 desTextView.setText(descrip);
             }
 
-        }, getIntent().getIntExtra(ARG_ID, 42));
+        }, POI_id);
 
+        RatingBar ratingBar = (RatingBar)findViewById(R.id.POIRatingBar);
+
+        if (sp.contains("POI_Rate"+POI_id)){
+            ratingBar.setRating(sp.getFloat("POI_Rate"+POI_id,0));
+            ratingBar.setEnabled(false);
+        }
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                ratingBar.setEnabled(false);
+
+                SharedPreferences.Editor ed = sp.edit();
+                if (sp.getFloat("POI_Rate"+POI_id,0)!=0){
+                    ed.remove("POI_Rate" + POI_id);
+                }
+                ed.putFloat("POI_Rate"+POI_id, rating);
+                ed.commit();
+
+
+                //send a request to backend to update the rateSum and rateCount;
+                /*********************/
+            }
+        });
 
     }
 
@@ -195,7 +224,6 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         queue.add(jsonArrayRequest);
         return 0;
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
