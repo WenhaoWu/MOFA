@@ -1,6 +1,5 @@
 var Recognition = {
 	tracker: null,
-	//targetName : null,
 
 	//Initialization
 	init: function initFn() {
@@ -16,58 +15,61 @@ var Recognition = {
 		});
 	},
 
-
 	//Error tracker
 	trackerError: function trackerErrorFn(errorMessage) {
 		alert(errorMessage);
 	},
 
-
 	//Overlay image, size and position
 	createOverlays: function createOverlaysFn() {
-        this.img = new AR.ImageResource("assets/bingo.jpg");
-        this.imgOverlay = new AR.ImageDrawable(this.img, 0.7, {
-            offsetX: 0,
-            offsetY: 0,
-        });
-		//var imgUrl = "http://www.arkkitehtuurimuseo.fi/wikitude/img/Kallion_kirkko2.png";
-
         this.imgButton = new AR.ImageResource("assets/status.png");
 
-        /*this.pageOneButton = this.createWwwButton("http://www.google.fi", 0.5, {
-                            offsetX: 0,
-                            offsetY: 0
-                        });*/
 
-        console.log("after button");
+        this.overlayPage = new AR.HtmlDrawable({
+            uri: "assets/inner.html"
+        }, 1, {
+            viewportWidth: 700,
+            viewportHeight: 700,
+            offsetX: 0,
+            offsetY: 0,
+            clickThroughEnabled: true,
+            allowDocumentLocationChanges: false,
+            onDocumentLocationChanged: function onDocumentLocationChangedFn(uri) {
+                AR.context.openInBrowser(uri);
+            }
+        });
 	},
 
 	//Recognition of image on click
-	onRecognition: function onRecognitionFn(recognized, response) {
-		if (recognized) {
-		    if(Recognition.pageOneButton == null){
-                console.log("OMFG");
-            }
-            Recognition.pageOneButton = Recognition.createWwwButton(response.targetInfo.name, 0.5, {
-                offsetX: 0,
-                offsetY: 0
-            });
-			Recognition.wineLabelAugmentation = new AR.Trackable2DObject(Recognition.tracker, response.targetInfo.name , {
-				drawables: {
-					//cam: [Recognition.imgOverlay]
-					cam: [Recognition.pageOneButton]
-				}
+    onRecognition: function onRecognitionFn(recognized, response) {
+        if (recognized) {
+            var patt = /library_/;
+            if(patt.test(response.targetInfo.name)){
+                Recognition.kirkko = new AR.Trackable2DObject(Recognition.tracker, response.targetInfo.name , {
+                    drawables: {
+                        cam: [Recognition.overlayPage]
+                    }
 
-			});
-			console.log(response.targetInfo.name);
-			//this.targetName = response.targetInfo.name;
-		} else {
-			$('#errorMessage').html("<div class='errorMessage'>Recognition failed! Try to stand in front of building</div>");
-			setTimeout(function() {
-				$('#errorMessage').empty();
-			}, 5000);
-		}		
-	},
+                });
+            } else {
+                Recognition.pageOneButton = Recognition.createWwwButton(response.targetInfo.name, 0.5, {
+                    offsetX: 0,
+                    offsetY: 0
+                });
+                Recognition.wineLabelAugmentation = new AR.Trackable2DObject(Recognition.tracker, response.targetInfo.name , {
+                    drawables: {
+                        cam: [Recognition.pageOneButton]
+                    }
+
+                });
+            }
+        } else {
+            $('#errorMessage').html("<div class='errorMessage'>Recognition failed! Try to stand in front of building</div>");
+            setTimeout(function() {
+                $('#errorMessage').empty();
+            }, 5000);
+        }
+    },
 
 	//Recognition error
 	onRecognitionError: function onRecognitionError(errorCode, errorMessage) {
@@ -85,11 +87,8 @@ var Recognition = {
 	},
 
 	createWwwButton: function createWwwButtonFn(url, size, options) {
-	                        console.log("INSIDE FUNCTION");
                             options.onClick = function() {
-                                //AR.context.openInBrowser(url);
                                 document.location = "architectsdk://snapShotButton?name=" + url;
-
                             };
                             return new AR.ImageDrawable(this.imgButton, size, options);
                         },
