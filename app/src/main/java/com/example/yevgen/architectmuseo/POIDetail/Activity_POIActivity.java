@@ -17,23 +17,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.yevgen.architectmuseo.Constains_BackendAPI_Url;
 import com.example.yevgen.architectmuseo.POIListView.Activity_POIMainListView;
 import com.example.yevgen.architectmuseo.POINotification.Receiver_AlarmReceiver;
 import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
 import com.example.yevgen.architectmuseo.R;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.liangfeizc.slidepageindicator.CirclePageIndicator;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
-
 import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +89,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         final Adapter_ImageSlideAdapter slideAdapter = new Adapter_ImageSlideAdapter(getSupportFragmentManager());
 
         //set image slider picture, title and description. We get it from backend
-        getDetail(new VolleyCallback() {
+        getDetail(new DetailCallback() {
             @Override
             public void onSuccess(List<String> pic_List, String title, String descrip) {
 
@@ -133,24 +135,32 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
 
         if (sp.contains("POI_Rate"+POI_id)){
             ratingBar.setRating(sp.getFloat("POI_Rate"+POI_id,0));
-            ratingBar.setEnabled(false);
+            //ratingBar.setEnabled(false);
         }
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 ratingBar.setEnabled(false);
+                float oldRate = 0;
 
                 SharedPreferences.Editor ed = sp.edit();
                 if (sp.getFloat("POI_Rate"+POI_id,0)!=0){
+                    oldRate = sp.getFloat("POI_Rate"+POI_id,0);
                     ed.remove("POI_Rate" + POI_id);
                 }
-                ed.putFloat("POI_Rate"+POI_id, rating);
+                ed.putFloat("POI_Rate" + POI_id, rating);
                 ed.commit();
-
 
                 //send a request to backend to update the rateSum and rateCount;
                 /*********************/
+                toRate(new RateCallback() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Toast.makeText(getBaseContext(),result,Toast.LENGTH_SHORT).show();
+                    }
+                }, POI_id, rating, oldRate);
+
             }
         });
 
@@ -175,11 +185,11 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         });
     }
 
-    private interface VolleyCallback{
+    private interface DetailCallback {
         void onSuccess(List<String> pic_List, String title, String descrip);
     }
 
-    public double getDetail(final VolleyCallback callback, int id){
+    public double getDetail(final DetailCallback callback, int id){
         //String url = Constains_BackendAPI_Url.URL_POIDetail+getIntent().getIntExtra(ARG_ID, 0)+"'";
         String url = Constains_BackendAPI_Url.URL_POIDetail+ String.valueOf(id);
         Log.e("URL", url);
@@ -223,6 +233,35 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
 
         queue.add(jsonArrayRequest);
         return 0;
+    }
+
+    public interface RateCallback{
+        void onSuccess(String result);
+    }
+
+    public void toRate(final RateCallback callback, int id, float newRate, float oldRate){
+        String parms = "id="+id+"&rate="+newRate+"&oldRate="+oldRate;
+        String url = Constains_BackendAPI_Url.URL_POIRate+parms;
+        Log.e("RateURL", url);
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        callback.onSuccess(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Rate error", error.toString());
+                    }
+                }
+        );
+
+        queue.add(stringRequest);
     }
 
     @Override
