@@ -44,13 +44,17 @@ public class Fragment_ImageFragment extends Fragment {
             byte[] decodedString = Base64.decode(imgbase64, Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
+            /*
             //keep the ratio
-            //Bitmap idealBM = scaleBitmap(decodedByte, Poi_Image);
-            //Poi_Image.setImageBitmap(idealBM);
+            Bitmap idealBM = scaleBitmap(decodedByte, Poi_Image);
+            Poi_Image.setImageBitmap(idealBM);
+            */
 
+            /**/
             //dont keep the ratio
             BitmapDrawable ob = new BitmapDrawable(getResources(), decodedByte);
             Poi_Image.setBackground(ob);
+
         }
 
         Poi_Image.setOnClickListener(new View.OnClickListener() {

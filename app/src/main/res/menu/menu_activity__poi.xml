@@ -25,4 +25,11 @@
         android:icon="@drawable/search"
         app:showAsAction="always"
         />
+
+    <item
+        android:id="@+id/clearSP"
+        android:orderInCategory="100"
+        android:title="Clear SP"
+        app:showAsAction="never"/>
+
 </menu>

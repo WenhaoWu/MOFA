@@ -290,7 +290,20 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
             Intent intent = new Intent();
             intent.setClass(getBaseContext(), Activity_POIMainListView.class);
             startActivity(intent);
+        }
+        else if (id== R.id.clearSP){
+            int POI_id = getIntent().getIntExtra(ARG_ID,42);
 
+            SharedPreferences sp = getSharedPreferences("my_prefs", MODE_PRIVATE);
+            SharedPreferences.Editor ed = sp.edit();
+
+            if (sp.getFloat("POI_Rate"+POI_id,0)!=0){
+                ed.remove("POI_Rate" + POI_id);
+                ed.commit();
+                Toast.makeText(this,"Cleared SP",Toast.LENGTH_SHORT).show();
+            }
+
+            return true;
         }
 
 
