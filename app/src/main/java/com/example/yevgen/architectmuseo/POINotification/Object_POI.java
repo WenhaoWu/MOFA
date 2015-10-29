@@ -14,9 +14,11 @@ public class Object_POI {
     private int ID;
     private String descrip;
     private int disTo;
+    private double rate_score;
+    private int rate_count;
 
 
-    public Object_POI(double latitude, double longitude, String name, int ID, String imgBase64, String descrip, int disTo) {
+    public Object_POI(double latitude, double longitude, String name, int ID, String imgBase64, String descrip, int disTo, double rate_score, int rate_count) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;
@@ -24,7 +26,16 @@ public class Object_POI {
         this.imgBase64 = imgBase64;
         this.descrip = descrip;
         this.disTo = disTo;
+        this.rate_score = rate_score;
+        this.rate_count = rate_count;
+    }
 
+    public double getRate_score() {
+        return rate_score;
+    }
+
+    public int getRate_count() {
+        return rate_count;
     }
 
     public int getDisTo() {

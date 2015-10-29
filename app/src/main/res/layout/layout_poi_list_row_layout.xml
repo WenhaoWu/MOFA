@@ -23,7 +23,6 @@
         android:layout_toRightOf="@+id/POIRowImage"
         android:ellipsize="marquee"
         android:singleLine="true"
-        android:text="Description"
         android:textSize="12sp"/>
 
     <TextView
@@ -37,7 +36,27 @@
         android:layout_toRightOf="@+id/POIRowImage"
         android:gravity="center_vertical"
         android:text="Hello world"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
+
+    <RatingBar
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:visibility="invisible"
+        android:id="@+id/POIRowRateBar"
+        android:layout_toRightOf="@+id/POIRowImage"
+        android:layout_below="@+id/POIRowFriLine"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_toRightOf="@id/POIRowRateBar"
+        android:layout_below="@+id/POIRowFriLine"
+        android:id="@+id/POIRowRateScore"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
 
 
 </RelativeLayout>

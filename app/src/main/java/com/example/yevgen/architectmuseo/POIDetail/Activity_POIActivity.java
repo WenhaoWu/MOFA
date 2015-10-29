@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -127,6 +128,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                 titleTextView.setText(title);
 
                 desTextView.setText(descrip);
+                desTextView.setMovementMethod(new ScrollingMovementMethod());
             }
 
         }, POI_id);

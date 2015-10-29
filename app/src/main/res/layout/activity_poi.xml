@@ -4,80 +4,87 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:id="@+id/CoordiLay">
+
+
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="1"
-            android:id="@+id/viewA">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/poi_detail_toolbar"
-                android:minHeight="?attr/actionBarSize"
-                android:background="@color/pri"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="1"
+                android:id="@+id/viewA">
 
-            <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"
-                android:layout_gravity="top">
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/poi_detail_toolbar"
+                    android:minHeight="?attr/actionBarSize"
+                    android:background="@color/pri"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/image_pager"
+                <FrameLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.45"
+                    android:layout_gravity="top">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/image_pager"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="top"/>
+
+                    <com.liangfeizc.slidepageindicator.CirclePageIndicator
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imageIndicator"
+                        android:layout_gravity="bottom|center_horizontal"
+                        app:indicator_spacing="5dp"
+                        app:indicator_type="circle"
+                        android:layout_marginBottom="10dp"/>
+
+                </FrameLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:id="@+id/POITitle"
+                    android:textSize="32sp"
+                    android:text="Test"
+                    android:layout_weight="0.15"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+
+                <RatingBar
+                    android:id="@+id/POIRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.1"
+                    android:numStars="5"
+                    android:mirrorForRtl="true"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.3"
+                    android:id="@+id/POIDescription"
+                    android:text="30sp"
+                    android:maxLines="18"
+                    android:scrollbars="vertical"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:layout_gravity="top"/>
 
-                <com.liangfeizc.slidepageindicator.CirclePageIndicator
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageIndicator"
-                    android:layout_gravity="bottom|center_horizontal"
-                    app:indicator_spacing="5dp"
-                    app:indicator_type="circle"
-                    android:layout_marginBottom="10dp"/>
 
-            </FrameLayout>
+            </LinearLayout>
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:id="@+id/POITitle"
-                android:textSize="32sp"
-                android:text="Test"
-                android:layout_weight="0.1"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
-
-            <RatingBar
-                android:id="@+id/POIRatingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:numStars="5"
-                android:mirrorForRtl="true"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="0.3"
-                android:id="@+id/POIDescription"
-                android:text="30sp"
-                android:maxLines="6"
-                android:scrollbars="vertical"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_gravity="top"/>
-
-        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -118,4 +125,3 @@
 
 
 </android.support.design.widget.CoordinatorLayout>
-

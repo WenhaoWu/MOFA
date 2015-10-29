@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -116,26 +117,27 @@ public class Fragment_TabFragment extends Fragment {
 
         String url = null;
 
-        if (getArguments() != null) {
-            int sortingMethodID = getArguments().getInt(ARG_PARM1);
+
+            final int sortingMethodID = getArguments().getInt(ARG_PARM1);
             switch (sortingMethodID) {
                 case 0:
                     String locationStr = getArguments().getString(ARG_PARM2);
-                    url = Constains_BackendAPI_Url.URL_POIList+locationStr;
+                    url = Constains_BackendAPI_Url.URL_POIList_Distant +locationStr;
                     Log.e("POIList URL", url);
                     break;
                 case 1:
                     //setListViewByMostviewed();
+                    url = Constains_BackendAPI_Url.URL_POIList_Popular;
                     break;
                 case 2:
                     //setListViewByRecomend();
                     break;
                 default:
                     //url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
-                    url = Constains_BackendAPI_Url.URL_POIList;
+                    url = Constains_BackendAPI_Url.URL_POIList_Distant;
                     break;
             }
-        }
+
 
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
@@ -153,21 +155,43 @@ public class Fragment_TabFragment extends Fragment {
                         for (int i = 0; i < response.length(); i++) {
 
                             String name = null, imgBase64 = null;
-                            int id = 0, disTo=0;
-                            try {
-                                name = response.getJSONObject(i).getString("poi_name");
-                                disTo = response.getJSONObject(i).getInt("distance");
-                                imgBase64 = response.getJSONObject(i).getString("compressed_image");
-                                id = response.getJSONObject(i).getInt("id");
+                            int id = 0, disTo=0, rate_count=0;
+                            Double rate_score=0.0;
+                            switch (sortingMethodID){
+                                case 0:
+                                    try {
+                                        disTo = response.getJSONObject(i).getInt("distance");
+                                        name = response.getJSONObject(i).getString("poi_name");
+                                        imgBase64 = response.getJSONObject(i).getString("compressed_image");
+                                        id = response.getJSONObject(i).getInt("id");
 
-                            } catch (Exception e) {
-                                Log.e("Response Error", e.toString());
+                                    } catch (Exception e) {
+                                        Log.e("ResponseDisError", e.toString());
+                                    }
+                                    break;
+                                case 1:
+                                    try {
+                                        rate_count = response.getJSONObject(i).getInt("rate_count");
+                                        rate_score = response.getJSONObject(i).getDouble("rate_score");
+                                        name = response.getJSONObject(i).getString("poi_name");
+                                        imgBase64 = response.getJSONObject(i).getString("compressed_image");
+                                        id = response.getJSONObject(i).getInt("id");
+                                    } catch (Exception e) {
+                                        Log.e("ResponsePopError", e.toString());
+                                    }
+                                    break;
+
+                                default:
+                                    break;
+
                             }
-                            Object_POI temp = new Object_POI(0, 0, name, id, imgBase64,null,disTo);
+
+
+                            Object_POI temp = new Object_POI(0, 0, name, id, imgBase64,null,disTo,rate_score, rate_count);
                             result.add(temp);
                         }
 
-                        adapter = new StableArrayAdapter(getContext(), result);
+                        adapter = new StableArrayAdapter(getContext(), result, sortingMethodID);
                         listView.setAdapter(adapter);
 
                         AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
@@ -204,15 +228,17 @@ public class Fragment_TabFragment extends Fragment {
 
     private class StableArrayAdapter extends ArrayAdapter<Object_POI> {
         private final Context context;
+        private int sortID;
 
         //list of the name of the poi
         private final List<Object_POI> values;
 
 
-        public StableArrayAdapter(Context context, List<Object_POI> objects) {
+        public StableArrayAdapter(Context context, List<Object_POI> objects, int sortID) {
             super(context, -1, objects);
             this.context = context;
             this.values = objects;
+            this.sortID = sortID;
         }
 
         @Override
@@ -222,8 +248,10 @@ public class Fragment_TabFragment extends Fragment {
             View rowView = inflater.inflate(R.layout.layout_poi_list_row_layout, parent, false);
 
             TextView Title = (TextView) rowView.findViewById(R.id.POIRowFriLine);
-            TextView Disto = (TextView)rowView.findViewById(R.id.POIRowSecLine);
+            TextView RowTwo = (TextView)rowView.findViewById(R.id.POIRowSecLine);
             ImageView imageView = (ImageView) rowView.findViewById(R.id.POIRowImage);
+            TextView rateScore = (TextView)rowView.findViewById(R.id.POIRowRateScore);
+            RatingBar rateBar = (RatingBar)rowView.findViewById(R.id.POIRowRateBar);
 
             /**/
             byte[] decodedString = Base64.decode(values.get(position).getImgBase64(), Base64.DEFAULT);
@@ -232,9 +260,22 @@ public class Fragment_TabFragment extends Fragment {
             BitmapDrawable ob = new BitmapDrawable(getResources(), decodedByte);
             imageView.setBackground(ob);
 
-
             Title.setText(values.get(position).getName());
-            Disto.setText(values.get(position).getDisTo()+" m");
+
+            switch (sortID){
+                case 0:
+                    RowTwo.setText(values.get(position).getDisTo() + " m");
+                    break;
+                case 1:
+                    rateBar.setEnabled(false);
+                    rateBar.setVisibility(View.VISIBLE);
+                    rateBar.setRating((float)values.get(position).getRate_score());
+                    rateScore.setText(values.get(position).getRate_score()+" /5");
+                    break;
+                default:
+                    break;
+            }
+
             return rowView;
         }
     }
