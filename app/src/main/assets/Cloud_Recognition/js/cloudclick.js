@@ -28,12 +28,12 @@ var Recognition = {
         this.overlayPage = new AR.HtmlDrawable({
             uri: "assets/inner.html"
         }, 1, {
-            viewportWidth: 700,
-            viewportHeight: 700,
+            viewportWidth: 1000,
+            viewportHeight: 1000,
             offsetX: 0,
             offsetY: 0,
             clickThroughEnabled: true,
-            allowDocumentLocationChanges: false,
+            //allowDocumentLocationChanges: false,
             onDocumentLocationChanged: function onDocumentLocationChangedFn(uri) {
                 AR.context.openInBrowser(uri);
             }
