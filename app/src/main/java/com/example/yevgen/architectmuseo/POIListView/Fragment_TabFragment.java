@@ -270,7 +270,7 @@ public class Fragment_TabFragment extends Fragment {
                     rateBar.setEnabled(false);
                     rateBar.setVisibility(View.VISIBLE);
                     rateBar.setRating((float)values.get(position).getRate_score());
-                    rateScore.setText(values.get(position).getRate_score()+" /5");
+                    rateScore.setText(values.get(position).getRate_score()+" /5.0");
                     break;
                 default:
                     break;
