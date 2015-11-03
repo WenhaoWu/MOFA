@@ -143,7 +143,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                ratingBar.setEnabled(false);
+                //ratingBar.setEnabled(false);
                 float oldRate = 0;
 
                 SharedPreferences.Editor ed = sp.edit();
@@ -174,12 +174,13 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
 
         fab_media.setOnClickListener(new View.OnClickListener() {
             boolean isPlaying = false;
+
             @Override
             public void onClick(View v) {
 
                 if (isPlaying) {
                     mp.pause();
-                }else{
+                } else {
                     mp.start();
                 }
                 isPlaying = !isPlaying;
@@ -270,8 +271,11 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_activity__poi, menu);
+
         return true;
     }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -335,4 +339,5 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarm.cancel(pIntent);
     }
+
 }

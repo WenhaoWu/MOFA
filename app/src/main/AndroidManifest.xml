@@ -64,6 +64,9 @@
             android:name=".POIDetail.Activity_POIActivity"
             android:label="@string/title_activity_activity__poi"
             android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
         <activity
             android:name=".POIListView.Activity_POIMainListView"
@@ -76,7 +79,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".POIDetail.Activity_ImageFullView"
             android:label="@string/title_activity_activity__image_full_view"
@@ -85,6 +87,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity" />
+        </activity>
+        <activity
+            android:name=".POIListView.Activity_SearchResultActivity"
+            android:label="@string/title_activity_activity__search_result"
+            android:theme="@style/AppTheme" >
         </activity>
     </application>
 
