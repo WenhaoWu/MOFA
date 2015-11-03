@@ -17,7 +17,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity;
-import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -142,7 +141,7 @@ public class Service_LocationTrackingService extends IntentService implements Go
                     if (result < 50) {
                         pushNotification(POI_Index);
                     }
-                    sendBackByBroadcast(result);
+                    //sendBackByBroadcast(result);
                 }
             }, mlat, mlong, POIList.getDisLat(i), POIList.getDisLong(i));
 
@@ -150,6 +149,7 @@ public class Service_LocationTrackingService extends IntentService implements Go
 
     }
 
+    /*
     private void sendBackByBroadcast(double result) {
         Intent intent = new Intent();
         intent.setAction(CamActivity.Receiver_DistanceResponseReceiver.PROCESS_RESPONSE);
@@ -157,7 +157,7 @@ public class Service_LocationTrackingService extends IntentService implements Go
         intent.putExtra(RESPONSE_DISTANCE, result + "");
         sendBroadcast(intent);
     }
-
+    */
     private void pushNotification(int POI_Index) {
 
         NotificationCompat.Builder mBuilder =

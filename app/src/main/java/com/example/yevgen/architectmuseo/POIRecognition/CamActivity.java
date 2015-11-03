@@ -1,16 +1,12 @@
 package com.example.yevgen.architectmuseo.POIRecognition;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity;
-import com.example.yevgen.architectmuseo.POINotification.Service_LocationTrackingService;
 import com.example.yevgen.architectmuseo.R;
 import com.example.yevgen.architectmuseo.WikitudeSDKConstants;
 import com.wikitude.architect.ArchitectView.ArchitectUrlListener;
@@ -18,7 +14,7 @@ import com.wikitude.architect.StartupConfiguration.CameraPosition;
 
 public class CamActivity extends AbstractArchitectCamActivity {
 
-	private Receiver_DistanceResponseReceiver receiver;
+	//private Receiver_DistanceResponseReceiver receiver;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -112,6 +108,7 @@ public class CamActivity extends AbstractArchitectCamActivity {
 		//unregisterReceiver(receiver);
     }
 
+	/*
     public class Receiver_DistanceResponseReceiver extends BroadcastReceiver {
 
 		public static final String PROCESS_RESPONSE = "com.example.yevgen.architectmuseo.action.PROCESS_RESPONSE";
@@ -123,4 +120,5 @@ public class CamActivity extends AbstractArchitectCamActivity {
 			textView.setText(responseDistance);
 		}
 	}
+	*/
 }
