@@ -38,13 +38,41 @@ var Recognition = {
                 AR.context.openInBrowser(uri);
             }
         });
+
+        this.modelLautasari = new AR.Model("assets/lautasari.wt3", {
+            onLoaded: this.loadingStep,
+            onClick: this.toggleAnimateModel,
+            scale: {
+                x: 0.00045,
+                y: 0.00045,
+                z: 0.00045
+            },
+            translate: {
+                x: 0.0,
+                y: 0.05,
+                z: 0.0
+            },
+            rotate: {
+                heading: 90,
+                tilt: 90,
+                roll: 90
+            }
+        });
+        Recognition.rotationAnimation = new AR.PropertyAnimation(this.modelLautasari, "rotate.tilt", -25, 335, 10000);
 	},
 
 	//Recognition of image on click
     onRecognition: function onRecognitionFn(recognized, response) {
         if (recognized) {
             var patt = /library_/;
+            var pattKalion = /kalion_/;
             if(patt.test(response.targetInfo.name)){
+                Recognition.lautasari = new AR.Trackable2DObject(Recognition.tracker, response.targetInfo.name, {
+                    drawables: {
+                        cam: [Recognition.modelLautasari],
+                    }
+                });
+            } else if(pattKalion.test(response.targetInfo.name)) {
                 Recognition.kirkko = new AR.Trackable2DObject(Recognition.tracker, response.targetInfo.name , {
                     drawables: {
                         cam: [Recognition.overlayPage]
@@ -98,7 +126,22 @@ var Recognition = {
 		setTimeout(function() {
 			$("#messageBox").remove();
 		}, 5000);
-	}
+	},
+
+	toggleAnimateModel: function toggleAnimateModelFn() {
+    		if (!Recognition.rotationAnimation.isRunning()) {
+    			if (!Recognition.rotating) {
+    				Recognition.rotationAnimation.start(-1);
+    				Recognition.rotating = true;
+    			} else {
+    				Recognition.rotationAnimation.resume();
+    			}
+    		} else {
+    			Recognition.rotationAnimation.pause();
+    		}
+
+    		return false;
+    	}
 };
 
 /*$(document).ready(function(){
