@@ -66,7 +66,7 @@ public class Activity_POIMainListView extends AppCompatActivity implements Googl
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Intent intent = new Intent();
-                intent.putExtra(Activity_SearchResultActivity.searchQuery, query);
+                intent.putExtra(Activity_SearchResultActivity.Tag_SearchQuery, query);
                 intent.setClass(getBaseContext(), Activity_SearchResultActivity.class);
                 startActivity(intent);
                 return false;
@@ -161,8 +161,6 @@ public class Activity_POIMainListView extends AppCompatActivity implements Googl
         // onConnectionFailed.
         Log.e(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
-
-
 
 
     @Override

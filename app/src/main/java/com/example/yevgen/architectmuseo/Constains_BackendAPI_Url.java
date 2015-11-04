@@ -20,4 +20,7 @@ public class Constains_BackendAPI_Url {
     //Because for one attempt the browser actually send the request twice
     public static final String URL_POIRate =
             "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi_rate_first.php?";//id=42&rate=4
+
+    public static final String URL_POISearch =
+            "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/search.php?query=";//+string
 }

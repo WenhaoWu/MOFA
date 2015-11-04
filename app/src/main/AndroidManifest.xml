@@ -63,7 +63,8 @@
         <activity
             android:name=".POIDetail.Activity_POIActivity"
             android:label="@string/title_activity_activity__poi"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -78,6 +79,7 @@
                 <!--  -->
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".POIDetail.Activity_ImageFullView"
@@ -90,9 +92,11 @@
         </activity>
         <activity
             android:name=".POIListView.Activity_SearchResultActivity"
-            android:label="@string/title_activity_activity__search_result"
+            android:label="Search"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
         </activity>
+
     </application>
 
 </manifest>

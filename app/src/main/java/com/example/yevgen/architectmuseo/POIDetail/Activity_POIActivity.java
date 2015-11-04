@@ -52,7 +52,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_poi);
+        setContentView(R.layout.activity_activity_poi_detail);
 
         final int POI_id = getIntent().getIntExtra(ARG_ID,42);
         final SharedPreferences sp = getSharedPreferences("my_prefs", MODE_PRIVATE);
