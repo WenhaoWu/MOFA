@@ -1,11 +1,13 @@
 package com.example.yevgen.architectmuseo.POINotification;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 /**
  * Created by wenhaowu on 14/09/15.
  */
-public class Object_POI {
+public class Object_POI implements Parcelable{
 
     private double latitude;
     private double longitude;
@@ -29,6 +31,18 @@ public class Object_POI {
         this.rate_score = rate_score;
         this.rate_count = rate_count;
     }
+
+    public static final Creator<Object_POI> CREATOR = new Creator<Object_POI>() {
+        @Override
+        public Object_POI createFromParcel(Parcel in) {
+            return new Object_POI(in);
+        }
+
+        @Override
+        public Object_POI[] newArray(int size) {
+            return new Object_POI[size];
+        }
+    };
 
     public double getRate_score() {
         return rate_score;
@@ -74,4 +88,39 @@ public class Object_POI {
     public String getDescrip() {
         return descrip;
     }
+
+
+    //The following three methods make this object parcelable
+
+    private Object_POI(Parcel in){
+
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        name = in.readString();
+        imgBase64 = in.readString();
+        ID = in.readInt();
+        descrip = in.readString();
+        disTo = in.readInt();
+        rate_score = in.readDouble();
+        rate_count = in.readInt();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeString(name);
+        dest.writeString(imgBase64);
+        dest.writeInt(ID);
+        dest.writeString(descrip);
+        dest.writeInt(disTo);
+        dest.writeDouble(rate_score);
+        dest.writeInt(rate_count);
+    }
+
 }

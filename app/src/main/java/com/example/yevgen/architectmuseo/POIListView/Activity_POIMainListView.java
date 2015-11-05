@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.yevgen.architectmuseo.POINotification.Receiver_AlarmReceiver;
 import com.example.yevgen.architectmuseo.R;
@@ -37,7 +38,6 @@ public class Activity_POIMainListView extends AppCompatActivity implements Googl
         setContentView(R.layout.activity_poimain_list_view);
         buildGoogleApiClient();
         mGoogleApiClient.connect();
-
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.poi_list_toolbar);
         toolbar.setTitle("Demo");
@@ -99,6 +99,11 @@ public class Activity_POIMainListView extends AppCompatActivity implements Googl
             cancelAlarm();
             return true;
         }
+        else if (id == R.id.action_refresh){
+            mGoogleApiClient.disconnect();
+            mGoogleApiClient.connect();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -129,8 +134,11 @@ public class Activity_POIMainListView extends AppCompatActivity implements Googl
 
     @Override
     public void onConnected(Bundle bundle) {
-        if (mCurrentLocation == null) {
-            mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        Log.e("Test","here");
+
+        if (mCurrentLocation != null) {
             locationStr= mCurrentLocation.getLatitude()+"&lng="+mCurrentLocation.getLongitude();
             Log.e(TAG, locationStr);
 
@@ -144,6 +152,12 @@ public class Activity_POIMainListView extends AppCompatActivity implements Googl
 
             TabLayout tabLayout = (TabLayout)findViewById(R.id.fixed_tabs);
             tabLayout.setupWithViewPager(viewPager);
+        }
+        else {
+            Toast.makeText(getBaseContext(), "No Location Service", Toast.LENGTH_SHORT).show();
+            Intent settings = new Intent("com.google.android.gms.location.settings.GOOGLE_LOCATION_SETTINGS");
+            startActivity(settings);
+            finish();
         }
     }
 
@@ -170,5 +184,9 @@ public class Activity_POIMainListView extends AppCompatActivity implements Googl
         super.onStop();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }
 

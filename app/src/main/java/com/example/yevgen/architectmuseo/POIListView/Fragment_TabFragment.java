@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -48,7 +50,7 @@ public class Fragment_TabFragment extends Fragment {
     public static final String ARG_PARM2 = "LocationString";
     private static final String TAG = "Fragment_Tab";
 
-
+    private ArrayList<Object_POI> result = new ArrayList<>();
 
     protected StableArrayAdapter adapter;
 
@@ -118,25 +120,25 @@ public class Fragment_TabFragment extends Fragment {
         String url = null;
 
 
-            final int sortingMethodID = getArguments().getInt(ARG_PARM1);
-            switch (sortingMethodID) {
-                case 0:
-                    String locationStr = getArguments().getString(ARG_PARM2);
-                    url = Constains_BackendAPI_Url.URL_POIList_Distant +locationStr;
-                    Log.e("POIList URL", url);
-                    break;
-                case 1:
-                    //setListViewByMostviewed();
-                    url = Constains_BackendAPI_Url.URL_POIList_Popular;
-                    break;
-                case 2:
-                    //setListViewByRecomend();
-                    break;
-                default:
-                    //url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
-                    url = Constains_BackendAPI_Url.URL_POIList_Distant;
-                    break;
-            }
+        final int sortingMethodID = getArguments().getInt(ARG_PARM1);
+        switch (sortingMethodID) {
+            case 0:
+                String locationStr = getArguments().getString(ARG_PARM2);
+                url = Constains_BackendAPI_Url.URL_POIList_Distant +locationStr;
+                Log.e("POIList URL", url);
+                break;
+            case 1:
+                //setListViewByMostviewed();
+                url = Constains_BackendAPI_Url.URL_POIList_Popular;
+                break;
+            case 2:
+                //setListViewByRecomend();
+                break;
+            default:
+                //url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
+                url = Constains_BackendAPI_Url.URL_POIList_Distant;
+                break;
+        }
 
 
 
@@ -149,8 +151,6 @@ public class Fragment_TabFragment extends Fragment {
                     public void onResponse(JSONArray response) {
 
                         Log.e("Response size", response.length() + "");
-
-                        final ArrayList<Object_POI> result = new ArrayList<>();
 
                         for (int i = 0; i < response.length(); i++) {
 
@@ -185,46 +185,57 @@ public class Fragment_TabFragment extends Fragment {
                                     break;
 
                             }
-
-
                             Object_POI temp = new Object_POI(0, 0, name, id, imgBase64,null,disTo,rate_score, rate_count);
                             result.add(temp);
                         }
 
                         adapter = new StableArrayAdapter(getContext(), result, sortingMethodID);
                         listView.setAdapter(adapter);
-
-                        AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Intent intent = new Intent();
-                                intent.putExtra(Activity_POIActivity.ARG_Name, result.get(position).getName());
-                                intent.putExtra(Activity_POIActivity.ARG_Des, result.get(position).getDescrip());
-                                intent.putExtra(Activity_POIActivity.ARG_ID, result.get(position).getID());
-                                intent.setClass(getContext(), Activity_POIActivity.class);
-                                startActivity(intent);
-                            }
-                        };
-                        listView.setOnItemClickListener(onItemClickListener);
-
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG + " error", error.toString());
+                        Toast.makeText(getContext(),"No Internet", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
 
-        if (url != null) {
-            queue.add(jsonArrayRequest);
+        if (url!= null ) {
+            if (savedInstanceState == null || !savedInstanceState.containsKey("ResultList")){
+                queue.add(jsonArrayRequest);
+            }
+            else {
+                Log.e("SavedInstance", "Retrive");
+                result = savedInstanceState.getParcelableArrayList("ResultList");
+                adapter = new StableArrayAdapter(getContext(), result, sortingMethodID);
+                listView.setAdapter(adapter);
+            }
         }
+
+
+        AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                intent.putExtra(Activity_POIActivity.ARG_ID, result.get(position).getID());
+                intent.setClass(getContext(), Activity_POIActivity.class);
+                startActivity(intent);
+            }
+        };
+        listView.setOnItemClickListener(onItemClickListener);
 
         return myView;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
 
+        outState.putParcelableArrayList("ResultList", (ArrayList<? extends Parcelable>) result);
+        Log.e("SavedInstance", "Save");
+        super.onSaveInstanceState(outState);
+    }
 
     private class StableArrayAdapter extends ArrayAdapter<Object_POI> {
         private final Context context;
