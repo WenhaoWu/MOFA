@@ -23,4 +23,10 @@ public class Constains_BackendAPI_Url {
 
     public static final String URL_POISearch =
             "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/search.php?query=";//+string
+
+    public static final String URL_3dModels =
+            "http://dev.mw.metropolia.fi/mofa/Wikitude_1/3dModel/";//+(string)3d Model Name+ .wt3
+
+    public static final String URL_GetModelsName =
+            "http://dev.mw.metropolia.fi/mofa/Wikitude_1/3dModel/getModelName.php";
 }

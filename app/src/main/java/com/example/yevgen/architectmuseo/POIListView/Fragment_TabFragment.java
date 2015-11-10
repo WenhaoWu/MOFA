@@ -1,12 +1,15 @@
 package com.example.yevgen.architectmuseo.POIListView;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Parcelable;
+import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -29,7 +32,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.yevgen.architectmuseo.Constains_BackendAPI_Url;
 import com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity;
 import com.example.yevgen.architectmuseo.POINotification.Object_POI;
@@ -38,6 +40,11 @@ import com.example.yevgen.architectmuseo.R;
 
 import org.json.JSONArray;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +72,7 @@ public class Fragment_TabFragment extends Fragment {
         return fragment;
     }
 
+    //Empty constructor is needed to implement newInstance
     public Fragment_TabFragment() {
     }
 
@@ -78,30 +86,8 @@ public class Fragment_TabFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-
-        /********For showing the loading message for 3 seconds before it receive data. ********/
-        /*
-        final ProgressDialog dialog=new ProgressDialog(getContext());
-        dialog.setMessage("Getting data from back end");
-        dialog.setCancelable(false);
-        dialog.setInverseBackgroundForced(false);
-        dialog.show();
-        Thread welcomeThread = new Thread() {
-
-            @Override
-            public void run() {
-                try {
-                    super.run();
-                    sleep(3*1000);//Delay of 3 seconds
-                    dialog.hide();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        welcomeThread.start();
-
-       */
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Fetching a lot of things...");;
 
         CoordinatorLayout myView = (CoordinatorLayout) inflater.inflate(R.layout.fragment_poi_list_tab, container, false);
 
@@ -118,7 +104,6 @@ public class Fragment_TabFragment extends Fragment {
         final ListView listView = (ListView) myView.findViewById(R.id.POIlistview);
 
         String url = null;
-
 
         final int sortingMethodID = getArguments().getInt(ARG_PARM1);
         switch (sortingMethodID) {
@@ -140,9 +125,8 @@ public class Fragment_TabFragment extends Fragment {
                 break;
         }
 
-
-
-        RequestQueue queue = Volley.newRequestQueue(getContext());
+        Network_SerialQueue network_serialQueue = new Network_SerialQueue();
+        RequestQueue queue = network_serialQueue.getSerialRequestQueue(getContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET, url, null,
@@ -191,29 +175,57 @@ public class Fragment_TabFragment extends Fragment {
 
                         adapter = new StableArrayAdapter(getContext(), result, sortingMethodID);
                         listView.setAdapter(adapter);
+                        Download3dModels("lautasari");
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG + " error", error.toString());
-                        Toast.makeText(getContext(),"No Internet", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "No Internet", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
 
-        if (url!= null ) {
-            if (savedInstanceState == null || !savedInstanceState.containsKey("ResultList")){
-                queue.add(jsonArrayRequest);
-            }
-            else {
-                Log.e("SavedInstance", "Retrive");
-                result = savedInstanceState.getParcelableArrayList("ResultList");
-                adapter = new StableArrayAdapter(getContext(), result, sortingMethodID);
-                listView.setAdapter(adapter);
-            }
-        }
+        JsonArrayRequest modelNamesReq = new JsonArrayRequest(
+                Request.Method.GET, Constains_BackendAPI_Url.URL_GetModelsName, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        ArrayList<String> nameList = new ArrayList<>();
+                        for (int i=0; i<response.length(); i++){
+                            String nameTemp = null;
+                            try {
+                                nameTemp = response.getJSONObject(i).getString("poi_name");
+                            } catch (Exception e) {
+                                Log.e("Name List Json Error", e.toString());
+                            }
+                            nameList.add(nameTemp);
+                        }
+                        /*
+                        for (String name : nameList){
+                            Download3dModels(name);
+                        }
+                        */
+                        Download3dModels("lautasari");
+                        progressDialog.dismiss();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Name List Req Error", error.toString());
+                        progressDialog.dismiss();
+                    }
+                }
+        );
 
+
+        if (url != null ) {
+            queue.add(jsonArrayRequest);
+            queue.add(modelNamesReq);
+            progressDialog.show();
+        }
 
         AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
             @Override
@@ -227,6 +239,57 @@ public class Fragment_TabFragment extends Fragment {
         listView.setOnItemClickListener(onItemClickListener);
 
         return myView;
+    }
+
+    private Boolean Download3dModels(String fileName) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        fileName= fileName.trim();
+
+        File dir = new File(Environment.getExternalStorageDirectory()+"/3dModels"+"/");
+
+        if (!dir.exists()){
+            dir.mkdirs();
+        }
+
+        Log.e("FilePath", dir.getAbsolutePath());
+
+        try {
+            File file = new File (dir, fileName+".wt3");
+
+            if (file.exists()){
+                Log.e("DownloadError","File already downloaded");
+                return false;
+            }
+            else{
+                String url = Constains_BackendAPI_Url.URL_3dModels+fileName+".wt3";
+                URL downloadUrl = new URL(url);
+                URLConnection ucon = downloadUrl.openConnection();
+                ucon.connect();
+
+                InputStream is = ucon.getInputStream();
+
+                FileOutputStream fos = new FileOutputStream(file);
+
+                byte data[] = new byte[1024];
+
+                int current = 0;
+                while ((current = is.read(data))!=-1){
+                    fos.write(data,0,current);
+                }
+                is.close();
+                fos.flush();
+                fos.close();
+
+                Log.e("DownloadSucceed", fileName+".wt3 Downloaded");
+                return true;
+            }
+
+        } catch (Exception e) {
+            Log.e("Download3dError", e.toString());
+            return false;
+        }
     }
 
     @Override
