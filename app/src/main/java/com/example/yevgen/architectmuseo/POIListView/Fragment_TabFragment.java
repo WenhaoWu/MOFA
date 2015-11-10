@@ -5,10 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager.BadTokenException;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -57,8 +59,6 @@ public class Fragment_TabFragment extends Fragment {
     public static final String ARG_PARM2 = "LocationString";
     private static final String TAG = "Fragment_Tab";
 
-    private ArrayList<Object_POI> result = new ArrayList<>();
-
     protected StableArrayAdapter adapter;
 
     public static Fragment_TabFragment newInstance(int ID, String locatStr) {
@@ -86,8 +86,9 @@ public class Fragment_TabFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Fetching a lot of things...");;
+        final ArrayList<Object_POI> result = new ArrayList<>();
+
+        final ProgressDialog progressDialog = createProgressDialog(getActivity());
 
         CoordinatorLayout myView = (CoordinatorLayout) inflater.inflate(R.layout.fragment_poi_list_tab, container, false);
 
@@ -169,13 +170,12 @@ public class Fragment_TabFragment extends Fragment {
                                     break;
 
                             }
-                            Object_POI temp = new Object_POI(0, 0, name, id, imgBase64,null,disTo,rate_score, rate_count);
+                            Object_POI temp = new Object_POI(0, 0, name, id, imgBase64,null,disTo,rate_score, rate_count, null,0);
                             result.add(temp);
                         }
 
                         adapter = new StableArrayAdapter(getContext(), result, sortingMethodID);
                         listView.setAdapter(adapter);
-                        Download3dModels("lautasari");
                     }
                 },
                 new Response.ErrorListener() {
@@ -292,13 +292,6 @@ public class Fragment_TabFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-
-        outState.putParcelableArrayList("ResultList", (ArrayList<? extends Parcelable>) result);
-        Log.e("SavedInstance", "Save");
-        super.onSaveInstanceState(outState);
-    }
 
     private class StableArrayAdapter extends ArrayAdapter<Object_POI> {
         private final Context context;
@@ -354,5 +347,19 @@ public class Fragment_TabFragment extends Fragment {
         }
     }
 
+    public static ProgressDialog createProgressDialog(Context mContext){
+        ProgressDialog result = new ProgressDialog(mContext);
+        try {
+            result.show();
+        }
+        catch (BadTokenException e){
+
+        }
+        result.setCancelable(true);
+        result.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        result.setContentView(R.layout.layout_progress_dialog);
+        result.dismiss();
+        return result;
+    }
 
 }

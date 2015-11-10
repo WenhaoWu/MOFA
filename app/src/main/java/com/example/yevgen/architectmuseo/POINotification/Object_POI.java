@@ -18,9 +18,11 @@ public class Object_POI implements Parcelable{
     private int disTo;
     private double rate_score;
     private int rate_count;
+    private String designer;
+    private int timeTo;
 
 
-    public Object_POI(double latitude, double longitude, String name, int ID, String imgBase64, String descrip, int disTo, double rate_score, int rate_count) {
+    public Object_POI(double latitude, double longitude, String name, int ID, String imgBase64, String descrip, int disTo, double rate_score, int rate_count, String designer, int timeTo) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;
@@ -30,7 +32,10 @@ public class Object_POI implements Parcelable{
         this.disTo = disTo;
         this.rate_score = rate_score;
         this.rate_count = rate_count;
+        this.designer = designer;
+        this.timeTo = timeTo;
     }
+
 
     public static final Creator<Object_POI> CREATOR = new Creator<Object_POI>() {
         @Override
@@ -43,6 +48,10 @@ public class Object_POI implements Parcelable{
             return new Object_POI[size];
         }
     };
+
+    public int getTimeTo() {
+        return timeTo;
+    }
 
     public double getRate_score() {
         return rate_score;
@@ -87,6 +96,10 @@ public class Object_POI implements Parcelable{
 
     public String getDescrip() {
         return descrip;
+    }
+
+    public String getDesigner(){
+        return designer;
     }
 
 

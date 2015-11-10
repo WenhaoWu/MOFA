@@ -2,6 +2,7 @@ package com.example.yevgen.architectmuseo.POIDetail;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,6 +30,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.yevgen.architectmuseo.Constains_BackendAPI_Url;
 import com.example.yevgen.architectmuseo.POIListView.Activity_POIMainListView;
+import com.example.yevgen.architectmuseo.POIListView.Fragment_TabFragment;
 import com.example.yevgen.architectmuseo.POINotification.Receiver_AlarmReceiver;
 import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
 import com.example.yevgen.architectmuseo.R;
@@ -196,6 +198,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         //String url = Constains_BackendAPI_Url.URL_POIDetail+getIntent().getIntExtra(ARG_ID, 0)+"'";
         String url = Constains_BackendAPI_Url.URL_POIDetail+ String.valueOf(id);
         Log.e("URL", url);
+        final ProgressDialog PD = Fragment_TabFragment.createProgressDialog(Activity_POIActivity.this);
 
         final List<String> PicResult = new ArrayList<String>();
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -223,18 +226,20 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
 
                         Log.e("Pic_count", "try "+pic_count);
 
-
-                        callback.onSuccess(PicResult,title_temp,descrip_temp);
+                        PD.dismiss();
+                        callback.onSuccess(PicResult, title_temp, descrip_temp);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        PD.dismiss();
                         Log.e("Volley error", error.toString());
                     }
                 });
 
         queue.add(jsonArrayRequest);
+        PD.show();
         return 0;
     }
 

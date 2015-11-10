@@ -9,28 +9,30 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.yevgen.architectmuseo.Constains_BackendAPI_Url;
 import com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by wenhaowu on 11/09/15.
  */
-public class Service_LocationTrackingService extends IntentService implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class Service_LocationTrackingService extends IntentService implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "MyService";
     public static final String RESPONSE_DISTANCE = "ResponseDistance";
@@ -46,7 +48,8 @@ public class Service_LocationTrackingService extends IntentService implements Go
 
     protected LocationRequest mLocationRequest;
     protected GoogleApiClient mGoogleApiClient;
-    protected Network_POIListGetter POIList;
+    protected String locationStr;
+    //protected Network_POIListGetter POIList;
     protected Location mCurrentLocation;
 
 
@@ -70,9 +73,10 @@ public class Service_LocationTrackingService extends IntentService implements Go
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-        createLocationRequest();
+        //createLocationRequest();
     }
 
+    /*
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
 
@@ -84,7 +88,7 @@ public class Service_LocationTrackingService extends IntentService implements Go
 
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
-
+    */
 
     @Override
     public void onConnected(Bundle bundle) {
@@ -94,6 +98,8 @@ public class Service_LocationTrackingService extends IntentService implements Go
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (mCurrentLocation != null){
                 Log.e(TAG+" first",mCurrentLocation.toString());
+                locationStr= mCurrentLocation.getLatitude()+"&lng="+mCurrentLocation.getLongitude();
+                getPoiList();
             }
             else {
                 Log.e(TAG+" error","No GoogleApi");
@@ -101,50 +107,78 @@ public class Service_LocationTrackingService extends IntentService implements Go
         }
 
         //getting the distances between curlocation and targetlocations
-        startLocationUpdates();
+        //startLocationUpdates();
 
         //initialize everything in case after user clicks no service but GoogleApiClient still request for location
-        stopLocationUpdates();
+        //stopLocationUpdates();
         mGoogleApiClient.disconnect();
         mGoogleApiClient=null;
         mCurrentLocation = null;
 
     }
 
+
+
+    private void getPoiList() {
+        if (locationStr == null){
+            Toast.makeText(getBaseContext(),"No Location Service...",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else {
+            String url = Constains_BackendAPI_Url.URL_POIList_Distant+locationStr;
+            RequestQueue queue = Volley.newRequestQueue(this);
+            final JsonArrayRequest ListReq = new JsonArrayRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            List<Object_POI> resultList = new ArrayList<>();
+                            String name = null;
+                            int dis=0, time=0, id=0;
+                            for (int i=0; i<response.length(); i++){
+                                try {
+                                    dis = response.getJSONObject(i).getInt("distance");
+                                    name = response.getJSONObject(i).getString("poi_name");
+                                    time = response.getJSONObject(i).getInt("time");
+                                    id = response.getJSONObject(i).getInt("id");
+                                } catch (Exception e) {
+                                    Log.e("ResponseDisError", e.toString());
+                                }
+                                resultList.add(new Object_POI(0,0, name,id,null,null,dis,0,0,null,time));
+                            }
+                            addDisList(resultList);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e(TAG+" volleyError", error.toString());
+                        }
+                    });
+            queue.add(ListReq);
+        }
+    }
+
+    /*
     //Requests location updates from the FusedLocationApi.
     protected void startLocationUpdates() {
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
 
-        addDisList();
     }
 
     //Removes location updates from the FusedLocationApi.
     protected void stopLocationUpdates() {
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
+    */
 
+    public void addDisList(List<Object_POI> poiList){
 
-    public void addDisList(){
-        POIList = new Network_POIListGetter();
-        POIList.printList();
-
-        double mlat = mCurrentLocation.getLatitude();
-        double mlong = mCurrentLocation.getLongitude();
-
-        for (int i=0; i<POIList.getSize(); i++){
-            final int POI_Index = i;
-            get_Distance(new VolleyCallback() {
-                @Override
-                public void onSuccess(double result) {
-                    Log.e(TAG + " distance", "" + result);
-                    if (result < 50) {
-                        pushNotification(POI_Index);
-                    }
-                    //sendBackByBroadcast(result);
-                }
-            }, mlat, mlong, POIList.getDisLat(i), POIList.getDisLong(i));
-
+        for (int i=0; i<poiList.size(); i++){
+            Log.e("TestDis", poiList.get(i).getDisTo()+"");
+            if (poiList.get(i).getDisTo()<100){ // means the distance from this device to this poi less than 100
+                pushNotification(poiList.get(i).getID(), poiList.get(i).getName());
+            }
         }
 
     }
@@ -158,17 +192,18 @@ public class Service_LocationTrackingService extends IntentService implements Go
         sendBroadcast(intent);
     }
     */
-    private void pushNotification(int POI_Index) {
+    private void pushNotification(int POI_ID, String POI_Name) {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                 .setSmallIcon(android.R.drawable.sym_def_app_icon)
-                .setContentTitle(POIList.getPOIName(POI_Index))
+                .setContentTitle(POI_Name)
                 .setContentText("Find and Scan");
         mBuilder.setAutoCancel(true);
 
         //Set up the activity that it jumps to
         Intent resultIntent = new Intent(this, Activity_POIActivity.class);
+        resultIntent.putExtra(Activity_POIActivity.ARG_ID, POI_ID);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(Activity_POIActivity.class);
         stackBuilder.addNextIntent(resultIntent);
@@ -177,11 +212,11 @@ public class Service_LocationTrackingService extends IntentService implements Go
 
         //Activate the notification
         NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(POI_Index, mBuilder.build());
+        notificationManager.notify(POI_ID, mBuilder.build());
 
     }
 
-
+    /*
     private interface VolleyCallback{
         void onSuccess(double result);
     }
@@ -223,7 +258,7 @@ public class Service_LocationTrackingService extends IntentService implements Go
         queue.add(jsonObjReq);
         return 0;
     }
-
+    */
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
@@ -241,10 +276,11 @@ public class Service_LocationTrackingService extends IntentService implements Go
         mGoogleApiClient.connect();
     }
 
+    /*
     @Override
     public void onLocationChanged(Location location) {
         mCurrentLocation = location;
         Log.e(TAG + " update", mCurrentLocation.toString());
     }
-
+    */
 }

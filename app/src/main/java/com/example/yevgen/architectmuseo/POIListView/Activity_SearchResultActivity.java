@@ -90,7 +90,7 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                Object_POI temp = new Object_POI(0, 0, name, id, imgBase64,null,0,0, 0);
+                                Object_POI temp = new Object_POI(0, 0, name, id, imgBase64,null,0,0, 0, null, 0);
                                 result.add(temp);
                             }
 
