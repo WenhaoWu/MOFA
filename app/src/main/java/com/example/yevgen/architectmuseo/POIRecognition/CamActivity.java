@@ -15,6 +15,9 @@ import com.wikitude.architect.StartupConfiguration.CameraPosition;
 public class CamActivity extends AbstractArchitectCamActivity {
 
 	//private Receiver_DistanceResponseReceiver receiver;
+	public static final String ARG_LOCATION = "Argument_location";
+
+	private String locationStr = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,11 @@ public class CamActivity extends AbstractArchitectCamActivity {
 		if (imageFlag == "True"){
 			ImageView imageView = (ImageView)findViewById(R.id.ExampleImage);
 			imageView.setImageResource(R.drawable.target_test);
+		}
+
+		if (getIntent().getStringExtra(ARG_LOCATION)!=null){
+			locationStr = getIntent().getStringExtra(ARG_LOCATION);
+			Log.e("locationStr", locationStr);
 		}
 	}
 

@@ -97,6 +97,7 @@ public class Fragment_TabFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                intent.putExtra(CamActivity.ARG_LOCATION, getArguments().getString(ARG_PARM2));
                 intent.setClass(getContext(), CamActivity.class);
                 startActivity(intent);
             }

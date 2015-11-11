@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     tools:showIn="@layout/activity_activity_poi_detail">
 
     <LinearLayout
@@ -42,6 +43,134 @@
             android:id="@+id/POITitle"
             android:textSize="32sp"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_gravity="center_horizontal"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:weightSum="4">
+            
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:src="@drawable/ic_3d_rotation_black_36dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="?android:selectableItemBackground"
+                    android:id="@+id/poi_detail_3dbtn"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3D Model"
+                    android:layout_gravity="bottom|center_horizontal"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:src="@drawable/ic_audiotrack_black_36dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="?android:selectableItemBackground"
+                    android:id="@+id/poi_detail_audiobtn"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Audio"
+                    android:layout_gravity="bottom|center_horizontal"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:src="@drawable/ic_video_library_black_36dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="?android:selectableItemBackground"
+                    android:id="@+id/poi_detail_vudeobtn"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Video"
+                    android:layout_gravity="bottom|center_horizontal"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:src="@drawable/ic_language_black_36dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="?android:selectableItemBackground"
+                    android:id="@+id/poi_detail_lngbtn"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="languages"
+                    android:layout_gravity="bottom|center_horizontal"/>
+
+            </FrameLayout>
+
+
+
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
+            android:id="@+id/POIDescription"
+            android:textSize="20sp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:maxLines="3"
+            android:layout_gravity="top"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:text="..."
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="READ MORE"
+            android:textColor="@color/pri_dark"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
 
         <RatingBar
@@ -52,16 +181,10 @@
             android:numStars="5"
             android:mirrorForRtl="true"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.3"
-            android:id="@+id/POIDescription"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_gravity="top"/>
+            android:layout_gravity="center_horizontal"/>
+
+
 
     </LinearLayout>
 
