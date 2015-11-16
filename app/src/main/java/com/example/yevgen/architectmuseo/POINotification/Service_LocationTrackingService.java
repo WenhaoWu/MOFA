@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.yevgen.architectmuseo.Constains_BackendAPI_Url;
+import com.example.yevgen.architectmuseo.Object_POI;
 import com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -143,7 +144,7 @@ public class Service_LocationTrackingService extends IntentService implements Go
                                 } catch (Exception e) {
                                     Log.e("ResponseDisError", e.toString());
                                 }
-                                resultList.add(new Object_POI(0,0, name,id,null,null,dis,0,0,null,time));
+                                resultList.add(new Object_POI(0,0, name,id,null,null,dis,0,0,null,time,null));
                             }
                             addDisList(resultList);
                         }

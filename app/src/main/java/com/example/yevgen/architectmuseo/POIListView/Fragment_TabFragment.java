@@ -35,8 +35,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.yevgen.architectmuseo.Constains_BackendAPI_Url;
+import com.example.yevgen.architectmuseo.Object_POI;
 import com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity;
-import com.example.yevgen.architectmuseo.POINotification.Object_POI;
 import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
 import com.example.yevgen.architectmuseo.R;
 
@@ -120,6 +120,7 @@ public class Fragment_TabFragment extends Fragment {
                 break;
             case 2:
                 //setListViewByRecomend();
+                url = Constains_BackendAPI_Url.URL_POIList_Suggest;
                 break;
             default:
                 //url = "http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi.json";
@@ -140,7 +141,7 @@ public class Fragment_TabFragment extends Fragment {
 
                         for (int i = 0; i < response.length(); i++) {
 
-                            String name = null, imgBase64 = null;
+                            String name = null, imgBase64 = null, reason = null;
                             int id = 0, disTo=0, rate_count=0;
                             Double rate_score=0.0;
                             switch (sortingMethodID){
@@ -166,12 +167,21 @@ public class Fragment_TabFragment extends Fragment {
                                         Log.e("ResponsePopError", e.toString());
                                     }
                                     break;
+                                case 2:
+                                    try {
+                                        id = response.getJSONObject(i).getInt("id");
+                                        name = response.getJSONObject(i).getString("poi_name");
+                                        imgBase64 = response.getJSONObject(i).getString("compressed_image");
+                                        reason = response.getJSONObject(i).getString("reason");
+                                    } catch (Exception e) {
+                                        Log.e("ResponseSugError", e.toString());
+                                    }
 
                                 default:
                                     break;
 
                             }
-                            Object_POI temp = new Object_POI(0, 0, name, id, imgBase64,null,disTo,rate_score, rate_count, null,0);
+                            Object_POI temp = new Object_POI(0, 0, name, id, imgBase64,null,disTo,rate_score, rate_count, null,0, reason);
                             result.add(temp);
                         }
 
@@ -332,7 +342,9 @@ public class Fragment_TabFragment extends Fragment {
 
             switch (sortID){
                 case 0:
-                    RowTwo.setText(values.get(position).getDisTo() + " m");
+                    double dis = values.get(position).getDisTo()/(float)1000;
+                    String s = String.format("%.2f", dis);
+                    RowTwo.setText(s + " km");
                     break;
                 case 1:
                     rateBar.setEnabled(false);
@@ -340,6 +352,8 @@ public class Fragment_TabFragment extends Fragment {
                     rateBar.setRating((float)values.get(position).getRate_score());
                     rateScore.setText(values.get(position).getRate_score()+" /5.0");
                     break;
+                case 2:
+                    RowTwo.setText(values.get(position).getReasonForSug());
                 default:
                     break;
             }

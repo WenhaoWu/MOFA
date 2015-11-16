@@ -29,4 +29,7 @@ public class Constains_BackendAPI_Url {
 
     public static final String URL_GetModelsName =
             "http://dev.mw.metropolia.fi/mofa/Wikitude_1/3dModel/getModelName.php";
+
+    public static final String URL_POIList_Suggest =
+            "http://dev.mw.metropolia.fi/mofa/Wikitude_1/third_view/get_third_view.php";
 }

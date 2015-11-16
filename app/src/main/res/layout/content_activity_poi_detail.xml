@@ -37,6 +37,17 @@
 
         </FrameLayout>
 
+        <RatingBar
+            android:id="@+id/POIRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:numStars="5"
+            android:mirrorForRtl="true"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_gravity="center_horizontal"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,6 +57,7 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_gravity="center_horizontal"/>
 
+        
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="100dp"
@@ -136,13 +148,8 @@
 
             </FrameLayout>
 
-
-
-
-
         </LinearLayout>
-
-
+        
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -167,22 +174,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:text="READ MORE"
             android:textColor="@color/pri_dark"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
-
-        <RatingBar
-            android:id="@+id/POIRatingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:numStars="5"
-            android:mirrorForRtl="true"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_gravity="center_horizontal"/>
+            android:id="@+id/poi_detail_readmore"
+            android:clickable="true"/>
+
+
 
 
 

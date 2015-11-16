@@ -1,4 +1,4 @@
-package com.example.yevgen.architectmuseo.POINotification;
+package com.example.yevgen.architectmuseo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -20,9 +20,9 @@ public class Object_POI implements Parcelable{
     private int rate_count;
     private String designer;
     private int timeTo;
+    private String reasonForSug;
 
-
-    public Object_POI(double latitude, double longitude, String name, int ID, String imgBase64, String descrip, int disTo, double rate_score, int rate_count, String designer, int timeTo) {
+    public Object_POI(double latitude, double longitude, String name, int ID, String imgBase64, String descrip, int disTo, double rate_score, int rate_count, String designer, int timeTo, String reason) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;
@@ -34,8 +34,11 @@ public class Object_POI implements Parcelable{
         this.rate_count = rate_count;
         this.designer = designer;
         this.timeTo = timeTo;
+        this.reasonForSug = reason;
     }
 
+    public Object_POI() {
+    }
 
     public static final Creator<Object_POI> CREATOR = new Creator<Object_POI>() {
         @Override
@@ -102,6 +105,9 @@ public class Object_POI implements Parcelable{
         return designer;
     }
 
+    public String getReasonForSug() {
+        return reasonForSug;
+    }
 
     //The following three methods make this object parcelable
 

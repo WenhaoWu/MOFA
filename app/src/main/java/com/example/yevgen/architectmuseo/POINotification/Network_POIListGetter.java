@@ -1,5 +1,7 @@
 package com.example.yevgen.architectmuseo.POINotification;
 
+import com.example.yevgen.architectmuseo.Object_POI;
+
 import java.util.ArrayList;
 
 /**

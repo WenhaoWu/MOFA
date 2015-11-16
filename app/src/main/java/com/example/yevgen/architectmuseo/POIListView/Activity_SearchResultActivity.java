@@ -34,7 +34,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.yevgen.architectmuseo.Constains_BackendAPI_Url;
 import com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity;
-import com.example.yevgen.architectmuseo.POINotification.Object_POI;
+import com.example.yevgen.architectmuseo.Object_POI;
 import com.example.yevgen.architectmuseo.R;
 
 import org.json.JSONArray;
@@ -90,7 +90,7 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                Object_POI temp = new Object_POI(0, 0, name, id, imgBase64,null,0,0, 0, null, 0);
+                                Object_POI temp = new Object_POI(0, 0, name, id, imgBase64,null,0,0, 0, null, 0,null);
                                 result.add(temp);
                             }
 
