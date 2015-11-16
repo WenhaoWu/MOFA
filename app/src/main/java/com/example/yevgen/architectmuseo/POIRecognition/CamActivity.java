@@ -56,7 +56,7 @@ public class CamActivity extends AbstractArchitectCamActivity {
 
 	@Override
 	public String getARchitectWorldPath() {
-		return "Cloud_Recognition/index.html";
+        return "Cloud_Recognition/3dmodel.html";
 	}
 
 	@Override
