@@ -3,7 +3,7 @@ var Recognition = {
     createModel: function createModelFn() {
 
         this.location = new AR.RelativeLocation(null, -5, -5, 0);
-        this.modelLautasari = new AR.Model("/sdcard/3dModels/lautasari2.wt3", {
+        this.modelLautasari = new AR.Model("/sdcard/3dModels/LauttasaariWaterTower.wt3", {
             onLoaded: Recognition.loadingStep,
             onClick: Recognition.toggleAnimateModel,
             scale: {

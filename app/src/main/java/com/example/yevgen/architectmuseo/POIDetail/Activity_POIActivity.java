@@ -7,6 +7,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -39,6 +40,9 @@ import com.liangfeizc.slidepageindicator.CirclePageIndicator;
 
 import org.json.JSONArray;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,6 +163,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                     @Override
                     public void onClick(View v) {
                         if (model_flag == 1){
+                            writeFile(title);
                             Intent intent = new Intent();
                             intent.setClass(getBaseContext(), CamActivity.class);
                             startActivity(intent);
@@ -217,6 +222,38 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         });
 
 
+
+    }
+
+    //This method write down the name of the 3dModel we gonna present in one txt file.
+    //After jumping to the camActivity the JS can read it and build the 3dmodel
+    private void writeFile(String name) {
+        File dir = new File(Environment.getExternalStorageDirectory()+"/3dModels"+"/");
+
+        if (!dir.exists()){
+            dir.mkdirs();
+        }
+
+        File file = new File(dir, "nameToBuild.txt");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                Log.e("Write3dNameExcep", e.toString());
+            }
+        }
+
+        try {
+            FileOutputStream fos = new FileOutputStream(file, false);
+            name= name.replaceAll("\\s", "");
+            Log.e("NameTemp", name);
+            byte[] byteToWrite = name.getBytes();
+            fos.write(byteToWrite);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            Log.e("Write3dNameExcep", e.toString());
+        }
 
     }
 

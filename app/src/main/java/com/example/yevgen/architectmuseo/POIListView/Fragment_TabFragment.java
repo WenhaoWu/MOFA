@@ -213,12 +213,14 @@ public class Fragment_TabFragment extends Fragment {
                             }
                             nameList.add(nameTemp);
                         }
-                        /*
+                        /**/
                         for (String name : nameList){
                             Download3dModels(name);
                         }
+
+                        /*
+                        Download3dModels("LauttasaariWaterTower");
                         */
-                        Download3dModels("lautasari");
                         progressDialog.dismiss();
                     }
                 },
