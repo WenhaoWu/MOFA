@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.RatingBar;
@@ -30,7 +31,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.yevgen.architectmuseo.Constains_BackendAPI_Url;
-import com.example.yevgen.architectmuseo.Object_POI;
 import com.example.yevgen.architectmuseo.POIListView.Activity_POIMainListView;
 import com.example.yevgen.architectmuseo.POIListView.Fragment_TabFragment;
 import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
@@ -56,10 +56,10 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
     private MediaPlayer mediaPlayer = null;
     private FloatingActionButton fab_navi, fab_share;
     private ImageButton imgbtn_3d, imgbtn_audio, imgbtn_video, imgbtn_language;
+    private Button btn_designer, btn_year;
 
     private TextView readMore,desTextView, titleTextView ;
 
-    private Object_POI thisPoi = new Object_POI();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,13 +91,17 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         desTextView = (TextView)findViewById(R.id.POIDescription);
         readMore = (TextView) findViewById(R.id.poi_detail_readmore);
 
+        btn_designer = (Button)findViewById(R.id.poi_detail_designerBtn);
+        btn_year = (Button)findViewById(R.id.poi_detail_yearBtn);
+
+
         final ViewPager pager = (ViewPager)findViewById(R.id.image_pager);
         final Adapter_ImageSlideAdapter slideAdapter = new Adapter_ImageSlideAdapter(getSupportFragmentManager());
 
         //set image slider picture, title and description. We get it from backend
         getDetail(new DetailCallback() {
             @Override
-            public void onSuccess(List<String> pic_List, final String title, final String descrip, final double lat , final double lng, final int model_flag, final String fin_des, final String swe_des) {
+            public void onSuccess(List<String> pic_List, final String title, final String descrip, final double lat , final double lng, final int model_flag, final String fin_des, final String swe_des, String designer, String style) {
 
                 //sending the picture list to full screen image view
                 SharedPreferences.Editor editor = sp.edit();
@@ -169,7 +173,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                             startActivity(intent);
                         }
                         else {
-                            Toast.makeText(getBaseContext(), "This POI doesn't support 3D model yet", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "This POI doesn't support 3D model yet.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -182,6 +186,8 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                     }
                 });
 
+                btn_designer.setText(designer);
+                btn_year.setText(style);
 
             }
 
@@ -258,14 +264,23 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
     }
 
     private void doDescrip(final String descrip) {
+
+        final Intent intent = new Intent();
+        intent.putExtra(Activity_Description.ARG_DES, descrip);
+        intent.setClass(getBaseContext(), Activity_Description.class);
+
         desTextView.setText(descrip);
+
+        desTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(intent);
+            }
+        });
 
         readMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra(Activity_Description.ARG_DES, descrip);
-                intent.setClass(getBaseContext(), Activity_Description.class);
                 startActivity(intent);
             }
         });
@@ -294,7 +309,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
     }
 
     private interface DetailCallback {
-        void onSuccess(List<String> pic_List, String title, String descrip, double lat, double lng, int model_flag, String fin_des, String swe_des);
+        void onSuccess(List<String> pic_List, String title, String descrip, double lat, double lng, int model_flag, String fin_des, String swe_des, String designer, String style);
     }
 
     public double getDetail(final DetailCallback callback, int id){
@@ -311,7 +326,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.e("Response Size", response.length()+"");
-                        String title_temp = null, descrip_temp = null, fin_description = null, swe_description = null;
+                        String title_temp = null, descrip_temp = null, fin_description = null, swe_description = null, designer= null, year=null;
                         double lat=0, lng=0;
                         int pic_count=0, model_flag=0;
 
@@ -323,6 +338,8 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                             model_flag = response.getJSONObject(0).getInt("Model_flag");
                             fin_description= response.getJSONObject(0).getString("fin_description");
                             swe_description = response.getJSONObject(0).getString("swe_description");
+                            designer = response.getJSONObject(0).getString("designer");
+                            year = response.getJSONObject(0).getString("year");
 
                             pic_count = response.getJSONObject(1).getJSONArray("multiple_image").length();
                             for (int i=0; i<pic_count; i++){
@@ -336,7 +353,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                         Log.e("Pic_count", "try "+pic_count);
 
                         PD.dismiss();
-                        callback.onSuccess(PicResult, title_temp, descrip_temp, lat, lng, model_flag, fin_description, swe_description);
+                        callback.onSuccess(PicResult, title_temp, descrip_temp, lat, lng, model_flag, fin_description, swe_description, designer, year);
                     }
                 },
                 new Response.ErrorListener() {

@@ -37,6 +37,18 @@
 
         </FrameLayout>
 
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/POITitle"
+            android:textSize="32sp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
         <RatingBar
             android:id="@+id/POIRatingBar"
             android:layout_width="wrap_content"
@@ -48,14 +60,50 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_gravity="center_horizontal"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/POITitle"
-            android:textSize="32sp"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_gravity="center_horizontal"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Designer"
+                    android:layout_gravity="center_horizontal"/>
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="?android:selectableItemBackground"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:gravity="bottom|center_horizontal"
+                    android:id="@+id/poi_detail_designerBtn"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Year"
+                    android:layout_gravity="center_horizontal"/>
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="?android:selectableItemBackground"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:gravity="bottom|center_horizontal"
+                    android:id="@+id/poi_detail_yearBtn"/>
+            </FrameLayout>
+
+        </LinearLayout>
 
         
         <LinearLayout
