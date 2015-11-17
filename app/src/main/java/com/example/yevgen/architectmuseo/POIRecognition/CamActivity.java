@@ -16,13 +16,13 @@ public class CamActivity extends AbstractArchitectCamActivity {
 
 	//private Receiver_DistanceResponseReceiver receiver;
 	public static final String ARG_LOCATION = "Argument_location";
-
+    private int mode;
 	private String locationStr = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+        mode = getIntent().getIntExtra("mode", mode);
 		/*
 		IntentFilter filter = new IntentFilter(Receiver_DistanceResponseReceiver.PROCESS_RESPONSE);
 		filter.addCategory(Intent.CATEGORY_DEFAULT);
@@ -56,7 +56,17 @@ public class CamActivity extends AbstractArchitectCamActivity {
 
 	@Override
 	public String getARchitectWorldPath() {
-        return "Cloud_Recognition/3dmodel.html";
+        Log.e("Mode", mode+"");
+        switch (mode){
+            case 1: return "Cloud_Recognition/index.html";
+
+            case 2: return "Cloud_Recognition/3dmodel.html";
+
+            case 3: return "Cloud_Recognition/video.html";
+
+            default:return "Cloud_Recognition/3dmodel.html";
+        }
+
 	}
 
 	@Override

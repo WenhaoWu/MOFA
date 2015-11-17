@@ -99,6 +99,7 @@ public class Fragment_TabFragment extends Fragment {
                 Intent intent = new Intent();
                 intent.putExtra(CamActivity.ARG_LOCATION, getArguments().getString(ARG_PARM2));
                 intent.setClass(getContext(), CamActivity.class);
+                intent.putExtra("mode", 1);
                 startActivity(intent);
             }
         });

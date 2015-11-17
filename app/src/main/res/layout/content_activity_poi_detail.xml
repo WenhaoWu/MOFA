@@ -165,7 +165,7 @@
                     android:src="@drawable/ic_video_library_black_36dp"
                     android:layout_gravity="center_horizontal"
                     android:background="?android:selectableItemBackground"
-                    android:id="@+id/poi_detail_vudeobtn"
+                    android:id="@+id/poi_detail_videobtn"
                     />
                 <TextView
                     android:layout_width="wrap_content"

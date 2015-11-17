@@ -142,7 +142,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                 fab_navi.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String uri = "google.navigation:q="+lat+","+lng;
+                        String uri = "google.navigation:q=" + lat + "," + lng;
                         Log.e("uri", uri);
                         Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
                         //intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
@@ -157,7 +157,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                     public void onClick(View v) {
                         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                         sharingIntent.setType("plain/text");
-                        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "#MFA I love "+title+"!");
+                        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "#MFA I love " + title + "!");
                         startActivity(Intent.createChooser(sharingIntent,"Share using"));
                     }
                 });
@@ -170,11 +170,22 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                             writeFile(title);
                             Intent intent = new Intent();
                             intent.setClass(getBaseContext(), CamActivity.class);
+                            intent.putExtra("mode", 2);
                             startActivity(intent);
                         }
                         else {
                             Toast.makeText(getBaseContext(), "This POI doesn't support 3D model yet.", Toast.LENGTH_SHORT).show();
                         }
+                    }
+                });
+                imgbtn_video = (ImageButton)findViewById(R.id.poi_detail_videobtn);
+                imgbtn_video.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(getBaseContext(), CamActivity.class);
+                        intent.putExtra("mode", 3);
+                        startActivity(intent);
                     }
                 });
 
