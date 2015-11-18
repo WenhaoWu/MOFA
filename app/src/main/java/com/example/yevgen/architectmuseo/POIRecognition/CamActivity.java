@@ -14,26 +14,18 @@ import com.example.yevgen.architectmuseo.R;
 import com.example.yevgen.architectmuseo.WikitudeSDKConstants;
 import com.wikitude.architect.ArchitectView;
 import com.wikitude.architect.ArchitectView.ArchitectUrlListener;
-import com.wikitude.architect.StartupConfiguration.CameraPosition;
 
 public class CamActivity extends AbstractArchitectCamActivity {
 
 	//private Receiver_DistanceResponseReceiver receiver;
 	public static final String ARG_LOCATION = "Argument_location";
     private int mode;
-	private String locationStr = null;
     private long lastCalibrationToastShownTimeMillis = System.currentTimeMillis();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         mode = getIntent().getIntExtra("mode", mode);
-		/*
-		IntentFilter filter = new IntentFilter(Receiver_DistanceResponseReceiver.PROCESS_RESPONSE);
-		filter.addCategory(Intent.CATEGORY_DEFAULT);
-		receiver = new Receiver_DistanceResponseReceiver();
-		registerReceiver(receiver, filter);
-		*/
 
 		String imageFlag;
 		if (savedInstanceState == null){
@@ -52,23 +44,14 @@ public class CamActivity extends AbstractArchitectCamActivity {
 			ImageView imageView = (ImageView)findViewById(R.id.ExampleImage);
 			imageView.setImageResource(R.drawable.target_test);
 		}
-
-		if (getIntent().getStringExtra(ARG_LOCATION)!=null){
-			locationStr = getIntent().getStringExtra(ARG_LOCATION);
-			Log.e("locationStr", locationStr);
-		}
 	}
 
 	@Override
 	public String getARchitectWorldPath() {
-        Log.e("Mode", mode + "");
         switch (mode){
             case 1: return "Cloud_Recognition/index.html";
-
             case 2: return "Cloud_Recognition/3dmodel.html";
-
             case 3: return "Cloud_Recognition/video.html";
-
             default:return "Cloud_Recognition/3dmodel.html";
         }
 
@@ -139,28 +122,10 @@ public class CamActivity extends AbstractArchitectCamActivity {
 		return ArchitectViewHolderInterface.CULLING_DISTANCE_DEFAULT_METERS;
 	}
 
-	@Override
-	protected CameraPosition getCameraPosition() {
-		return CameraPosition.DEFAULT;
-	}
 
     @Override
     protected void onStop() {
         super.onStop();
-		//unregisterReceiver(receiver);
     }
 
-	/*
-    public class Receiver_DistanceResponseReceiver extends BroadcastReceiver {
-
-		public static final String PROCESS_RESPONSE = "com.example.yevgen.architectmuseo.action.PROCESS_RESPONSE";
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			String responseDistance = intent.getStringExtra(Service_LocationTrackingService.RESPONSE_DISTANCE);
-			TextView textView = (TextView)findViewById(R.id.Distance);
-			textView.setText(responseDistance);
-		}
-	}
-	*/
 }

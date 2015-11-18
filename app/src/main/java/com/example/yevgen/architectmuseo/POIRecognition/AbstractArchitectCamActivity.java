@@ -20,7 +20,6 @@ import com.example.yevgen.architectmuseo.R;
 import com.wikitude.architect.ArchitectView;
 import com.wikitude.architect.ArchitectView.ArchitectUrlListener;
 import com.wikitude.architect.StartupConfiguration;
-import com.wikitude.architect.StartupConfiguration.CameraPosition;
 
 import java.io.IOException;
 
@@ -59,8 +58,7 @@ public abstract class AbstractArchitectCamActivity extends AppCompatActivity imp
 			this.architectView.registerUrlListener( this.getUrlListener() );
 		}
 
-        //crap is here
-        //AbstractArchitectCamActivity.this.architectView.setLocation( location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy() );
+
         this.sensorAccuracyListener = this.getSensorAccuracyListener();
         this.locationListener = new LocationListener() {
 
@@ -78,15 +76,9 @@ public abstract class AbstractArchitectCamActivity extends AppCompatActivity imp
 
             @Override
             public void onLocationChanged( final Location location ) {
-                // forward location updates fired by LocationProvider to architectView, you can set lat/lon from any location-strategy
-                Log.d("LOCATIOOOOON", location.getLatitude() + "");
-                Log.d("LOCATIOOOOON", location.getLongitude() + "");
-
                 if (location!=null) {
-                    // sore last location as member, in case it is needed somewhere (in e.g. your adjusted project)
                     AbstractArchitectCamActivity.this.lastKnownLocaton = location;
                     if ( AbstractArchitectCamActivity.this.architectView != null ) {
-                        // check if location has altitude at certain accuracy level & call right architect method (the one with altitude information)
                         if ( location.hasAltitude() && location.hasAccuracy() && location.getAccuracy()<7) {
                             AbstractArchitectCamActivity.this.architectView.setLocation( location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy() );
                         } else {
@@ -97,11 +89,9 @@ public abstract class AbstractArchitectCamActivity extends AppCompatActivity imp
             }
         };
 
-        // locationProvider used to fetch user position
         this.locationProvider = getLocationProvider( this.locationListener );
 	}
 
-	protected abstract CameraPosition getCameraPosition();
 
 	@Override
 	protected void onPostCreate( final Bundle savedInstanceState ) {
@@ -111,7 +101,6 @@ public abstract class AbstractArchitectCamActivity extends AppCompatActivity imp
 			try {
 				this.architectView.load( this.getARchitectWorldPath());
 				if (this.getInitialCullingDistanceMeters() != ArchitectViewHolderInterface.CULLING_DISTANCE_DEFAULT_METERS) {
-					// set the culling distance - meaning: the maximum distance to render geo-content
 					this.architectView.setCullingDistance( this.getInitialCullingDistanceMeters() );
 				}
 			} catch (IOException e1) {
@@ -123,18 +112,12 @@ public abstract class AbstractArchitectCamActivity extends AppCompatActivity imp
     @Override
     protected void onResume() {
         super.onResume();
-
-        // call mandatory live-cycle method of architectView
         if ( this.architectView != null ) {
             this.architectView.onResume();
-
-            // register accuracy listener in architectView, if set
             if (this.sensorAccuracyListener!=null) {
                 this.architectView.registerSensorAccuracyChangeListener( this.sensorAccuracyListener );
             }
         }
-
-        // tell locationProvider to resume, usually location is then (again) fetched, so the GPS indicator appears in status bar
         if ( this.locationProvider != null ) {
             this.locationProvider.onResume();
         }
@@ -143,18 +126,12 @@ public abstract class AbstractArchitectCamActivity extends AppCompatActivity imp
     @Override
     protected void onPause() {
         super.onPause();
-
-        // call mandatory live-cycle method of architectView
         if ( this.architectView != null ) {
             this.architectView.onPause();
-
-            // unregister accuracy listener in architectView, if set
             if ( this.sensorAccuracyListener != null ) {
                 this.architectView.unregisterSensorAccuracyChangeListener( this.sensorAccuracyListener );
             }
         }
-
-        // tell locationProvider to pause, usually location is then no longer fetched, so the GPS indicator disappears in status bar
         if ( this.locationProvider != null ) {
             this.locationProvider.onPause();
         }
