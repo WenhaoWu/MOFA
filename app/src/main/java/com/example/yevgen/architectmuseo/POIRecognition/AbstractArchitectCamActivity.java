@@ -5,6 +5,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +28,10 @@ public abstract class AbstractArchitectCamActivity extends AppCompatActivity imp
 
 	protected ArchitectView architectView;
 	protected ArchitectUrlListener urlListener;
+    protected LocationListener locationListener;
+    protected Location lastKnownLocaton;
+    protected ILocationProvider	locationProvider;
+    protected ArchitectView.SensorAccuracyChangeListener sensorAccuracyListener;
 
 	/** Called when the activity is first created. */
 	@SuppressLint("NewApi")
@@ -52,6 +58,47 @@ public abstract class AbstractArchitectCamActivity extends AppCompatActivity imp
 		if (this.urlListener != null && this.architectView != null) {
 			this.architectView.registerUrlListener( this.getUrlListener() );
 		}
+
+        //crap is here
+        //AbstractArchitectCamActivity.this.architectView.setLocation( location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy() );
+        this.sensorAccuracyListener = this.getSensorAccuracyListener();
+        this.locationListener = new LocationListener() {
+
+            @Override
+            public void onStatusChanged( String provider, int status, Bundle extras ) {
+            }
+
+            @Override
+            public void onProviderEnabled( String provider ) {
+            }
+
+            @Override
+            public void onProviderDisabled( String provider ) {
+            }
+
+            @Override
+            public void onLocationChanged( final Location location ) {
+                // forward location updates fired by LocationProvider to architectView, you can set lat/lon from any location-strategy
+                Log.d("LOCATIOOOOON", location.getLatitude() + "");
+                Log.d("LOCATIOOOOON", location.getLongitude() + "");
+
+                if (location!=null) {
+                    // sore last location as member, in case it is needed somewhere (in e.g. your adjusted project)
+                    AbstractArchitectCamActivity.this.lastKnownLocaton = location;
+                    if ( AbstractArchitectCamActivity.this.architectView != null ) {
+                        // check if location has altitude at certain accuracy level & call right architect method (the one with altitude information)
+                        if ( location.hasAltitude() && location.hasAccuracy() && location.getAccuracy()<7) {
+                            AbstractArchitectCamActivity.this.architectView.setLocation( location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy() );
+                        } else {
+                            AbstractArchitectCamActivity.this.architectView.setLocation( location.getLatitude(), location.getLongitude(), location.hasAccuracy() ? location.getAccuracy() : 1000 );
+                        }
+                    }
+                }
+            }
+        };
+
+        // locationProvider used to fetch user position
+        this.locationProvider = getLocationProvider( this.locationListener );
 	}
 
 	protected abstract CameraPosition getCameraPosition();
@@ -73,21 +120,45 @@ public abstract class AbstractArchitectCamActivity extends AppCompatActivity imp
 		}
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if ( this.architectView != null ) {
-			this.architectView.onResume();
-		}
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if ( this.architectView != null ) {
-			this.architectView.onPause();
-		}
-	}
+        // call mandatory live-cycle method of architectView
+        if ( this.architectView != null ) {
+            this.architectView.onResume();
+
+            // register accuracy listener in architectView, if set
+            if (this.sensorAccuracyListener!=null) {
+                this.architectView.registerSensorAccuracyChangeListener( this.sensorAccuracyListener );
+            }
+        }
+
+        // tell locationProvider to resume, usually location is then (again) fetched, so the GPS indicator appears in status bar
+        if ( this.locationProvider != null ) {
+            this.locationProvider.onResume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // call mandatory live-cycle method of architectView
+        if ( this.architectView != null ) {
+            this.architectView.onPause();
+
+            // unregister accuracy listener in architectView, if set
+            if ( this.sensorAccuracyListener != null ) {
+                this.architectView.unregisterSensorAccuracyChangeListener( this.sensorAccuracyListener );
+            }
+        }
+
+        // tell locationProvider to pause, usually location is then no longer fetched, so the GPS indicator disappears in status bar
+        if ( this.locationProvider != null ) {
+            this.locationProvider.onPause();
+        }
+    }
 
 	@Override
 	protected void onStop() {
@@ -132,6 +203,9 @@ public abstract class AbstractArchitectCamActivity extends AppCompatActivity imp
 		getMenuInflater().inflate(R.menu.menu_main, menu);
 		return true;
 	}
+
+    @Override
+    public abstract ILocationProvider getLocationProvider(final LocationListener locationListener);
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

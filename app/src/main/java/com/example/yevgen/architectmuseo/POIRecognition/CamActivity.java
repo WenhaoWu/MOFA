@@ -1,14 +1,18 @@
 package com.example.yevgen.architectmuseo.POIRecognition;
 
 import android.content.Intent;
+import android.hardware.SensorManager;
+import android.location.LocationListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity;
 import com.example.yevgen.architectmuseo.R;
 import com.example.yevgen.architectmuseo.WikitudeSDKConstants;
+import com.wikitude.architect.ArchitectView;
 import com.wikitude.architect.ArchitectView.ArchitectUrlListener;
 import com.wikitude.architect.StartupConfiguration.CameraPosition;
 
@@ -18,6 +22,7 @@ public class CamActivity extends AbstractArchitectCamActivity {
 	public static final String ARG_LOCATION = "Argument_location";
     private int mode;
 	private String locationStr = null;
+    private long lastCalibrationToastShownTimeMillis = System.currentTimeMillis();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,7 @@ public class CamActivity extends AbstractArchitectCamActivity {
 
 	@Override
 	public String getARchitectWorldPath() {
-        Log.e("Mode", mode+"");
+        Log.e("Mode", mode + "");
         switch (mode){
             case 1: return "Cloud_Recognition/index.html";
 
@@ -89,7 +94,26 @@ public class CamActivity extends AbstractArchitectCamActivity {
 		return WikitudeSDKConstants.WIKITUDE_SDK_KEY;
 	}
 
-	@Override
+    @Override
+    public ILocationProvider getLocationProvider(final LocationListener locationListener) {
+        return new LocationProvider(this, locationListener);
+    }
+
+    @Override
+    public ArchitectView.SensorAccuracyChangeListener getSensorAccuracyListener() {
+        return new ArchitectView.SensorAccuracyChangeListener() {
+            @Override
+            public void onCompassAccuracyChanged( int accuracy ) {
+				/* UNRELIABLE = 0, LOW = 1, MEDIUM = 2, HIGH = 3 */
+                if ( accuracy < SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM && CamActivity.this != null && !CamActivity.this.isFinishing() && System.currentTimeMillis() - CamActivity.this.lastCalibrationToastShownTimeMillis > 5 * 1000) {
+                    Toast.makeText(CamActivity.this, R.string.compass_accuracy_low, Toast.LENGTH_LONG).show();
+                    CamActivity.this.lastCalibrationToastShownTimeMillis = System.currentTimeMillis();
+                }
+            }
+        };
+    }
+
+    @Override
 	public ArchitectUrlListener getUrlListener() {
 		return new ArchitectUrlListener() {
 

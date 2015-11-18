@@ -22,7 +22,7 @@ var Recognition = {
 
 	//Overlay image, size and position
 	createOverlays: function createOverlaysFn() {
-        this.imgButton = new AR.ImageResource("assets/status.png");
+        this.imgButton = new AR.ImageResource("assets/button.png");
 
 
         this.overlayPage = new AR.HtmlDrawable({
@@ -39,46 +39,7 @@ var Recognition = {
             }
         });
 
-        var location = new AR.RelativeLocation(null, 0, -10, 0);
-        var location2 = new AR.GeoLocation(60.2211255,  24.805152);
-        var dist = location.distanceToUser();
-        /*var lat = getUrlParameter('lat');
-        console.log("LAT  " + lat);
-        var lon = getUrlParameter('lon');
-        console.log("LON" + lon);*/
-        console.log("THIS IS SPARTAAAAAAAAAA!" + dist);
-        //this.modelLautasari = new AR.Model("assets/halfLautasari.wt3", {
-        this.modelLautasari = new AR.Model("/sdcard/3dModels/lautasari.wt3", {
-            onLoaded: this.loadingStep,
-            onClick: this.toggleAnimateModel,
-            scale: {
-                x: 50,
-                y: 50,
-                z: 50
-            },
-            translate: {
-                x: 0.0,
-                y: 0.05,
-                z: 0.0
-            },
-            rotate: {
-               // heading: 90,
-               // tilt: 90,
-                //roll: 90
-            }
-        });
-        var indicatorImage = new AR.ImageResource("assets/indi.png");
 
-                var indicatorDrawable = new AR.ImageDrawable(indicatorImage, 0.1, {
-                    verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP
-                });
-        Recognition.rotationAnimation = new AR.PropertyAnimation(this.modelLautasari, "rotate.tilt", -25, 335, 10000);
-        var obj = new AR.GeoObject(location2, {
-                            drawables: {
-                               cam: [Recognition.modelLautasari],
-                               indicator: [indicatorDrawable]
-                            }
-                        });
 	},
 
 	//Recognition of image on click
@@ -86,13 +47,7 @@ var Recognition = {
         if (recognized) {
             var patt = /library_/;
             var pattKalion = /kalion_/;
-            if(patt.test(response.targetInfo.name)){
-                Recognition.lautasari = new AR.Trackable2DObject(Recognition.tracker, response.targetInfo.name, {
-                    drawables: {
-                        cam: [Recognition.modelLautasari]
-                    }
-                });
-            } else if(pattKalion.test(response.targetInfo.name)) {
+            if(pattKalion.test(response.targetInfo.name)) {
                 Recognition.kirkko = new AR.Trackable2DObject(Recognition.tracker, response.targetInfo.name , {
                     drawables: {
                         cam: [Recognition.overlayPage]

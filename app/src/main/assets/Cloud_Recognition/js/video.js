@@ -4,6 +4,7 @@ var Recognition = {
 
         this.location = new AR.RelativeLocation(null, -5, -5, 0);
 
+
         this.playButtonImg = new AR.ImageResource("assets/next.png");
         this.playButton = new AR.ImageDrawable(Recognition.playButtonImg, 3, {
             enabled: false,
