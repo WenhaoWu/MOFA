@@ -136,7 +136,6 @@ public class Activity_POIMainListView extends AppCompatActivity implements Googl
     public void onConnected(Bundle bundle) {
 
         mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        Log.e("Test","here");
 
         if (mCurrentLocation != null) {
             locationStr= mCurrentLocation.getLatitude()+"&lng="+mCurrentLocation.getLongitude();

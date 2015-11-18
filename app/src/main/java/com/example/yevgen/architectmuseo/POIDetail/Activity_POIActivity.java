@@ -32,6 +32,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.yevgen.architectmuseo.Constains_BackendAPI_Url;
 import com.example.yevgen.architectmuseo.POIListView.Activity_POIMainListView;
+import com.example.yevgen.architectmuseo.POIListView.Activity_SearchResultActivity;
 import com.example.yevgen.architectmuseo.POIListView.Fragment_TabFragment;
 import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
 import com.example.yevgen.architectmuseo.R;
@@ -101,7 +102,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         //set image slider picture, title and description. We get it from backend
         getDetail(new DetailCallback() {
             @Override
-            public void onSuccess(List<String> pic_List, final String title, final String descrip, final double lat , final double lng, final int model_flag, final String fin_des, final String swe_des, String designer, String style) {
+            public void onSuccess(List<String> pic_List, final String title, final String descrip, final double lat , final double lng, final int model_flag, final String fin_des, final String swe_des, final String designer, final String year) {
 
                 //sending the picture list to full screen image view
                 SharedPreferences.Editor editor = sp.edit();
@@ -198,7 +199,26 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                 });
 
                 btn_designer.setText(designer);
-                btn_year.setText(style);
+                btn_designer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.putExtra(Activity_SearchResultActivity.Tag_SearchQuery, designer);
+                        intent.setClass(getBaseContext(), Activity_SearchResultActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+                btn_year.setText(year);
+                btn_year.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.putExtra(Activity_SearchResultActivity.Tag_SearchQuery, year);
+                        intent.setClass(getBaseContext(), Activity_SearchResultActivity.class);
+                        startActivity(intent);
+                    }
+                });
 
             }
 
@@ -320,7 +340,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
     }
 
     private interface DetailCallback {
-        void onSuccess(List<String> pic_List, String title, String descrip, double lat, double lng, int model_flag, String fin_des, String swe_des, String designer, String style);
+        void onSuccess(List<String> pic_List, String title, String descrip, double lat, double lng, int model_flag, String fin_des, String swe_des, String designer, String year);
     }
 
     public double getDetail(final DetailCallback callback, int id){

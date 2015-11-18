@@ -142,4 +142,7 @@ public class Object_POI implements Parcelable{
         dest.writeInt(rate_count);
     }
 
+
+
+
 }
