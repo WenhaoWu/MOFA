@@ -16,5 +16,6 @@
     <string name="search_hint">Name/Style/Year</string>
     <string name="title_activity_activity__search_result">Activity_SearchResultActivity</string>
     <string name="title_activity_activity_description">Activity_description</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>
