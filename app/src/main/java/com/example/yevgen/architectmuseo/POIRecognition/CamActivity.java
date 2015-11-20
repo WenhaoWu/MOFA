@@ -27,7 +27,7 @@ public class CamActivity extends AbstractArchitectCamActivity {
 		super.onCreate(savedInstanceState);
         mode = getIntent().getIntExtra("mode", mode);
 
-		String imageFlag;
+        String imageFlag;
 		if (savedInstanceState == null){
 			Bundle extras = getIntent().getExtras();
 			if (extras == null){

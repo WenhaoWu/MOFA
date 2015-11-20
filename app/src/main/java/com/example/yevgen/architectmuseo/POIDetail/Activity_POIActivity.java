@@ -168,10 +168,10 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                     @Override
                     public void onClick(View v) {
                         if (model_flag == 1){
-                            writeFile(title);
                             Intent intent = new Intent();
                             intent.setClass(getBaseContext(), CamActivity.class);
                             intent.putExtra("mode", 2);
+                            intent.putExtra("title", title);
                             startActivity(intent);
                         }
                         else {
@@ -259,38 +259,6 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         });
 
 
-
-    }
-
-    //This method write down the name of the 3dModel we gonna present in one txt file.
-    //After jumping to the camActivity the JS can read it and build the 3dmodel
-    private void writeFile(String name) {
-        File dir = new File(Environment.getExternalStorageDirectory()+"/3dModels"+"/");
-
-        if (!dir.exists()){
-            dir.mkdirs();
-        }
-
-        File file = new File(dir, "nameToBuild.txt");
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                Log.e("Write3dNameExcep", e.toString());
-            }
-        }
-
-        try {
-            FileOutputStream fos = new FileOutputStream(file, false);
-            name= name.replaceAll("\\s", "");
-            Log.e("NameTemp", name);
-            byte[] byteToWrite = name.getBytes();
-            fos.write(byteToWrite);
-            fos.flush();
-            fos.close();
-        } catch (Exception e) {
-            Log.e("Write3dNameExcep", e.toString());
-        }
 
     }
 
