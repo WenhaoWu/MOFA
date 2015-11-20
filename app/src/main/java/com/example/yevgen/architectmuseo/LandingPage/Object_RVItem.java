@@ -7,9 +7,9 @@ public class Object_RVItem {
     private String img_base64;
     private String cataName;
 
-    public Object_RVItem(String img_base64) {
+    public Object_RVItem(String cata ,String img_base64) {
         this.img_base64 = img_base64;
-        this.cataName = null;
+        this.cataName = cata;
     }
 
     public String getImg_base64() {
