@@ -3,14 +3,14 @@ var Recognition = {
     createModel: function createModelFn() {
 
         this.location = new AR.RelativeLocation(null, -5, -5, 0);
-        this.location2 = new AR.GeoLocation(60.221265, 24.8050491, 320.);
+        this.location2 = new AR.GeoLocation(60.232968, 24.787588, 0.);
         this.modelLautasari = new AR.Model("/sdcard/3dModels/LauttasaariWaterTower.wt3", {
             onLoaded: Recognition.loadingStep,
             onClick: Recognition.toggleAnimateModel,
             scale: {
-                x: 0.001,
-                y: 0.001,
-                z: 0.001
+                x: 0.5,
+                y: 0.5,
+                z: 0.5
             },
             translate: {
                 x: 0.0,
@@ -30,7 +30,7 @@ var Recognition = {
             verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP
         });
         Recognition.rotationAnimation = new AR.PropertyAnimation(Recognition.modelLautasari, "rotate.heading", -25, 335, 10000);
-        this.obj = new AR.GeoObject(Recognition.location, {
+        this.obj = new AR.GeoObject(Recognition.location2, {
             drawables: {
                cam: [Recognition.modelLautasari],
                indicator: [Recognition.indicatorDrawable]
