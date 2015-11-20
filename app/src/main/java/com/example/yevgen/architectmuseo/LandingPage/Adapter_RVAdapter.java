@@ -70,6 +70,7 @@ public class Adapter_RVAdapter extends android.support.v7.widget.RecyclerView.Ad
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(mContext, Activity_POIMainListView.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             }
         });
