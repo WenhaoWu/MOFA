@@ -103,7 +103,9 @@ public abstract class AbstractArchitectCamActivity extends AppCompatActivity imp
 				this.architectView.load(this.getARchitectWorldPath());
                 if(this.getARchitectWorldPath().equals("Cloud_Recognition/3dmodel.html")){
                     String title = getIntent().getStringExtra("title").replaceAll("\\s", "");
-                    architectView.callJavascript("Recognition.createModel('" + title + "')");
+                    Double lat = getIntent().getDoubleExtra("lat", 0);
+                    Double lng = getIntent().getDoubleExtra("lng", 0);
+                    architectView.callJavascript("Recognition.createModel('" + title + "'," + lat + "," + lng + ")");
                 }
 
 				if (this.getInitialCullingDistanceMeters() != ArchitectViewHolderInterface.CULLING_DISTANCE_DEFAULT_METERS) {

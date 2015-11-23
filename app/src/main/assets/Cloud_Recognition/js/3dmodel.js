@@ -1,8 +1,9 @@
 var Recognition = {
 
-    createModel: function createModelFn(name) {
+    createModel: function createModelFn(name, lat, lng) {
         this.location = new AR.RelativeLocation(null, -5, -5, 0);
-        this.location2 = new AR.GeoLocation(60.162880, 24.883690, -100.);
+        //this.location2 = new AR.GeoLocation(60.162880, 24.883690, -100.);
+        this.location2 = new AR.GeoLocation(lng, lat, 0.);
         this.modelLautasari = new AR.Model("/sdcard/3dModels/" + name + ".wt3", {
             onLoaded: Recognition.loadingStep,
             onClick: Recognition.toggleAnimateModel,
@@ -55,5 +56,5 @@ var Recognition = {
 }
 $(document).ready(function(){
     //Recognition.createModel();
-    console.log("wel, hello there");
+    console.log("well, hello there");
 });

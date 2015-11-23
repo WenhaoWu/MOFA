@@ -172,6 +172,8 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                             intent.setClass(getBaseContext(), CamActivity.class);
                             intent.putExtra("mode", 2);
                             intent.putExtra("title", title);
+                            intent.putExtra("lat", lat);
+                            intent.putExtra("lng", lng);
                             startActivity(intent);
                         }
                         else {
@@ -183,10 +185,12 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                 imgbtn_video.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent();
+                        startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/watch?v=nWS4Eu8E2z4&ab_channel=TheoWerkman")));
+                        //next code to make a video overlay in cam view
+                        /*Intent intent = new Intent();
                         intent.setClass(getBaseContext(), CamActivity.class);
                         intent.putExtra("mode", 3);
-                        startActivity(intent);
+                        startActivity(intent);*/
                     }
                 });
 
