@@ -67,6 +67,8 @@ public class Activity_POIMainListView extends AppCompatActivity implements Googl
             public boolean onQueryTextSubmit(String query) {
                 Intent intent = new Intent();
                 intent.putExtra(Activity_SearchResultActivity.Tag_SearchQuery, query);
+                intent.putExtra(Activity_SearchResultActivity.TAG_LOCATION_LAT, mCurrentLocation.getLatitude());
+                intent.putExtra(Activity_SearchResultActivity.TAG_LOCATION_LNG, mCurrentLocation.getLongitude());
                 intent.setClass(getBaseContext(), Activity_SearchResultActivity.class);
                 startActivity(intent);
                 return false;

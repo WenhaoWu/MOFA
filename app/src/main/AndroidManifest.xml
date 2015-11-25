@@ -47,15 +47,15 @@
         <activity
             android:name=".POIRecognition.CamActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name=".POINotification.Receiver_AlarmReceiver"
-            android:process=":remote"></receiver>
+            android:process=":remote" />
 
         <service
             android:name=".POINotification.Service_LocationTrackingService"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <activity
             android:name=".POIDetail.Activity_POIActivity"
@@ -72,8 +72,7 @@
             android:name=".POIListView.Activity_POIMainListView"
             android:label="@string/title_activity_activity__poimain_list_view"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".POIDetail.Activity_ImageFullView"
             android:label="@string/title_activity_activity__image_full_view"
@@ -87,21 +86,28 @@
             android:name=".POIListView.Activity_SearchResultActivity"
             android:label="Search"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".POIDetail.Activity_Description"
             android:label="@string/title_activity_activity_description"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".LandingPage.Activity_MainActivity"
             android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".testActivity"
+            android:label="@string/title_activity_test"
+            android:theme="@style/AppTheme">
+
         </activity>
     </application>
 

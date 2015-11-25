@@ -11,19 +11,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:weightSum="1">
+        android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="fill_parent"
-            android:layout_height="250dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:layout_weight="0.4">
+            android:id="@+id/imgSliderFrame">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/image_pager"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="top"/>
 
             <com.liangfeizc.slidepageindicator.CirclePageIndicator
@@ -37,7 +36,6 @@
 
         </FrameLayout>
 
-
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -48,17 +46,6 @@
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
             android:gravity="center"/>
-
-        <RatingBar
-            android:id="@+id/POIRatingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:numStars="5"
-            android:mirrorForRtl="true"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_gravity="center_horizontal"/>
 
 
         <LinearLayout
@@ -105,13 +92,13 @@
 
         </LinearLayout>
 
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="100dp"
             android:orientation="horizontal"
             android:weightSum="4">
-            
+
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -197,7 +184,7 @@
             </FrameLayout>
 
         </LinearLayout>
-        
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -229,6 +216,17 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:id="@+id/poi_detail_readmore"
             android:clickable="true"/>
+
+        <RatingBar
+            android:id="@+id/POIRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:numStars="5"
+            android:mirrorForRtl="true"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_gravity="center_horizontal"/>
 
 
 

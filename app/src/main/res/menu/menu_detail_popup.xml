@@ -6,14 +6,14 @@
     <item
         android:id="@+id/popup_english"
         android:orderInCategory="100"
-        android:title="English"/>
+        android:title="@string/language_popup_english"/>
     <item
         android:id="@+id/popup_finish"
         android:orderInCategory="100"
-        android:title="Finnish" />
+        android:title="@string/language_popup_finnish" />
     <item
         android:id="@+id/popup_swedish"
         android:orderInCategory="100"
-        android:title="Swedish" />
+        android:title="@string/language_popup_swedish" />
 
 </menu>

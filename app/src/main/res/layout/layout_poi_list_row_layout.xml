@@ -10,8 +10,10 @@
         android:id="@+id/POIRowImage"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="6dip"
+        android:layout_marginEnd="6dip"
         android:contentDescription="POI" />
     
     <TextView
@@ -19,8 +21,10 @@
         android:layout_width="fill_parent"
         android:layout_height="26dip"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/POIRowImage"
+        android:layout_toEndOf="@+id/POIRowImage"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:textSize="12sp"/>
@@ -31,11 +35,12 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/POIRowSecLine"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@+id/POIRowImage"
+        android:layout_toEndOf="@+id/POIRowImage"
         android:gravity="center_vertical"
-        android:text="Hello world"
         android:textSize="16sp" />
 
     <RatingBar
@@ -46,6 +51,7 @@
         android:visibility="invisible"
         android:id="@+id/POIRowRateBar"
         android:layout_toRightOf="@+id/POIRowImage"
+        android:layout_toEndOf="@+id/POIRowImage"
         android:layout_below="@+id/POIRowFriLine"
         />
 
@@ -54,9 +60,11 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:layout_toRightOf="@id/POIRowRateBar"
+        android:layout_toEndOf="@+id/POIRowRateBar"
         android:layout_below="@+id/POIRowFriLine"
         android:id="@+id/POIRowRateScore"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="16dp"/>
 
 
 </RelativeLayout>

@@ -12,9 +12,32 @@
     tools:showIn="@layout/activity_activity__search_result"
     tools:context="com.example.yevgen.architectmuseo.POIListView.Activity_SearchResultActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/TopView">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_title"
+            android:text="@string/searchTitle"
+            android:textSize="20sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_query"
+            android:textSize="20sp"
+            android:layout_toEndOf="@id/search_title"
+            android:layout_toRightOf="@+id/search_title"
+            android:textStyle="italic|bold"/>
+
+    </RelativeLayout>
+
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/POISearchListview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TopView"
+        android:paddingTop="@dimen/activity_vertical_margin"/>
 
 </RelativeLayout>

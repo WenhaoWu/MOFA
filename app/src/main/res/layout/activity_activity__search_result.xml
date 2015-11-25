@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:theme="@style/AppTheme"
-        android:title="Search">
+        android:title="@string/search_toolbar_title">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"

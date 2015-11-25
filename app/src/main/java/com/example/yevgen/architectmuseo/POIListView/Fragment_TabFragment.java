@@ -352,8 +352,9 @@ public class Fragment_TabFragment extends Fragment {
                 case 1:
                     rateBar.setEnabled(false);
                     rateBar.setVisibility(View.VISIBLE);
-                    rateBar.setRating((float)values.get(position).getRate_score());
-                    rateScore.setText(values.get(position).getRate_score()+" /5.0");
+                    rateBar.setRating((float) values.get(position).getRate_score());
+                    s = String.format("%.2f", values.get(position).getRate_score());
+                    rateScore.setText(s+" / 5.0");
                     break;
                 case 2:
                     RowTwo.setText(values.get(position).getReasonForSug());

@@ -49,7 +49,6 @@ public class Activity_MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(ArrayList<Object_RVItem> Items) {
                 mAdapter = new Adapter_RVAdapter(Items, getBaseContext());
-                Log.e("LandingPage", mAdapter.getItemCount() + "");
                 mRecyclerView.setAdapter(mAdapter);
             }
         });

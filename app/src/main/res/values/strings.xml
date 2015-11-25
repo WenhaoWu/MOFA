@@ -17,5 +17,25 @@
     <string name="title_activity_activity__search_result">Activity_SearchResultActivity</string>
     <string name="title_activity_activity_description">Activity_description</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="searchTitle">search for </string>
+    <string name="search_toolbar_title">Search</string>
+    <string name="detail_fab_navi_title">Navigation</string>
+    <string name="detail_fab_share_title">Share</string>
+    <string name="detail_tv_designer">Designer</string>
+    <string name="detail_tv_year">Year</string>
+    <string name="detail_tv_3d">3D Model</string>
+    <string name="detail_tv_audio">Audio</string>
+    <string name="detail_tv_video">Video</string>
+    <string name="detail_tv_language">languages</string>
+    <string name="detail_tv_readmore">READ MORE</string>
+    <string name="poiList_menu_track">Click to track</string>
+    <string name="poiList_menu_n_track">Click to stop track</string>
+    <string name="poiList_menu_show_list">Show List</string>
+    <string name="poiList_menu_search">Search</string>
+    <string name="poiList_menu_refresh">Refresh</string>
+    <string name="language_popup_english">English</string>
+    <string name="language_popup_finnish">Finnish</string>
+    <string name="language_popup_swedish">Swedish</string>
+    <string name="title_activity_test">testActivity</string>
 
 </resources>

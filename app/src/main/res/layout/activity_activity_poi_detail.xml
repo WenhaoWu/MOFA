@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/pri_dark"
-            fab:fab_title="Navigation"
+            fab:fab_title="@string/detail_fab_navi_title"
             fab:fab_colorPressed="@color/white_pressed"
             fab:fab_icon="@drawable/ic_navigation_black_24dp" />
 
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/pri_dark"
-            fab:fab_title="Share"
+            fab:fab_title="@string/detail_fab_share_title"
             fab:fab_colorPressed="@color/white_pressed"
             fab:fab_icon="@drawable/ic_share_black_24dp"/>
 

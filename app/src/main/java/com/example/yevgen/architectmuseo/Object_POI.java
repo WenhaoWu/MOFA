@@ -15,14 +15,14 @@ public class Object_POI implements Parcelable{
     private String imgBase64;
     private int ID;
     private String descrip;
-    private int disTo;
+    private double disTo;
     private double rate_score;
     private int rate_count;
     private String designer;
     private int timeTo;
     private String reasonForSug;
 
-    public Object_POI(double latitude, double longitude, String name, int ID, String imgBase64, String descrip, int disTo, double rate_score, int rate_count, String designer, int timeTo, String reason) {
+    public Object_POI(double latitude, double longitude, String name, int ID, String imgBase64, String descrip, double disTo, double rate_score, int rate_count, String designer, int timeTo, String reason) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;
@@ -64,7 +64,7 @@ public class Object_POI implements Parcelable{
         return rate_count;
     }
 
-    public int getDisTo() {
+    public double getDisTo() {
         return disTo;
     }
 
@@ -137,7 +137,7 @@ public class Object_POI implements Parcelable{
         dest.writeString(imgBase64);
         dest.writeInt(ID);
         dest.writeString(descrip);
-        dest.writeInt(disTo);
+        dest.writeDouble(disTo);
         dest.writeDouble(rate_score);
         dest.writeInt(rate_count);
     }

@@ -29,7 +29,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.yevgen.architectmuseo.Constains_BackendAPI_Url;
 import com.example.yevgen.architectmuseo.Object_POI;
 import com.example.yevgen.architectmuseo.POIDetail.Activity_POIActivity;
@@ -38,24 +37,33 @@ import com.example.yevgen.architectmuseo.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Activity_SearchResultActivity extends AppCompatActivity {
 
     public static final String Tag_SearchQuery = "SEARCH_QUERY";
+    public static final String TAG_LOCATION_LAT = "LOCATION_LAT";
+    public static final String TAG_LOCATION_LNG = "LOCATION_LNG";
+
+    RequestQueue serialQueue = new Network_SerialQueue().getSerialRequestQueue(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity__search_result);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        final double cur_lat = getIntent().getDoubleExtra(TAG_LOCATION_LAT, 0);
+        final double cur_lng = getIntent().getDoubleExtra(TAG_LOCATION_LNG, 0);
 
         String searchQuery = getIntent().getStringExtra(Tag_SearchQuery);
         String url = Constains_BackendAPI_Url.URL_POISearch+ searchQuery;
+
+        final TextView title = (TextView)findViewById(R.id.search_query);
+        title.setText(" "+searchQuery+":");
 
         final ListView searchList = (ListView)findViewById(R.id.POISearchListview);
 
@@ -69,29 +77,35 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
                             Toast.makeText(getBaseContext(), "Nothing to show", Toast.LENGTH_LONG).show();
                         }
                         else {
-                            final ArrayList<Object_POI> result = new ArrayList<>();
+                            final ArrayList<Object_POI> resultList = new ArrayList<>();
+                            int id = 0;
+                            String name = null, imgBase64 = null;
+                            double lat=0, lng=0, disTo = 0;
                             for (int i=0; i<response.length();i++){
-                                String name = null, imgBase64 = null;
-                                int id = 0;
                                 try {
                                     name = response.getJSONObject(i).getString("poi_name");
                                     imgBase64 = response.getJSONObject(i).getString("compressed_image");
                                     id = response.getJSONObject(i).getInt("id");
+                                    lat = response.getJSONObject(i).getDouble("lat");
+                                    lng = response.getJSONObject(i).getDouble("lng");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                Object_POI temp = new Object_POI(0, 0, name, id, imgBase64,null,0,0, 0, null, 0,null);
-                                result.add(temp);
+
+                                disTo= CalculationByDistance(cur_lat, cur_lng, lat, lng);
+                                Object_POI temp = new Object_POI(lat,lng,name, id, imgBase64, null, disTo, 0, 0, null, 0, null);
+                                resultList.add(temp);
                             }
 
-                            searchArrayAdapter adapter = new searchArrayAdapter(getBaseContext(),result);
+                            Log.e("ListSize", resultList.size()+"");
+                            searchArrayAdapter adapter = new searchArrayAdapter(getBaseContext(),resultList);
                             searchList.setAdapter(adapter);
 
                             searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     Intent intent = new Intent();
-                                    intent.putExtra(Activity_POIActivity.ARG_ID, result.get(position).getID());
+                                    intent.putExtra(Activity_POIActivity.ARG_ID, resultList.get(position).getID());
                                     intent.setClass(getBaseContext(), Activity_POIActivity.class);
                                     startActivity(intent);
                                 }
@@ -107,8 +121,7 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
                     }
                 });
 
-        RequestQueue queue = Volley.newRequestQueue(getBaseContext());
-        queue.add(jsonArrayRequest);
+        serialQueue.add(jsonArrayRequest);
 
     }
 
@@ -129,7 +142,7 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
             View rowView = inflater.inflate(R.layout.layout_poi_list_row_layout, parent, false);
 
             TextView Title = (TextView)rowView.findViewById(R.id.POIRowFriLine);
-            TextView Descrp = (TextView)rowView.findViewById(R.id.POIRowSecLine);
+            TextView SecLine = (TextView)rowView.findViewById(R.id.POIRowSecLine);
             ImageView imgView = (ImageView)rowView.findViewById(R.id.POIRowImage);
 
             byte[] decodedString = Base64.decode(values.get(position).getImgBase64(), Base64.DEFAULT);
@@ -138,6 +151,9 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
             imgView.setBackground(ob);
 
             Title.setText(values.get(position).getName());
+
+            String s = String.format("%.2f", values.get(position).getDisTo()/1000);
+            SecLine.setText(s+" km");
 
             return rowView;
         }
@@ -173,6 +189,31 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
         return true;
     }
 
+    //http://stackoverflow.com/questions/14394366/find-distance-between-two-points-on-map-using-google-map-api-v2
+    //offline method to calculate distance between two location
+    //Not real time walking distance only geometric distance
+    public double CalculationByDistance(double latS, double lngS, double latE, double lngE) {
+        int Radius=6371;//radius of earth in Km
+        double dLat = Math.toRadians(latE-latS);
+        double dLon = Math.toRadians(lngE-lngS);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(latS)) * Math.cos(Math.toRadians(latE)) *
+                        Math.sin(dLon/2) * Math.sin(dLon/2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        double valueResult= Radius*c;
+
+        double km=valueResult/1;
+        DecimalFormat newFormat = new DecimalFormat("####");
+        int kmInDec =  Integer.valueOf(newFormat.format(km));
+
+        double meter=valueResult%1000;
+        int  meterInDec= Integer.valueOf(newFormat.format(meter));
+
+        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec + " Meter   " + meterInDec);
+
+        return Radius * c;
+    }
 }
 
 

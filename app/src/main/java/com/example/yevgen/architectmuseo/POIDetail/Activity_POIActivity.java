@@ -7,7 +7,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -41,9 +42,6 @@ import com.liangfeizc.slidepageindicator.CirclePageIndicator;
 
 import org.json.JSONArray;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,6 +86,21 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         setSupportActionBar(toolbar);
 
 
+        //Initilize the percentage of each layout
+        int height = getResources().getDisplayMetrics().heightPixels;
+
+
+        //imgSliderFrameLayout
+        FrameLayout imgSlider = (FrameLayout)findViewById(R.id.imgSliderFrame);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imgSlider.getLayoutParams();
+        Log.e("Height_old",height+"");
+        params.height = height *4 /10;
+        Log.e("Height",params.height+"");
+        imgSlider.setLayoutParams(params);
+
+        //
+
+        //
         titleTextView = (TextView)findViewById(R.id.POITitle);
         desTextView = (TextView)findViewById(R.id.POIDescription);
         readMore = (TextView) findViewById(R.id.poi_detail_readmore);
@@ -102,7 +115,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         //set image slider picture, title and description. We get it from backend
         getDetail(new DetailCallback() {
             @Override
-            public void onSuccess(List<String> pic_List, final String title, final String descrip, final double lat , final double lng, final int model_flag, final String fin_des, final String swe_des, final String designer, final String year) {
+            public void onSuccess(List<String> pic_List, final String title, final String descrip, final double lat, final double lng, final int model_flag, final String fin_des, final String swe_des, final String designer, final String year) {
 
                 //sending the picture list to full screen image view
                 SharedPreferences.Editor editor = sp.edit();
@@ -139,7 +152,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
 
                 doDescrip(descrip);
 
-                fab_navi = (FloatingActionButton)findViewById(R.id.poi_detail_fab_navi);
+                fab_navi = (FloatingActionButton) findViewById(R.id.poi_detail_fab_navi);
                 fab_navi.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -152,22 +165,22 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                     }
                 });
 
-                fab_share = (FloatingActionButton)findViewById(R.id.poi_detail_fab_share);
+                fab_share = (FloatingActionButton) findViewById(R.id.poi_detail_fab_share);
                 fab_share.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                         sharingIntent.setType("plain/text");
                         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "#MFA I love " + title + "!");
-                        startActivity(Intent.createChooser(sharingIntent,"Share using"));
+                        startActivity(Intent.createChooser(sharingIntent, "Share using"));
                     }
                 });
 
-                imgbtn_3d = (ImageButton)findViewById(R.id.poi_detail_3dbtn);
+                imgbtn_3d = (ImageButton) findViewById(R.id.poi_detail_3dbtn);
                 imgbtn_3d.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (model_flag == 1){
+                        if (model_flag == 1) {
                             Intent intent = new Intent();
                             intent.setClass(getBaseContext(), CamActivity.class);
                             intent.putExtra("mode", 2);
@@ -175,17 +188,16 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                             intent.putExtra("lat", lat);
                             intent.putExtra("lng", lng);
                             startActivity(intent);
-                        }
-                        else {
+                        } else {
                             Toast.makeText(getBaseContext(), "This POI doesn't support 3D model yet.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-                imgbtn_video = (ImageButton)findViewById(R.id.poi_detail_videobtn);
+                imgbtn_video = (ImageButton) findViewById(R.id.poi_detail_videobtn);
                 imgbtn_video.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/watch?v=nWS4Eu8E2z4&ab_channel=TheoWerkman")));
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=nWS4Eu8E2z4&ab_channel=TheoWerkman")));
                         //next code to make a video overlay in cam view
                         /*Intent intent = new Intent();
                         intent.setClass(getBaseContext(), CamActivity.class);
@@ -194,7 +206,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                     }
                 });
 
-                imgbtn_language = (ImageButton)findViewById(R.id.poi_detail_lngbtn);
+                imgbtn_language = (ImageButton) findViewById(R.id.poi_detail_lngbtn);
                 imgbtn_language.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -339,8 +351,6 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                             lat = response.getJSONObject(0).getDouble("lat");
                             lng = response.getJSONObject(0).getDouble("lng");
                             model_flag = response.getJSONObject(0).getInt("Model_flag");
-                            fin_description= response.getJSONObject(0).getString("fin_description");
-                            swe_description = response.getJSONObject(0).getString("swe_description");
                             designer = response.getJSONObject(0).getString("designer");
                             year = response.getJSONObject(0).getString("year");
 
