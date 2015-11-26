@@ -47,7 +47,9 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -202,21 +204,25 @@ public class Fragment_TabFragment extends Fragment {
         JsonArrayRequest modelNamesReq = new JsonArrayRequest(
                 Request.Method.GET, Constains_BackendAPI_Url.URL_GetModelsName, null,
                 new Response.Listener<JSONArray>() {
-                    @Override
                     public void onResponse(JSONArray response) {
                         ArrayList<String> nameList = new ArrayList<>();
+                        ArrayList<Long> dateList = new ArrayList<>();
                         for (int i=0; i<response.length(); i++){
                             String nameTemp = null;
+                            Long dateTemp = 0l;
                             try {
                                 nameTemp = response.getJSONObject(i).getString("poi_name");
+                                dateTemp = response.getJSONObject(i).getLong("date");
                             } catch (Exception e) {
                                 Log.e("Name List Json Error", e.toString());
                             }
                             nameList.add(nameTemp);
+                            dateList.add(dateTemp);
                         }
                         /**/
-                        for (String name : nameList){
-                            Download3dModels(name);
+
+                        for (int i = 0; i < nameList.size(); i++){
+                            Download3dModels(nameList.get(i), dateList.get(i));
                         }
 
                         /*
@@ -255,7 +261,7 @@ public class Fragment_TabFragment extends Fragment {
         return myView;
     }
 
-    private Boolean Download3dModels(String fileName) {
+    private Boolean Download3dModels(String fileName, long date) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -271,9 +277,12 @@ public class Fragment_TabFragment extends Fragment {
 
         try {
             File file = new File (dir, fileName+".wt3");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            Log.e("Phone",sdf.format(file.lastModified()));
+            Log.e("DataBase",sdf.format(new Date(date*1000l)));
+            if (file.exists() && file.lastModified() >= date*1000l){
 
-            if (file.exists()){
-                Log.e("DownloadError","File already downloaded");
+                Log.e("CRAPPY not downloaded",sdf.format(file.lastModified()));
                 return false;
             }
             else{
