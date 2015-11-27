@@ -41,6 +41,8 @@ public class Adapter_RVAdapter extends android.support.v7.widget.RecyclerView.Ad
             this.cv = (CardView)itemView.findViewById(R.id.Landing_RV_CV);
             this.imgV = (ImageView)itemView.findViewById(R.id.Landing_RV_CV_img);
             this.txtV = (TextView)itemView.findViewById(R.id.Landing_RV_CV_txt);
+
+
         }
 
         @Override

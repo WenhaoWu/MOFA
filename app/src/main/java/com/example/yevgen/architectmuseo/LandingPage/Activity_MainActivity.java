@@ -9,6 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,6 +34,7 @@ public class Activity_MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +42,23 @@ public class Activity_MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        mRecyclerView = (RecyclerView)findViewById(R.id.Landing_RV);
+        mRecyclerView = (RecyclerView) findViewById(R.id.Landing_RV);
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        //make cardView responsive
+        View view = View.inflate(this, R.layout.layout_rv_item_cardview, null);
+        RelativeLayout rv = (RelativeLayout) view.findViewById(R.id.cardView_RV);
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rv.getLayoutParams();
+        int height = getResources().getDisplayMetrics().heightPixels;
+        Log.e("Height_old", height + "");
+        params.height = height * 3 / 10;
+        Log.e("Height", params.height + "");
+        rv.setLayoutParams(params);
+
+        //getting the catagories data from back end and attach the adapter to recycle view
         getCataData(new cataCallBack() {
             @Override
             public void onSuccess(ArrayList<Object_RVItem> Items) {
@@ -53,12 +67,14 @@ public class Activity_MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
 
-    private interface cataCallBack{
+    private interface cataCallBack {
         void onSuccess(ArrayList<Object_RVItem> Items);
     }
+
     private void getCataData(final cataCallBack callBack) {
         RequestQueue queue = Volley.newRequestQueue(this);
         final ProgressDialog PD = Fragment_TabFragment.createProgressDialog(this);
@@ -70,7 +86,7 @@ public class Activity_MainActivity extends AppCompatActivity {
                         Log.e("CataResponse", response.length() + "");
                         ArrayList<Object_RVItem> result = new ArrayList<>();
                         String cataTemp = null, imgTemp = null;
-                        for (int i=0; i<response.length();i++){
+                        for (int i = 0; i < response.length(); i++) {
                             try {
                                 cataTemp = response.getJSONObject(i).getString("cata");
                                 imgTemp = response.getJSONObject(i).getString("compressed_image");
@@ -113,7 +129,7 @@ public class Activity_MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if(id == R.id.action_refresh){
+        if (id == R.id.action_refresh) {
             getCataData(new cataCallBack() {
                 @Override
                 public void onSuccess(ArrayList<Object_RVItem> Items) {
