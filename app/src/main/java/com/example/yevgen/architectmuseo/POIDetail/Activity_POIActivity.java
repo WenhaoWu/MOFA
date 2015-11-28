@@ -214,14 +214,13 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                     }
                 });
 
-                btn_designer.setText(designer);
+
+                final String[] Designers = doDesigner(designer);
+                btn_designer.setText(Designers[0]+"...");
                 btn_designer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.putExtra(Activity_SearchResultActivity.Tag_SearchQuery, designer);
-                        intent.setClass(getBaseContext(), Activity_SearchResultActivity.class);
-                        startActivity(intent);
+                        showDesignerPopup(v,Designers);
                     }
                 });
 
@@ -277,6 +276,14 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
 
 
     }
+
+
+    private String[] doDesigner(String designer) {
+        String[] tokens = designer.split(",",-1);
+        Log.e("Designers", tokens.toString());
+        return tokens;
+    }
+
 
     private void doDescrip(final String descrip) {
 
@@ -487,5 +494,25 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
             }
         });
         popup.show();
+    }
+
+    private void showDesignerPopup(View v, String[] designers) {
+        PopupMenu pm = new PopupMenu(this, v);
+        MenuInflater inflater = pm.getMenuInflater();
+        inflater.inflate(R.menu.menu_designer_popup, pm.getMenu());
+        for (int i=0; i<designers.length; i++){
+            pm.getMenu().add(1,i,100,designers[i]);
+        }
+        pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent();
+                intent.putExtra(Activity_SearchResultActivity.Tag_SearchQuery, item.getTitle());
+                intent.setClass(getBaseContext(), Activity_SearchResultActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+        pm.show();
     }
 }

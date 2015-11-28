@@ -53,8 +53,7 @@ public class Activity_MainActivity extends AppCompatActivity {
         RelativeLayout rv = (RelativeLayout) view.findViewById(R.id.cardView_RV);
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rv.getLayoutParams();
         int height = getResources().getDisplayMetrics().heightPixels;
-        Log.e("Height_old", height + "");
-        params.height = height * 3 / 10;
+        params.height = height * 3 / 10;// 30% of the screen
         Log.e("Height", params.height + "");
         rv.setLayoutParams(params);
 

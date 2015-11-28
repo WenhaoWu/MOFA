@@ -1,5 +1,6 @@
 package com.example.yevgen.architectmuseo.POIListView;
 
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -65,6 +66,8 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
         final TextView title = (TextView)findViewById(R.id.search_query);
         title.setText(" "+searchQuery+":");
 
+        final ProgressDialog PD = Fragment_TabFragment.createProgressDialog(Activity_SearchResultActivity.this);
+
         final ListView searchList = (ListView)findViewById(R.id.POISearchListview);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -111,17 +114,19 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
                                 }
                             });
                         }
-
+                        PD.dismiss();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e("SearchVolleyError", error.toString());
+                        PD.dismiss();
                     }
                 });
 
         serialQueue.add(jsonArrayRequest);
+        PD.show();
 
     }
 
