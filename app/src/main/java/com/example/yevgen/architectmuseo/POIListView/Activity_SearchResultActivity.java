@@ -61,7 +61,9 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
         final double cur_lng = getIntent().getDoubleExtra(TAG_LOCATION_LNG, 0);
 
         String searchQuery = getIntent().getStringExtra(Tag_SearchQuery);
-        String url = Constains_BackendAPI_Url.URL_POISearch+ searchQuery;
+        String query = searchQuery.trim();
+        String url = Constains_BackendAPI_Url.URL_POISearch+ query;
+        Log.e("SearchUrl", url);
 
         final TextView title = (TextView)findViewById(R.id.search_query);
         title.setText(" "+searchQuery+":");

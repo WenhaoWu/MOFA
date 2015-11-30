@@ -9,9 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -48,15 +45,6 @@ public class Activity_MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        //make cardView responsive
-        View view = View.inflate(this, R.layout.layout_rv_item_cardview, null);
-        RelativeLayout rv = (RelativeLayout) view.findViewById(R.id.cardView_RV);
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rv.getLayoutParams();
-        int height = getResources().getDisplayMetrics().heightPixels;
-        params.height = height * 3 / 10;// 30% of the screen
-        Log.e("Landing_Height", params.height + "");
-        rv.setLayoutParams(params);
-
         //getting the catagories data from back end and attach the adapter to recycle view
         getCataData(new cataCallBack() {
             @Override
@@ -68,6 +56,7 @@ public class Activity_MainActivity extends AppCompatActivity {
 
 
     }
+
 
 
     private interface cataCallBack {
