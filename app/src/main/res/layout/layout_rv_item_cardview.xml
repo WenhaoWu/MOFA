@@ -15,13 +15,13 @@
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:id="@+id/cardView_RV">
 
             <ImageView
                 android:id="@+id/Landing_RV_CV_img"
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:scaleType="fitXY"/>
             <TextView
                 android:id="@+id/Landing_RV_CV_txt"

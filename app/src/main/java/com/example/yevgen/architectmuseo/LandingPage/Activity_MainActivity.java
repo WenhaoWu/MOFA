@@ -54,7 +54,7 @@ public class Activity_MainActivity extends AppCompatActivity {
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) rv.getLayoutParams();
         int height = getResources().getDisplayMetrics().heightPixels;
         params.height = height * 3 / 10;// 30% of the screen
-        Log.e("Height", params.height + "");
+        Log.e("Landing_Height", params.height + "");
         rv.setLayoutParams(params);
 
         //getting the catagories data from back end and attach the adapter to recycle view

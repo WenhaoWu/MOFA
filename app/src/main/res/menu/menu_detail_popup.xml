@@ -3,17 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.yevgen.architectmuseo.Main2Activity">
-    <item
-        android:id="@+id/popup_english"
-        android:orderInCategory="100"
-        android:title="@string/language_popup_english"/>
-    <item
-        android:id="@+id/popup_finish"
-        android:orderInCategory="100"
-        android:title="@string/language_popup_finnish" />
-    <item
-        android:id="@+id/popup_swedish"
-        android:orderInCategory="100"
-        android:title="@string/language_popup_swedish" />
+     />
 
 </menu>
