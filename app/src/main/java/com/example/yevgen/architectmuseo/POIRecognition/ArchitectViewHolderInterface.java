@@ -10,7 +10,7 @@ public interface ArchitectViewHolderInterface {
 	/**
 	 * 50km = architectView's default cullingDistance, return this value in "getInitialCullingDistanceMeters()" to not change cullingDistance.
 	 */
-	public static final int CULLING_DISTANCE_DEFAULT_METERS = 50 * 1000;
+	public static final int CULLING_DISTANCE_DEFAULT_METERS = 1;
 	
 	/**
 	 * path to the architect-file (AR-Experience HTML) to launch

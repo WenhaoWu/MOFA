@@ -108,9 +108,9 @@ public abstract class AbstractArchitectCamActivity extends AppCompatActivity imp
                     architectView.callJavascript("Recognition.createModel('" + title + "'," + lat + "," + lng + ")");
                 }
 
-				if (this.getInitialCullingDistanceMeters() != ArchitectViewHolderInterface.CULLING_DISTANCE_DEFAULT_METERS) {
-					this.architectView.setCullingDistance( this.getInitialCullingDistanceMeters() );
-				}
+				//if (this.getInitialCullingDistanceMeters() != /*ArchitectViewHolderInterface.CULLING_DISTANCE_DEFAULT_METERS*/1) {
+				//	this.architectView.setCullingDistance( this.getInitialCullingDistanceMeters() );
+				//}
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

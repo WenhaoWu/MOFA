@@ -9,7 +9,7 @@ var Recognition = {
 
 	//Crate tracker: 1st parameter cloud token, 2nd target archive token
 	createTracker: function createTrackerFn() {
-		Recognition.tracker = new AR.CloudTracker("13ac4bbc215277d1c50df0224f15335e", "55e6e40825e7dbe842761f01", {
+		Recognition.tracker = new AR.CloudTracker("ca88a339361b0f378c450f072dcdc9eb", "56602b62aba250e80d17f555", {
 			onLoaded: this.trackerLoaded,
 			onError: this.trackerError
 		});
