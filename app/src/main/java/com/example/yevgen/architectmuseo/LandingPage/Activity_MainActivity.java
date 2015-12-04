@@ -58,7 +58,6 @@ public class Activity_MainActivity extends AppCompatActivity {
     }
 
 
-
     private interface cataCallBack {
         void onSuccess(ArrayList<Object_RVItem> Items);
     }

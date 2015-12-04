@@ -57,6 +57,10 @@
             android:name=".POINotification.Service_LocationTrackingService"
             android:exported="false" />
 
+        <service
+            android:name=".POIDetail.Service_audioService"
+            android:exported="false"/>
+
         <activity
             android:name=".POIDetail.Activity_POIActivity"
             android:label="@string/title_activity_activity__poi"

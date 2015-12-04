@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -38,6 +39,8 @@ import com.example.yevgen.architectmuseo.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,13 +63,28 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
         final double cur_lat = getIntent().getDoubleExtra(TAG_LOCATION_LAT, 0);
         final double cur_lng = getIntent().getDoubleExtra(TAG_LOCATION_LNG, 0);
 
-        String searchQuery = getIntent().getStringExtra(Tag_SearchQuery);
+        final String searchQuery = getIntent().getStringExtra(Tag_SearchQuery);
         String query = searchQuery.trim();
         String url = Constains_BackendAPI_Url.URL_POISearch+ query;
         Log.e("SearchUrl", url);
 
         final TextView title = (TextView)findViewById(R.id.search_query);
         title.setText(" "+searchQuery+":");
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebView webview = new WebView(getBaseContext());
+                setContentView(webview);
+                try {
+                    String postData = "Keyword=" + URLEncoder.encode(searchQuery, "UTF-8");
+                    Log.e("PostData", postData);
+                    webview.postUrl("http://www.mfa.fi/hakutulokset", postData.getBytes());
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
         final ProgressDialog PD = Fragment_TabFragment.createProgressDialog(Activity_SearchResultActivity.this);
 

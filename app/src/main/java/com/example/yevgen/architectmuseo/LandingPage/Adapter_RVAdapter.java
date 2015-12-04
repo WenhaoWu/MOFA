@@ -92,11 +92,13 @@ public class Adapter_RVAdapter extends android.support.v7.widget.RecyclerView.Ad
     }
 
     public int containerHeight() {
+        //getting the screen size
         DisplayMetrics dm = new DisplayMetrics();
         WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         display.getMetrics(dm);
-        //get predefined value
+
+        //Greater ratio smaller proportion
         double ratio = 3.0;
 
         return (int) (dm.heightPixels / ratio);

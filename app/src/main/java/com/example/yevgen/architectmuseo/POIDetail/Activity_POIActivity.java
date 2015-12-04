@@ -4,8 +4,6 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -49,40 +47,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Activity_POIActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener{
+public class Activity_POIActivity extends AppCompatActivity {
 
+    //Arguments that used by other activity
     public final static String ARG_Name = "PoiName";
     public final static String ARG_Des = "PoiDescript";
     public final static String ARG_ID = "PoiId";
 
+    //Declare UI element
     private CirclePageIndicator mPageIndicator;
-    private MediaPlayer mediaPlayer = null;
     private FloatingActionButton fab_navi, fab_share;
     private ImageButton imgbtn_3d, imgbtn_audio, imgbtn_video, imgbtn_language;
     private Button btn_designer, btn_year;
-
     private TextView readMore,desTextView, titleTextView ;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_poi_detail);
 
+        //Getting ID of POI from intent, intent only defined in Activity_POIMainListView, default id is 42(Central railway station)
         final int POI_id = getIntent().getIntExtra(ARG_ID,42);
+
+        //SP for storing images(base64 string) and storing previous rate value
         final SharedPreferences sp = getSharedPreferences("my_prefs", MODE_PRIVATE);
-
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        String url = "https://api.soundcloud.com/tracks/228179666/stream?client_id=76bf4a478f95a82ca090ecd8fa5b99db";
-        try{
-            mediaPlayer.setDataSource(url);
-        } catch(Exception e){
-            Log.e("Cannot open given URL",e.toString());
-        }
-        mediaPlayer.setOnPreparedListener(this);
-        mediaPlayer.prepareAsync();
-
 
         /**/
         Toolbar toolbar = (Toolbar)findViewById(R.id.poi_detail_toolbar);
@@ -90,11 +78,9 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         setSupportActionBar(toolbar);
 
 
-        //Initilize the percentage of each layout
-        int height = getResources().getDisplayMetrics().heightPixels;
-
-
         //imgSliderFrameLayout
+        //Initilize the percentage of each layout, but at this point only imsSliderFrame is depends on screen height
+        int height = getResources().getDisplayMetrics().heightPixels;
         FrameLayout imgSlider = (FrameLayout)findViewById(R.id.imgSliderFrame);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imgSlider.getLayoutParams();
         Log.e("Height_old",height+"");
@@ -102,9 +88,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         Log.e("Height",params.height+"");
         imgSlider.setLayoutParams(params);
 
-        //
 
-        //
         titleTextView = (TextView)findViewById(R.id.POITitle);
         desTextView = (TextView)findViewById(R.id.POIDescription);
         readMore = (TextView) findViewById(R.id.poi_detail_readmore);
@@ -112,7 +96,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         btn_designer = (Button)findViewById(R.id.poi_detail_designerBtn);
         btn_year = (Button)findViewById(R.id.poi_detail_yearBtn);
 
-
+        //Defining img slide
         final ViewPager pager = (ViewPager)findViewById(R.id.image_pager);
         final Adapter_ImageSlideAdapter slideAdapter = new Adapter_ImageSlideAdapter(getSupportFragmentManager());
 
@@ -120,8 +104,8 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         getDetail(new DetailCallback() {
             @Override
             public void onSuccess(List<String> pic_List, final String title, final String descrip, final double lat, final double lng,
-                                  final int model_flag, final String fin_des, final String swe_des, final String designer, final String year,
-                                  final Map<String,String> lang_map) {
+                                  final int model_flag, final String designer, final String year,
+                                  final Map<String,String> lang_map, final Map<String, String> audio_map, final String u2bLink) {
 
                 //sending the picture list to full screen image view
                 SharedPreferences.Editor editor = sp.edit();
@@ -154,9 +138,10 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                 mPageIndicator = (CirclePageIndicator) findViewById(R.id.imageIndicator);
                 mPageIndicator.setViewPager(pager);
 
+                //POI Title
                 titleTextView.setText(title);
 
-
+                //Navigation btn. It opens google map to navigate
                 fab_navi = (FloatingActionButton) findViewById(R.id.poi_detail_fab_navi);
                 fab_navi.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -170,6 +155,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                     }
                 });
 
+                //Share btn, no facebook cause it is a violation to its content policy
                 fab_share = (FloatingActionButton) findViewById(R.id.poi_detail_fab_share);
                 fab_share.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -181,6 +167,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                     }
                 });
 
+                //3d img btn, check flag first
                 imgbtn_3d = (ImageButton) findViewById(R.id.poi_detail_3dbtn);
                 imgbtn_3d.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -198,11 +185,14 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                         }
                     }
                 });
+
+                //video btn, open youtube app to play video
                 imgbtn_video = (ImageButton) findViewById(R.id.poi_detail_videobtn);
                 imgbtn_video.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=nWS4Eu8E2z4&ab_channel=TheoWerkman")));
+
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(u2bLink)));
                         //next code to make a video overlay in cam view
                         /*Intent intent = new Intent();
                         intent.setClass(getBaseContext(), CamActivity.class);
@@ -211,13 +201,22 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                     }
                 });
 
-                //Putting the map keys into the popup menu as items
+                //Putting the map keys into the popup menu as items, 1 means map flag is lang_map
                 doDescrip(descrip);
                 imgbtn_language = (ImageButton) findViewById(R.id.poi_detail_lngbtn);
                 imgbtn_language.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showPopup(v, lang_map);
+                        showPopup(v, lang_map, 1);
+                    }
+                });
+
+                //Putting the audio map keys into popup menu as items
+                imgbtn_audio = (ImageButton)findViewById(R.id.poi_detail_audiobtn);
+                imgbtn_audio.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showPopup(v, audio_map, 2);
                     }
                 });
 
@@ -239,6 +238,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                     }
                 });
 
+                //Search years
                 btn_year.setText(year);
                 btn_year.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -259,7 +259,6 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
 
         if (sp.contains("POI_Rate"+POI_id)){
             ratingBar.setRating(sp.getFloat("POI_Rate"+POI_id,0));
-            //ratingBar.setEnabled(false);
         }
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -288,8 +287,6 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
             }
         });
 
-
-
     }
 
 
@@ -317,41 +314,22 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
 
     }
 
-    @Override
-    public void onPrepared(final MediaPlayer mp) {
-
-        imgbtn_audio = (ImageButton)findViewById(R.id.poi_detail_audiobtn);
-
-        imgbtn_audio.setOnClickListener(new View.OnClickListener() {
-            boolean isPlaying = false;
-
-            @Override
-            public void onClick(View v) {
-
-                if (isPlaying) {
-                    mp.pause();
-                } else {
-                    mp.start();
-                }
-                isPlaying = !isPlaying;
-            }
-        });
-    }
-
     private interface DetailCallback {
         void onSuccess(List<String> pic_List, String title, String descrip, double lat, double lng, int model_flag,
-                       String fin_des, String swe_des, String designer, String year, Map<String,String> lang_map);
+                       String designer, String year, Map<String,String> lang_map,
+                       Map<String,String> audio_map, String u2bLink);
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public double getDetail(final DetailCallback callback, int id){
-        //String url = Constains_BackendAPI_Url.URL_POIDetail+getIntent().getIntExtra(ARG_ID, 0)+"'";
+
         String url = Constains_BackendAPI_Url.URL_POIDetail+ String.valueOf(id);
-        Log.e("URL", url);
+
         final ProgressDialog PD = Fragment_TabFragment.createProgressDialog(Activity_POIActivity.this);
 
         final List<String> PicResult = new ArrayList<String>();
         final Map<String,String>LangMap = new HashMap<>();
+        final Map<String, String>audioMap = new HashMap<>();
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -360,9 +338,9 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.e("Response Size", response.length()+"");
-                        String title_temp = null, descrip_temp = null, fin_description = null, swe_description = null, designer= null, year=null;
+                        String title_temp = null, descrip_temp = null, designer= null, year=null, u2bLink=null;
                         double lat=0, lng=0;
-                        int pic_count=0, model_flag=0, lang_count=0;
+                        int pic_count=0, model_flag=0, lang_count=0, audio_count=0;
                         String keyTemp = null, valueTemp=null;
 
                         try {
@@ -374,11 +352,13 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                             designer = response.getJSONObject(0).getString("designer");
                             year = response.getJSONObject(0).getString("year");
 
+                            //Parse pictures
                             pic_count = response.getJSONObject(1).getJSONArray("multiple_image").length();
                             for (int i=0; i<pic_count; i++){
                                 PicResult.add(response.getJSONObject(1).getJSONArray("multiple_image").getString(i));
                             }
 
+                            //Parse languages
                             lang_count = response.getJSONArray(2).length();
                             keyTemp = "English";
                             valueTemp = descrip_temp;
@@ -389,7 +369,14 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                                 LangMap.put(keyTemp,valueTemp);
                             }
 
-                            Log.e("Lang",response.getJSONArray(2).getJSONObject(0).getString("lang_name"));
+                            //Parse Audios
+                            audio_count = response.getJSONArray(3).length();
+                            for (int i=0; i<audio_count;i++){
+                                keyTemp = response.getJSONArray(3).getJSONObject(i).getString("track_title");
+                                valueTemp = response.getJSONArray(3).getJSONObject(i).getString("track_id");
+                                audioMap.put(keyTemp,valueTemp);
+                            }
+
 
                         } catch (Exception e) {
                             Log.e("JsonPharseError", e.toString());
@@ -398,7 +385,7 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
                         Log.e("Pic_count", "try "+pic_count);
 
                         PD.dismiss();
-                        callback.onSuccess(PicResult, title_temp, descrip_temp, lat, lng, model_flag, fin_description, swe_description, designer, year,LangMap);
+                        callback.onSuccess(PicResult, title_temp, descrip_temp, lat, lng, model_flag, designer, year,LangMap, audioMap, u2bLink);
                     }
                 },
                 new Response.ErrorListener() {
@@ -496,23 +483,43 @@ public class Activity_POIActivity extends AppCompatActivity implements MediaPlay
         //outState.putParcelable(ARG_ID, );
     }
 
-    private void showPopup(View v, final Map<String,String> lang_map){
+    private boolean isPlaying = false;
+    private void showPopup(View v, final Map<String,String> map, final int mapFlag){
 
         PopupMenu popup = new PopupMenu(this,v);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.menu_detail_popup, popup.getMenu());
 
+        final Intent svc = new Intent(getApplicationContext(),Service_audioService.class);
 
         int id = 100;
-        for (String keyTmep: lang_map.keySet()){
+        for (String keyTmep: map.keySet()){
             id++;
             popup.getMenu().add(0,id,100,keyTmep);
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                String valueTemp = lang_map.get(item.getTitle());
-                doDescrip(valueTemp);
+            public boolean onMenuItemClick(final MenuItem item) {
+                String valueTemp = map.get(item.getTitle());
+
+                switch (mapFlag){
+                    case 1:
+                        doDescrip(valueTemp);
+                        break;
+                    case 2:
+                        if (isPlaying){
+                            getApplicationContext().stopService(svc);
+                        }
+                        else {
+                            svc.putExtra(Service_audioService.ARG_TRACK, valueTemp);
+                            getApplicationContext().startService(svc);
+                        }
+                        isPlaying = !isPlaying;
+                        break;
+                    default:
+                        break;
+                }
+
                 return true;
             }
         });
