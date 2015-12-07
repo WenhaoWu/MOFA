@@ -34,7 +34,7 @@
                 app:indicator_type="circle"
                 android:layout_marginBottom="10dp"/>
 
-        </FrameLayout>
+        </FrameLayout> <!--Image Slider with indicator-->
 
         <TextView
             android:layout_width="fill_parent"
@@ -45,7 +45,7 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
-            android:gravity="center"/>
+            android:gravity="center"/> <!--POI Title-->
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -89,7 +89,7 @@
                     android:id="@+id/poi_detail_yearBtn"/>
             </FrameLayout>
 
-        </LinearLayout>
+        </LinearLayout> <!--Designer and year imageBtn-->
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -181,7 +181,7 @@
 
             </FrameLayout>
 
-        </LinearLayout>
+        </LinearLayout> <!--3D,Audio,Video,Language imgBtn-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -193,7 +193,7 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:maxLines="3"
-            android:layout_gravity="top"/>
+            android:layout_gravity="top"/> <!--POI Description-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -202,7 +202,7 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:text="..."
-            />
+            /> <!--...-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -213,7 +213,7 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:id="@+id/poi_detail_readmore"
-            android:clickable="true"/>
+            android:clickable="true"/> <!--Read mORE-->
 
         <RatingBar
             android:id="@+id/POIRatingBar"
@@ -224,7 +224,7 @@
             android:mirrorForRtl="true"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"/> <!--Rating bar-->
 
     </LinearLayout>
 

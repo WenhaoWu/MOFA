@@ -73,19 +73,20 @@ public class Activity_POIActivity extends AppCompatActivity {
         final SharedPreferences sp = getSharedPreferences("my_prefs", MODE_PRIVATE);
 
         /**/
-        Toolbar toolbar = (Toolbar)findViewById(R.id.poi_detail_toolbar);
-        toolbar.setTitle("Point Of Interest");
+        final Toolbar toolbar = (Toolbar)findViewById(R.id.poi_detail_toolbar);
         setSupportActionBar(toolbar);
 
 
-        //imgSliderFrameLayout
-        //Initilize the percentage of each layout, but at this point only imsSliderFrame is depends on screen height
+        /*
+        imgSliderFrameLayout
+        Initilize the percentage of each layout, but at this point only imsSliderFrame is depends on screen height
+        */
+        //get the screen height pixel
         int height = getResources().getDisplayMetrics().heightPixels;
         FrameLayout imgSlider = (FrameLayout)findViewById(R.id.imgSliderFrame);
+        //get the root layout params, since the image slider is under linearlayout.
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imgSlider.getLayoutParams();
-        Log.e("Height_old",height+"");
         params.height = height *4 /10;
-        Log.e("Height",params.height+"");
         imgSlider.setLayoutParams(params);
 
 
@@ -106,6 +107,8 @@ public class Activity_POIActivity extends AppCompatActivity {
             public void onSuccess(List<String> pic_List, final String title, final String descrip, final double lat, final double lng,
                                   final int model_flag, final String designer, final String year,
                                   final Map<String,String> lang_map, final Map<String, String> audio_map, final String u2bLink) {
+
+                toolbar.setTitle(title);
 
                 //sending the picture list to full screen image view
                 SharedPreferences.Editor editor = sp.edit();

@@ -2,24 +2,28 @@
     <string name="app_name">ArchitectMuseo</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Setting</string>
     <string name="location_fetching">Trying to find out where you are</string>
     <string name="compass_accuracy_low">Please re-calibrate compass by waving your device in a figure 8 motion.</string>
 
     <string-array name="crap">
         <item>1 Building Recognition</item>
     </string-array>
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="title_activity_activity__poi">Activity_POIActivity</string>
-    <string name="title_activity_activity__poimain_list_view">Activity_POIMainListView</string>
+
+
+    <string name="title_activity_activity__poi">Detail</string>
+    <string name="title_activity_activity__poimain_list_view">List</string>
     <string name="title_activity_activity__image_full_view">Activity_ImageFullView</string>
+
     <string name="search_hint">Name/Style/Year</string>
-    <string name="title_activity_activity__search_result">Activity_SearchResultActivity</string>
+
+    <string name="title_activity_activity__search_result">Search</string>
     <string name="title_activity_activity_description">Activity_description</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Categories</string>
+
     <string name="searchTitle">search for </string>
     <string name="search_toolbar_title">Search</string>
-    <string name="detail_fab_navi_title">Navigation</string>
+    <string name="detail_fab_navi_title">navigaatio</string>
     <string name="detail_fab_share_title">Share</string>
     <string name="detail_tv_designer">Designer</string>
     <string name="detail_tv_year">Year</string>
@@ -33,9 +37,7 @@
     <string name="poiList_menu_show_list">Show List</string>
     <string name="poiList_menu_search">Search</string>
     <string name="poiList_menu_refresh">Refresh</string>
-    <string name="language_popup_english">English</string>
-    <string name="language_popup_finnish">Finnish</string>
-    <string name="language_popup_swedish">Swedish</string>
-    <string name="title_activity_test">testActivity</string>
+
+
 
 </resources>
