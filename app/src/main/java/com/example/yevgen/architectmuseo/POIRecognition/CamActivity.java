@@ -107,7 +107,7 @@ public class CamActivity extends AbstractArchitectCamActivity {
             if ("snapShotButton".equalsIgnoreCase(invokedUri.getHost())) {
                 Intent intent = new Intent();
                 intent.setClass(getBaseContext(), Activity_POIActivity.class);
-                intent.putExtra(Activity_POIActivity.ARG_Name, invokedUri.getQueryParameter("name"));
+                intent.putExtra(Activity_POIActivity.ARG_ID, Integer.parseInt(invokedUri.getQueryParameter("name")));
                 intent.putExtra(Activity_POIActivity.ARG_Des, "Test");
                 Log.e("ResponseFromJS", invokedUri.getQueryParameter("name"));
                 startActivity(intent);

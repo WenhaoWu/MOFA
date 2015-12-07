@@ -45,6 +45,7 @@ var Recognition = {
 	//Recognition of image on click
     onRecognition: function onRecognitionFn(recognized, response) {
         if (recognized) {
+            console.log(response.metadata.id);
             var patt = /library_/;
             var pattKalion = /kalion_/;
             if(pattKalion.test(response.targetInfo.name)) {
@@ -55,7 +56,7 @@ var Recognition = {
 
                 });
             } else {
-                Recognition.pageOneButton = Recognition.createWwwButton(response.targetInfo.name, 0.5, {
+                Recognition.pageOneButton = Recognition.createWwwButton(response.metadata.id, 0.5, {
                     offsetX: 0,
                     offsetY: 0
                 });

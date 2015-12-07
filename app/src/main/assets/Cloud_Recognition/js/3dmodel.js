@@ -3,7 +3,7 @@ var Recognition = {
     userLocation: null,
 
     createModel: function createModelFn(name, lat, lng) {
-    console.log("lat " + lat + "lng " + lng)
+    console.log("lat " + lat + "lng " + lng + "   " + name)
         this.location = new AR.RelativeLocation(null, -5, -5, 0);
         //this.location2 = new AR.GeoLocation(60.162880, 24.883690, -100.);
         this.location2 = new AR.GeoLocation(lng, lat);
@@ -80,11 +80,11 @@ var Recognition = {
             'altitude': alt,
             'accuracy': acc
         };
-    },
+    }
 
 }
 $(document).ready(function(){
-    Recognition.updateRangeValues();
+    //Recognition.updateRangeValues();
     console.log("well, hello there");
 });
 
