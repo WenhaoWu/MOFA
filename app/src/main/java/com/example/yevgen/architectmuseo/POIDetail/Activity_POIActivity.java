@@ -195,7 +195,13 @@ public class Activity_POIActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(u2bLink)));
+                        try {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(u2bLink)));
+                        }
+                        catch (Exception e){
+                            Toast.makeText(getBaseContext(),"No video for this POI :(", Toast.LENGTH_SHORT).show();
+                        }
+
                         //next code to make a video overlay in cam view
                         /*Intent intent = new Intent();
                         intent.setClass(getBaseContext(), CamActivity.class);
@@ -227,19 +233,22 @@ public class Activity_POIActivity extends AppCompatActivity {
                 show the first designer if in the backend have multiple
                 the rest will be placed in a popup list.
                 */
-                final String[] Designers = designer.split(",",-1);
-                if (designer.equals(Designers[0])){
-                    btn_designer.setText(designer);
-                }
-                else {
-                    btn_designer.setText(Designers[0]+"...");
-                }
-                btn_designer.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showDesignerPopup(v,Designers);
+                if (designer != null){
+                    final String[] Designers = designer.split(",",-1);
+                    if (designer.equals(Designers[0])){
+                        btn_designer.setText(designer);
                     }
-                });
+                    else {
+                        btn_designer.setText(Designers[0]+"...");
+                    }
+                    btn_designer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDesignerPopup(v,Designers);
+                        }
+                    });
+                }
+
 
                 //Search years
                 btn_year.setText(year);
@@ -327,6 +336,8 @@ public class Activity_POIActivity extends AppCompatActivity {
     public double getDetail(final DetailCallback callback, int id){
 
         String url = Constains_BackendAPI_Url.URL_POIDetail+ String.valueOf(id);
+        Log.e("DetailUrl", url);
+
 
         final ProgressDialog PD = Fragment_TabFragment.createProgressDialog(Activity_POIActivity.this);
 
@@ -354,6 +365,7 @@ public class Activity_POIActivity extends AppCompatActivity {
                             model_flag = response.getJSONObject(0).getInt("Model_flag");
                             designer = response.getJSONObject(0).getString("designer");
                             year = response.getJSONObject(0).getString("year");
+                            u2bLink = response.getJSONObject(0).getString("Youtube_Link");
 
                             //Parse pictures
                             pic_count = response.getJSONObject(1).getJSONArray("multiple_image").length();
