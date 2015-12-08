@@ -32,7 +32,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.yevgen.architectmuseo.Constains_BackendAPI_Url;
-import com.example.yevgen.architectmuseo.POIListView.Activity_POIMainListView;
 import com.example.yevgen.architectmuseo.POIListView.Activity_SearchResultActivity;
 import com.example.yevgen.architectmuseo.POIListView.Fragment_TabFragment;
 import com.example.yevgen.architectmuseo.POIRecognition.CamActivity;
@@ -78,7 +77,6 @@ public class Activity_POIActivity extends AppCompatActivity {
 
 
         /*
-        imgSliderFrameLayout
         Initilize the percentage of each layout, but at this point only imsSliderFrame is depends on screen height
         */
         //get the screen height pixel
@@ -110,7 +108,7 @@ public class Activity_POIActivity extends AppCompatActivity {
 
                 toolbar.setTitle(title);
 
-                //sending the picture list to full screen image view
+                //storing the picture list to sharedPreferences
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putInt("Picture_size", pic_List.size());
                 for (int i = 0; i < pic_List.size(); i++) {
@@ -199,7 +197,7 @@ public class Activity_POIActivity extends AppCompatActivity {
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(u2bLink)));
                         }
                         catch (Exception e){
-                            Toast.makeText(getBaseContext(),"No video for this POI :(", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(),R.string.detail_toast_video, Toast.LENGTH_SHORT).show();
                         }
 
                         //next code to make a video overlay in cam view
@@ -225,7 +223,12 @@ public class Activity_POIActivity extends AppCompatActivity {
                 imgbtn_audio.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showPopup(v, audio_map, 2);
+                        if (audio_map.isEmpty()){
+                            Toast.makeText(getBaseContext(), R.string.detail_toast_audio,Toast.LENGTH_SHORT).show();
+                        }{
+                            showPopup(v, audio_map, 2);
+                        }
+
                     }
                 });
 
@@ -237,18 +240,28 @@ public class Activity_POIActivity extends AppCompatActivity {
                     final String[] Designers = designer.split(",",-1);
                     if (designer.equals(Designers[0])){
                         btn_designer.setText(designer);
+                        btn_designer.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent();
+                                intent.putExtra(Activity_SearchResultActivity.Tag_SearchQuery, btn_designer.getText());
+                                intent.putExtra(Activity_SearchResultActivity.Tag_SearchMode, "SearchDesigner");
+                                intent.setClass(getBaseContext(), Activity_SearchResultActivity.class);
+                                startActivity(intent);
+                            }
+                        });
                     }
                     else {
                         btn_designer.setText(Designers[0]+"...");
+                        btn_designer.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                showDesignerPopup(v, Designers);
+                            }
+                        });
                     }
-                    btn_designer.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showDesignerPopup(v,Designers);
-                        }
-                    });
-                }
 
+                }
 
                 //Search years
                 btn_year.setText(year);
@@ -257,6 +270,7 @@ public class Activity_POIActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent();
                         intent.putExtra(Activity_SearchResultActivity.Tag_SearchQuery, year);
+                        intent.putExtra(Activity_SearchResultActivity.Tag_SearchMode, "SearchYear");
                         intent.setClass(getBaseContext(), Activity_SearchResultActivity.class);
                         startActivity(intent);
                     }
@@ -448,7 +462,7 @@ public class Activity_POIActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_activity__poi, menu);
+        getMenuInflater().inflate(R.menu.menu_activity__poimain_detail, menu);
 
         return true;
     }
@@ -460,28 +474,6 @@ public class Activity_POIActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if(id == R.id.show_list){
-            Intent intent = new Intent();
-            intent.setClass(getBaseContext(), Activity_POIMainListView.class);
-            startActivity(intent);
-        }
-        else if (id== R.id.clearSP){
-            int POI_id = getIntent().getIntExtra(ARG_ID,42);
-
-            SharedPreferences sp = getSharedPreferences("my_prefs", MODE_PRIVATE);
-            SharedPreferences.Editor ed = sp.edit();
-
-            if (sp.getFloat("POI_Rate"+POI_id,0)!=0){
-                ed.remove("POI_Rate" + POI_id);
-                ed.commit();
-                Toast.makeText(this,"Cleared SP",Toast.LENGTH_SHORT).show();
-            }
-
-            return true;
-        }
-
 
         return super.onOptionsItemSelected(item);
     }
@@ -554,6 +546,7 @@ public class Activity_POIActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = new Intent();
                 intent.putExtra(Activity_SearchResultActivity.Tag_SearchQuery, item.getTitle());
+                intent.putExtra(Activity_SearchResultActivity.Tag_SearchMode, "SearchDesigner");
                 intent.setClass(getBaseContext(), Activity_SearchResultActivity.class);
                 startActivity(intent);
                 return true;

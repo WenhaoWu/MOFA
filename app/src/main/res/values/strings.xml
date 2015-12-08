@@ -37,7 +37,8 @@
     <string name="poiList_menu_show_list">Show List</string>
     <string name="poiList_menu_search">Search</string>
     <string name="poiList_menu_refresh">Refresh</string>
-
+    <string name="detail_toast_audio">No audio for this POI :(</string>
+    <string name="detail_toast_video">No vide for this POI :(</string>
 
 
 </resources>

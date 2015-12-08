@@ -26,6 +26,8 @@ import com.google.android.gms.location.LocationServices;
 
 public class Activity_POIMainListView extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+    public static final String TAG_CATE = "Tag_Categories";
+
     private static final String TAG = "POIMainActivity";
 
     protected GoogleApiClient mGoogleApiClient;

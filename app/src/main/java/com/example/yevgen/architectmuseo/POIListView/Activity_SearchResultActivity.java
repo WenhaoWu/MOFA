@@ -12,6 +12,8 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,6 +50,8 @@ import java.util.List;
 public class Activity_SearchResultActivity extends AppCompatActivity {
 
     public static final String Tag_SearchQuery = "SEARCH_QUERY";
+    public static final String Tag_SearchMode = "SEARCH_MODE";
+
     public static final String TAG_LOCATION_LAT = "LOCATION_LAT";
     public static final String TAG_LOCATION_LNG = "LOCATION_LNG";
 
@@ -69,21 +73,48 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
         Log.e("SearchUrl", url);
 
         final TextView title = (TextView)findViewById(R.id.search_query);
-        title.setText(" "+searchQuery+":");
-        title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WebView webview = new WebView(getBaseContext());
-                setContentView(webview);
-                try {
-                    String postData = "Keyword=" + URLEncoder.encode(searchQuery, "UTF-8");
-                    Log.e("PostData", postData);
-                    webview.postUrl("http://www.mfa.fi/hakutulokset", postData.getBytes());
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+
+        String mode = getIntent().getStringExtra(Tag_SearchMode);
+        Log.e("Mode", mode);
+
+        if (mode!=null){
+            switch (mode){
+                case "SearchYear":
+                    int year = Integer.parseInt(query);
+                    int from = year / (int)10;
+                    from = from * 10;
+                    int to = from + 9;
+                    String years = " "+from+"-"+to;
+                    title.setText(years);
+                    break;
+                case "SearchDesigner":
+                    SpannableString content = new SpannableString(" "+query);
+                    content.setSpan(new UnderlineSpan(), 1, content.length(), 0);
+                    title.setText(content);
+                    title.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            WebView webview = new WebView(getBaseContext());
+                            setContentView(webview);
+                            try {
+                                String postData = "Keyword=" + URLEncoder.encode(searchQuery, "UTF-8");
+                                Log.e("PostData", postData);
+                                webview.postUrl("http://www.mfa.fi/hakutulokset", postData.getBytes());
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    break;
+                default:
+                    break;
             }
-        });
+        }
+        else {
+            title.setText(" "+searchQuery+":");
+        }
+
+
 
 
         final ProgressDialog PD = Fragment_TabFragment.createProgressDialog(Activity_SearchResultActivity.this);

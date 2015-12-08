@@ -67,22 +67,24 @@ public class Adapter_RVAdapter extends android.support.v7.widget.RecyclerView.Ad
 
 
     @Override
-    public void onBindViewHolder(mViewHolder holder, int position) {
+    public void onBindViewHolder(final mViewHolder holder, int position) {
         byte[] decodedString = Base64.decode(dataList.get(position).getImg_base64(), Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+        holder.txtV.setText(dataList.get(position).getCataName());
 
         holder.imgV.setImageBitmap(decodedByte);
         holder.imgV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                intent.putExtra(Activity_POIMainListView.TAG_CATE, holder.txtV.getText());
                 intent.setClass(mContext, Activity_POIMainListView.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             }
         });
 
-        holder.txtV.setText(dataList.get(position).getCataName());
 
         //set height in proportion to screen size
         int proportionalHeight = containerHeight();
