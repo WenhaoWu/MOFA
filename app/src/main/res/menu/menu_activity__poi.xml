@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.yevgen.architectmuseo.Main2Activity">
+    tools:context="com.mofa.metropolia.architectmuseo.Main2Activity">
     <item
         android:id="@+id/location_start"
         android:orderInCategory="100"
@@ -35,10 +35,5 @@
         app:showAsAction="ifRoom|collapseActionView"
         />
 
-    <item
-        android:id="@+id/clearSP"
-        android:orderInCategory="100"
-        android:title="Clear SP"
-        app:showAsAction="never"/>
 
 </menu>

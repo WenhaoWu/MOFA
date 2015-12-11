@@ -21,7 +21,7 @@
             <ImageView
                 android:id="@+id/Landing_RV_CV_img"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="match_parent"
                 android:scaleType="fitXY"/>
             <TextView
                 android:id="@+id/Landing_RV_CV_txt"

@@ -2,7 +2,7 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.yevgen.architectmuseo.Main2Activity">
+    tools:context="com.mofa.metropolia.architectmuseo.Main2Activity">
      />
 
 </menu>

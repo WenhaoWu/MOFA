@@ -10,7 +10,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_activity__search_result"
-    tools:context="com.example.yevgen.architectmuseo.POIListView.Activity_SearchResultActivity">
+    tools:context="com.mofa.metropolia.architectmuseo.POIListView.Activity_SearchResultActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
