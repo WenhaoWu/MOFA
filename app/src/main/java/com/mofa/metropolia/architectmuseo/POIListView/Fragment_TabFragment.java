@@ -113,11 +113,12 @@ public class Fragment_TabFragment extends Fragment {
         String url = null;
 
         final int sortingMethodID = getArguments().getInt(ARG_PARM1);
-        final String categoryStr = getArguments().getString(ARG_PARM3);
-        Log.e("CateStr", categoryStr);
+        final String categoryStr;
         switch (sortingMethodID) {
             case 0:
                 String locationStr = getArguments().getString(ARG_PARM2);
+                // '&' here because it is the second parameter
+                categoryStr = "&cata="+getArguments().getString(ARG_PARM3);
                 if (!categoryStr.equals("&cata=All")){
                     url = Constains_BackendAPI_Url.URL_POIList_Distant +locationStr+categoryStr;
                 }
@@ -128,7 +129,9 @@ public class Fragment_TabFragment extends Fragment {
                 break;
             case 1:
                 //setListViewByMostviewed();
-                if (!categoryStr.equals("&cata=All")){
+                // '?' here because it is the second parameter
+                categoryStr = "?cata="+getArguments().getString(ARG_PARM3);
+                if (!categoryStr.equals("?cata=All")){
                     url = Constains_BackendAPI_Url.URL_POIList_Popular+categoryStr;
                 }
                 else {

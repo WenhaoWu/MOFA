@@ -53,7 +53,7 @@ public class Adapter_MyViewPagerAdapter extends FragmentPagerAdapter{
     }
 
     public String getCateStr() {
-        return "&cata="+cateStr;
+        return cateStr;
     }
 
     public void setCateStr(String cateStr) {
