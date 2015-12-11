@@ -295,11 +295,11 @@ public class Fragment_TabFragment extends Fragment {
         try {
             File file = new File (dir, fileName+".wt3");
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-            Log.e("Phone",sdf.format(file.lastModified()));
-            Log.e("DataBase",sdf.format(new Date(date*1000l)));
+            //Log.e("Phone",sdf.format(file.lastModified()));
+            //Log.e("DataBase",sdf.format(new Date(date*1000l)));
             if (file.exists() && file.lastModified() >= date*1000l){
 
-                Log.e("CRAPPY not downloaded",sdf.format(file.lastModified()));
+                //Log.e("3d model not downloaded",sdf.format(file.lastModified()));
                 return false;
             }
             else{
@@ -322,7 +322,7 @@ public class Fragment_TabFragment extends Fragment {
                 fos.flush();
                 fos.close();
 
-                Log.e("DownloadSucceed", fileName+".wt3 Downloaded");
+                //Log.e("DownloadSucceed", fileName+".wt3 Downloaded");
                 return true;
             }
 

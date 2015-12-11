@@ -7,8 +7,8 @@ var Recognition = {
         this.location = new AR.RelativeLocation(null, -5, -5, 0);
         //this.location2 = new AR.GeoLocation(60.162880, 24.883690, -100.);
         this.location2 = new AR.GeoLocation(lng, lat);
-        this.modelLautasari = new AR.Model("assets/lautasari.wt3", {
-        //this.modelLautasari = new AR.Model("/sdcard/3dModels/" + name + ".wt3", {
+        //this.modelLautasari = new AR.Model("assets/lautasari.wt3", {
+        this.modelLautasari = new AR.Model("/sdcard/3dModels/" + name + ".wt3", {
             onLoaded: Recognition.loadingStep,
             onClick: Recognition.toggleAnimateModel,
             scale: {

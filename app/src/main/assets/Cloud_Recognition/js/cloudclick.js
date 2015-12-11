@@ -22,7 +22,7 @@ var Recognition = {
 
 	//Overlay image, size and position
 	createOverlays: function createOverlaysFn() {
-        this.imgButton = new AR.ImageResource("assets/button.png");
+        this.imgButton = new AR.ImageResource("assets/status.png");
 
 
         this.overlayPage = new AR.HtmlDrawable({
@@ -56,7 +56,7 @@ var Recognition = {
 
                 });
             } else {
-                Recognition.pageOneButton = Recognition.createWwwButton(response.metadata.id, 0.5, {
+                Recognition.pageOneButton = Recognition.createWwwButton(response.metadata.id, 0.3, {
                     offsetX: 0,
                     offsetY: 0
                 });

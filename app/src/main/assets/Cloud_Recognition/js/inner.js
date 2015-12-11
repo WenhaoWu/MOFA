@@ -1,5 +1,8 @@
 $(document).ready(function(){
-    //$.getJSON('http://dev.mw.metropolia.fi/mofa/Wikitude_1/geoLocator/poi_detail.php?id=42', function(result){ console.log(result); });
+    $.getJSON('http://www.arkkitehtuurimuseo.fi/newpro/Wikitude_1/geoLocator/poi_detail.php?id=42', function(result){
+        console.log(result[1].multiple_image[0]);
+    });
+
     $("#carousel-generic").carousel("pause");
     $("#myBtn").click(function(){
         $("#carousel-generic").carousel("prev");

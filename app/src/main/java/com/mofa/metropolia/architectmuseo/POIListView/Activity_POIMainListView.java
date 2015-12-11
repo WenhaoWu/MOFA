@@ -44,7 +44,7 @@ public class Activity_POIMainListView extends AppCompatActivity implements Googl
         mGoogleApiClient.connect();
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.poi_list_toolbar);
-        toolbar.setTitle("Demo");
+        toolbar.setTitle("Mofa");
         setSupportActionBar(toolbar);
 
     }
