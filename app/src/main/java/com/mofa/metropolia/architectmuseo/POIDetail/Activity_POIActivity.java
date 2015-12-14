@@ -55,10 +55,10 @@ public class Activity_POIActivity extends AppCompatActivity {
 
     //Declare UI element
     private CirclePageIndicator mPageIndicator;
-    private FloatingActionButton fab_navi, fab_share;
+    private FloatingActionButton fab_navi, fab_share, fab_web;
     private ImageButton imgbtn_3d, imgbtn_audio, imgbtn_video, imgbtn_language;
     private Button btn_designer, btn_year;
-    private TextView readMore,desTextView, titleTextView ;
+    private TextView readMore,desTextView, titleTextView, compeTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +91,7 @@ public class Activity_POIActivity extends AppCompatActivity {
         titleTextView = (TextView)findViewById(R.id.POITitle);
         desTextView = (TextView)findViewById(R.id.POIDescription);
         readMore = (TextView) findViewById(R.id.poi_detail_readmore);
+        compeTextView = (TextView)findViewById(R.id.poi_detail_compe);
 
         btn_designer = (Button)findViewById(R.id.poi_detail_designerBtn);
         btn_year = (Button)findViewById(R.id.poi_detail_yearBtn);
@@ -104,7 +105,8 @@ public class Activity_POIActivity extends AppCompatActivity {
             @Override
             public void onSuccess(List<String> pic_List, final String title, final String descrip, final double lat, final double lng,
                                   final int model_flag, final String designer, final String year,
-                                  final Map<String,String> lang_map, final Map<String, String> audio_map, final String u2bLink) {
+                                  final Map<String,String> lang_map, final Map<String, String> audio_map, final String u2bLink,
+                                  final String website, final String competition) {
 
                 toolbar.setTitle(title);
 
@@ -142,6 +144,9 @@ public class Activity_POIActivity extends AppCompatActivity {
                 //POI Title
                 titleTextView.setText(title);
 
+                //Architeture competition
+                compeTextView.setText(competition);
+
                 //Navigation btn. It opens google map to navigate
                 fab_navi = (FloatingActionButton) findViewById(R.id.poi_detail_fab_navi);
                 fab_navi.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +170,15 @@ public class Activity_POIActivity extends AppCompatActivity {
                         sharingIntent.setType("plain/text");
                         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "#MFA I love " + title + "!");
                         startActivity(Intent.createChooser(sharingIntent, "Share using"));
+                    }
+                });
+
+                fab_web = (FloatingActionButton)findViewById(R.id.poi_detail_fab_web);
+                fab_web.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(website));
+                        startActivity(browserIntent);
                     }
                 });
 
@@ -343,7 +357,8 @@ public class Activity_POIActivity extends AppCompatActivity {
     private interface DetailCallback {
         void onSuccess(List<String> pic_List, String title, String descrip, double lat, double lng, int model_flag,
                        String designer, String year, Map<String,String> lang_map,
-                       Map<String,String> audio_map, String u2bLink);
+                       Map<String,String> audio_map, String u2bLink, String website,
+                       String competition);
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
@@ -366,7 +381,8 @@ public class Activity_POIActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.e("Response Size", response.length()+"");
-                        String title_temp = null, descrip_temp = null, designer= null, year=null, u2bLink=null;
+                        String title_temp = null, descrip_temp = null, designer= null, year=null,
+                                u2bLink=null, website= null, competition=null;
                         double lat=0, lng=0;
                         int pic_count=0, model_flag=0, lang_count=0, audio_count=0;
                         String keyTemp = null, valueTemp=null;
@@ -380,6 +396,8 @@ public class Activity_POIActivity extends AppCompatActivity {
                             designer = response.getJSONObject(0).getString("designer");
                             year = response.getJSONObject(0).getString("year");
                             u2bLink = response.getJSONObject(0).getString("Youtube_Link");
+                            website = response.getJSONObject(0).getString("website");
+                            competition = response.getJSONObject(0).getString("architecture_composition");
 
                             //Parse pictures
                             pic_count = response.getJSONObject(1).getJSONArray("multiple_image").length();
@@ -411,10 +429,9 @@ public class Activity_POIActivity extends AppCompatActivity {
                             Log.e("JsonPharseError", e.toString());
                         }
 
-                        Log.e("Pic_count", "try "+pic_count);
-
                         PD.dismiss();
-                        callback.onSuccess(PicResult, title_temp, descrip_temp, lat, lng, model_flag, designer, year,LangMap, audioMap, u2bLink);
+                        callback.onSuccess(PicResult, title_temp, descrip_temp, lat, lng, model_flag,
+                                            designer, year,LangMap, audioMap, u2bLink, website,competition);
                     }
                 },
                 new Response.ErrorListener() {

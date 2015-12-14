@@ -21,8 +21,13 @@ public class Object_POI implements Parcelable{
     private String designer;
     private int timeTo;
     private String reasonForSug;
+    private String website;
+    private String competition;
 
-    public Object_POI(double latitude, double longitude, String name, int ID, String imgBase64, String descrip, double disTo, double rate_score, int rate_count, String designer, int timeTo, String reason) {
+    public Object_POI(double latitude, double longitude, String name, int ID,
+                      String imgBase64, String descrip, double disTo, double rate_score,
+                      int rate_count, String designer, int timeTo, String reason,
+                      String website, String competition) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;
@@ -35,6 +40,8 @@ public class Object_POI implements Parcelable{
         this.designer = designer;
         this.timeTo = timeTo;
         this.reasonForSug = reason;
+        this.website = website;
+        this.competition = competition;
     }
 
     public Object_POI() {

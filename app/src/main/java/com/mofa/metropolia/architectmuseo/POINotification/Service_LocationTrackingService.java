@@ -145,7 +145,7 @@ public class Service_LocationTrackingService extends IntentService implements Go
                                 } catch (Exception e) {
                                     Log.e("ResponseDisError", e.toString());
                                 }
-                                resultList.add(new Object_POI(0,0, name,id,null,null,dis,0,0,null,time,null));
+                                resultList.add(new Object_POI(0,0, name,id,null,null,dis,0,0,null,time,null,null,null));
                             }
                             addDisList(resultList);
                         }

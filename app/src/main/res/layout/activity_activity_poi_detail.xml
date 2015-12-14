@@ -53,6 +53,15 @@
             fab:fab_colorPressed="@color/white_pressed"
             fab:fab_icon="@drawable/ic_share_black_24dp"/>
 
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/poi_detail_fab_web"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/pri_dark"
+            fab:fab_title="@string/detail_fab_web_title"
+            fab:fab_colorPressed="@color/white_pressed"
+            fab:fab_icon="@drawable/ic_web_black_24dp"/>
+
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 

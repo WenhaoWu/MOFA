@@ -55,7 +55,7 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
     public static final String TAG_LOCATION_LAT = "LOCATION_LAT";
     public static final String TAG_LOCATION_LNG = "LOCATION_LNG";
 
-    RequestQueue serialQueue = new Network_SerialQueue().getSerialRequestQueue(this);
+    RequestQueue serialQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,8 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_activity__search_result);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        serialQueue = Network_SerialQueue.getSerialRequestQueue(this);
 
         final double cur_lat = getIntent().getDoubleExtra(TAG_LOCATION_LAT, Activity_POIMainListView.mlat);
         final double cur_lng = getIntent().getDoubleExtra(TAG_LOCATION_LNG, Activity_POIMainListView.mlong);
@@ -75,7 +77,6 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
         final TextView title = (TextView)findViewById(R.id.search_query);
 
         String mode = getIntent().getStringExtra(Tag_SearchMode);
-        Log.e("Mode", mode);
 
         if (mode!=null){
             switch (mode){
@@ -131,7 +132,7 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
                         else {
                             final ArrayList<Object_POI> resultList = new ArrayList<>();
                             int id = 0;
-                            String name = null, imgBase64 = null;
+                            String name = null, imgBase64 = null, website= null;
                             double lat=0, lng=0, disTo = 0;
                             for (int i=0; i<response.length();i++){
                                 try {
@@ -140,12 +141,14 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
                                     id = response.getJSONObject(i).getInt("id");
                                     lat = response.getJSONObject(i).getDouble("lat");
                                     lng = response.getJSONObject(i).getDouble("lng");
+                                    website = response.getJSONObject(i).getString("website");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
 
                                 disTo= CalculationByDistance(cur_lat, cur_lng, lat, lng);
-                                Object_POI temp = new Object_POI(lat,lng,name, id, imgBase64, null, disTo, 0, 0, null, 0, null);
+                                Object_POI temp = new Object_POI(lat,lng,name, id, imgBase64, null, disTo, 0, 0,
+                                                                null, 0, null,website,null);
                                 resultList.add(temp);
                             }
 

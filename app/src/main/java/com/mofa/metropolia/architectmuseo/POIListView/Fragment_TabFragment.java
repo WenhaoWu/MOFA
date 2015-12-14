@@ -49,7 +49,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -201,7 +200,8 @@ public class Fragment_TabFragment extends Fragment {
                                     break;
 
                             }
-                            Object_POI temp = new Object_POI(0, 0, name, id, imgBase64,null,disTo,rate_score, rate_count, null,0, reason);
+                            Object_POI temp = new Object_POI(0, 0, name, id, imgBase64,null,disTo,rate_score,
+                                                            rate_count, null,0, reason,null,null);
                             result.add(temp);
                         }
 
@@ -362,10 +362,13 @@ public class Fragment_TabFragment extends Fragment {
 
             /**/
             byte[] decodedString = Base64.decode(values.get(position).getImgBase64(), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            //imageView.setImageBitmap(decodedByte);
-            BitmapDrawable ob = new BitmapDrawable(getResources(), decodedByte);
-            imageView.setBackground(ob);
+            if (decodedString!=null){
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                //imageView.setImageBitmap(decodedByte);
+                BitmapDrawable ob = new BitmapDrawable(getResources(), decodedByte);
+                imageView.setBackground(ob);
+            }
+
 
             Title.setText(values.get(position).getName());
 

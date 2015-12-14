@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.mofa.metropolia.architectmuseo.Constains_BackendAPI_Url;
 import com.mofa.metropolia.architectmuseo.POIListView.Fragment_TabFragment;
 import com.mofa.metropolia.architectmuseo.R;
@@ -35,6 +36,8 @@ public class Activity_MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(getBaseContext());
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

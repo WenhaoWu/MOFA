@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mofa</string>
+    <string name="app_name">MFA</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Setting</string>
@@ -39,6 +39,8 @@
     <string name="poiList_menu_refresh">Refresh</string>
     <string name="detail_toast_audio">No audio for this POI :(</string>
     <string name="detail_toast_video">No vide for this POI :(</string>
+    <string name="detail_fab_web_title">Website</string>
+    <string name="detail_txt_competition">Architecture Competition</string>
 
 
 </resources>
