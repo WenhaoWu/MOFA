@@ -3,7 +3,7 @@ var Recognition = {
     userLocation: null,
 
     createModel: function createModelFn(name, lat, lng) {
-    console.log("lat " + lat + "lng " + lng + "   " + name)
+    //console.log("lat " + lat + "lng " + lng + "   " + name)
         this.location = new AR.RelativeLocation(null, -5, -5, 0);
         //this.location2 = new AR.GeoLocation(60.162880, 24.883690, -100.);
         this.location2 = new AR.GeoLocation(lat, lng);
@@ -59,21 +59,13 @@ var Recognition = {
 
     // udpates values show in "range panel"
     updateRangeValues: function updateRangeValuesFn() {
-
         // max range relative to the maximum distance of all visible places
-        var maxRangeMeters = 100;//Math.round(World.getMaxDistance() * (slider_value / 100));
-
-        // range in meters including metric m/km
-        var maxRangeValue = (maxRangeMeters > 999) ? ((maxRangeMeters / 1000).toFixed(2) + " km") : (Math.round(maxRangeMeters) + " m");
-        console.log(AR.context.scene.cullingDistance);
+        var maxRangeMeters = 100;
         // update culling distance, so only palces within given range are rendered
         AR.context.scene.cullingDistance = Math.max(maxRangeMeters, 1);
-        console.log(AR.context.scene.cullingDistance);
     },
 
     locationChanged: function locationChangedFn(lat, lon, alt, acc) {
-
-        // store user's current location in World.userLocation, so you always know where user is
         Recognition.userLocation = {
             'latitude': lat,
             'longitude': lon,

@@ -43,7 +43,7 @@ public interface ArchitectViewHolderInterface {
 	 * 
 	 * @return Implementation of a Location
 	 */
-	public ILocationProvider getLocationProvider(final LocationListener locationListener);
+	public LocationProviderInterface getLocationProvider(final LocationListener locationListener);
 	
 	/**
 	 * @return Implementation of Sensor-Accuracy-Listener. That way you can e.g. show prompt to calibrate compass
@@ -56,24 +56,5 @@ public interface ArchitectViewHolderInterface {
 	 * @return
 	 */
 	public float getInitialCullingDistanceMeters();
-	
-	/**
-	 * Interface for a location-provider implementation
-	 * feel free to implement your very own Location-Service, that handles GPS/Network positions more sophisticated but still takes care of
-	 * life-cycle events
-	 */
-	public static interface ILocationProvider {
-
-		/**
-		 * Call when host-activity is resumed (usually within systems life-cycle method)
-		 */
-		public void onResume();
-
-		/**
-		 * Call when host-activity is paused (usually within systems life-cycle method)
-		 */
-		public void onPause();
-
-	}
 
 }
