@@ -37,7 +37,8 @@
     <string name="detail_toast_audio">No audio for this POI :(</string>
     <string name="detail_toast_video">No vide for this POI :(</string>
     <string name="detail_fab_web_title">Website</string>
-    <string name="detail_txt_competition">Architecture Competition</string>
+    <string name="detail_txt_competition">Architecture Competition:</string>
+    <string name="detail_toast_web">No website yet :)</string>
 
 
 </resources>

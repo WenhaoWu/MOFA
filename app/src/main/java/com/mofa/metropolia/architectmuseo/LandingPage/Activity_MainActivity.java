@@ -48,6 +48,7 @@ public class Activity_MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        /*
         //getting the catagories data from back end and attach the adapter to recycle view
         getCataData(new cataCallBack() {
             @Override
@@ -56,8 +57,10 @@ public class Activity_MainActivity extends AppCompatActivity {
                 mRecyclerView.setAdapter(mAdapter);
             }
         });
-
-
+        */
+        ArrayList<Object_RVItem> Items = new ArrayList<>();
+        mAdapter = new Adapter_RVAdapter(Items, getBaseContext());
+        mRecyclerView.setAdapter(mAdapter);
     }
 
 

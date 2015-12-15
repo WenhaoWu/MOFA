@@ -2,12 +2,9 @@ package com.mofa.metropolia.architectmuseo.LandingPage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -15,10 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.mofa.metropolia.architectmuseo.POIListView.Activity_POIMainListView;
 import com.mofa.metropolia.architectmuseo.R;
 
@@ -39,14 +36,14 @@ public class Adapter_RVAdapter extends android.support.v7.widget.RecyclerView.Ad
 
     public static class mViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public CardView cv ;
-        public ImageView imgV;
+        public SimpleDraweeView imgV;
         public TextView txtV;
         public RelativeLayout rv;
 
         public mViewHolder(View itemView) {
             super(itemView);
             this.cv = (CardView)itemView.findViewById(R.id.Landing_RV_CV);
-            this.imgV = (ImageView)itemView.findViewById(R.id.Landing_RV_CV_img);
+            this.imgV = (SimpleDraweeView)itemView.findViewById(R.id.Landing_RV_CV_img);
             this.txtV = (TextView)itemView.findViewById(R.id.Landing_RV_CV_txt);
             this.rv = (RelativeLayout)itemView.findViewById(R.id.cardView_RV);
         }
@@ -70,6 +67,7 @@ public class Adapter_RVAdapter extends android.support.v7.widget.RecyclerView.Ad
     @Override
     public void onBindViewHolder(final mViewHolder holder, int position) {
 
+        /*
         byte[] decodedString;
         Bitmap decodedByte=null;
 
@@ -86,6 +84,15 @@ public class Adapter_RVAdapter extends android.support.v7.widget.RecyclerView.Ad
 
         BitmapDrawable ob = new BitmapDrawable(mContext.getResources(), decodedByte);
         holder.imgV.setBackground(ob);
+        */
+        Uri uri = null;
+        if (position==0){
+            holder.txtV.setText("All");
+
+            uri = Uri.parse("http://www.arkkitehtuurimuseo.fi/newpro/Wikitude_1/public/img/c1.jpg");
+            holder.imgV.setImageURI(uri);
+        }
+
         holder.imgV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

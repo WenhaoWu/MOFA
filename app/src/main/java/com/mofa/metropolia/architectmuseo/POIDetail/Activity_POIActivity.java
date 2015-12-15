@@ -31,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.mofa.metropolia.architectmuseo.Constains_BackendAPI_Url;
 import com.mofa.metropolia.architectmuseo.POIListView.Activity_SearchResultActivity;
 import com.mofa.metropolia.architectmuseo.POIListView.Fragment_TabFragment;
@@ -56,6 +57,7 @@ public class Activity_POIActivity extends AppCompatActivity {
     //Declare UI element
     private CirclePageIndicator mPageIndicator;
     private FloatingActionButton fab_navi, fab_share, fab_web;
+    private FloatingActionsMenu fam_web;
     private ImageButton imgbtn_3d, imgbtn_audio, imgbtn_video, imgbtn_language;
     private Button btn_designer, btn_year;
     private TextView readMore,desTextView, titleTextView, compeTextView;
@@ -173,14 +175,22 @@ public class Activity_POIActivity extends AppCompatActivity {
                     }
                 });
 
+                //web fab menu
                 fab_web = (FloatingActionButton)findViewById(R.id.poi_detail_fab_web);
+                final String[] websites = website.split(",",-1);
                 fab_web.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(website));
-                        startActivity(browserIntent);
+                        if (websites[0]==null){
+                            showDesignerPopup(v,websites,1);
+                        }
+                        else {
+                            Toast.makeText(getBaseContext(),R.string.detail_toast_web,Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
+
 
                 //3d img btn, check flag first
                 imgbtn_3d = (ImageButton) findViewById(R.id.poi_detail_3dbtn);
@@ -270,7 +280,7 @@ public class Activity_POIActivity extends AppCompatActivity {
                         btn_designer.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                showDesignerPopup(v, Designers);
+                                showDesignerPopup(v, Designers,0);
                             }
                         });
                     }
@@ -551,7 +561,7 @@ public class Activity_POIActivity extends AppCompatActivity {
         popup.show();
     }
 
-    private void showDesignerPopup(View v, String[] designers) {
+    private void showDesignerPopup(View v, String[] designers, final int flag) {
         PopupMenu pm = new PopupMenu(this, v);
         MenuInflater inflater = pm.getMenuInflater();
         inflater.inflate(R.menu.menu_designer_popup, pm.getMenu());
@@ -561,11 +571,22 @@ public class Activity_POIActivity extends AppCompatActivity {
         pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent();
-                intent.putExtra(Activity_SearchResultActivity.Tag_SearchQuery, item.getTitle());
-                intent.putExtra(Activity_SearchResultActivity.Tag_SearchMode, "SearchDesigner");
-                intent.setClass(getBaseContext(), Activity_SearchResultActivity.class);
-                startActivity(intent);
+                switch (flag){
+                    case 0:
+                        Intent intent = new Intent();
+                        intent.putExtra(Activity_SearchResultActivity.Tag_SearchQuery, item.getTitle());
+                        intent.putExtra(Activity_SearchResultActivity.Tag_SearchMode, "SearchDesigner");
+                        intent.setClass(getBaseContext(), Activity_SearchResultActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getTitle().toString()));
+                        startActivity(browserIntent);
+                        break;
+                    default:
+                        break;
+                }
+
                 return true;
             }
         });

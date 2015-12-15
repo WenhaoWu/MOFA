@@ -44,7 +44,7 @@ public class Activity_POIMainListView extends AppCompatActivity implements Googl
         mGoogleApiClient.connect();
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.poi_list_toolbar);
-        toolbar.setTitle("Mofa");
+        toolbar.setTitle("MFA");
         setSupportActionBar(toolbar);
 
     }
@@ -142,12 +142,13 @@ public class Activity_POIMainListView extends AppCompatActivity implements Googl
     public void onConnected(Bundle bundle) {
 
         mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        mlat = mCurrentLocation.getLatitude();
-        mlong = mCurrentLocation.getLongitude();
 
         if (mCurrentLocation != null) {
             locationStr= mCurrentLocation.getLatitude()+"&lng="+mCurrentLocation.getLongitude();
             Log.e(TAG, locationStr);
+
+            mlat = mCurrentLocation.getLatitude();
+            mlong = mCurrentLocation.getLongitude();
 
             //Logic of tab view
             Adapter_MyViewPagerAdapter viewPagerAdapter = new Adapter_MyViewPagerAdapter(getSupportFragmentManager());
