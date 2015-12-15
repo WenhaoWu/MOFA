@@ -78,7 +78,7 @@ public class CamActivity extends AbstractArchitectCamActivity {
 	}
 
     @Override
-    public ILocationProvider getLocationProvider(final LocationListener locationListener) {
+    public LocationProviderInterface getLocationProvider(final LocationListener locationListener) {
         return new LocationProvider(this, locationListener);
     }
 

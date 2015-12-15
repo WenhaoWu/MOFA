@@ -29,7 +29,7 @@ public abstract class AbstractArchitectCamActivity extends AppCompatActivity imp
 	protected ArchitectUrlListener urlListener;
     protected LocationListener locationListener;
     protected Location lastKnownLocaton;
-    protected ILocationProvider	locationProvider;
+    protected LocationProviderInterface	locationProvider;
     protected ArchitectView.SensorAccuracyChangeListener sensorAccuracyListener;
 
 	/** Called when the activity is first created. */
@@ -190,7 +190,7 @@ public abstract class AbstractArchitectCamActivity extends AppCompatActivity imp
 	}
 
     @Override
-    public abstract ILocationProvider getLocationProvider(final LocationListener locationListener);
+    public abstract LocationProviderInterface getLocationProvider(final LocationListener locationListener);
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
