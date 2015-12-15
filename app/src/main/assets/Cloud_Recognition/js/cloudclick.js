@@ -120,34 +120,5 @@ var Recognition = {
     	}
 };
 $(document).ready(function(){
-
-   /*var getUrlParameter = function getUrlParameter(sParam) {
-       var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-           sURLVariables = sPageURL.split('&'),
-           sParameterName,
-           i;
-
-       for (i = 0; i < sURLVariables.length; i++) {
-           sParameterName = sURLVariables[i].split('=');
-
-           if (sParameterName[0] === sParam) {
-               return sParameterName[1] === undefined ? true : sParameterName[1];
-           }
-       }
-   };*/
-Recognition.init();
+    Recognition.init();
 });
-
-
-/*$(document).ready(function(){
-    return $.ajax({
-		type: "GET",
-		url: "http://dev.mw.metropolia.fi/mofa/Wikitude_1/public/demo.php",
-		success: function(data) {
-		console.log(data);
-		str = data.toString().replace(/\s/g, '');
-		console.log(str);
-			Recognition.init(str);
-		}
-	});
-});*/

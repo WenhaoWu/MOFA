@@ -71,7 +71,7 @@ var Recognition = {
         console.log(AR.context.scene.cullingDistance);
     },
 
-    /*locationChanged: function locationChangedFn(lat, lon, alt, acc) {
+    locationChanged: function locationChangedFn(lat, lon, alt, acc) {
 
         // store user's current location in World.userLocation, so you always know where user is
         Recognition.userLocation = {
@@ -80,7 +80,7 @@ var Recognition = {
             'altitude': alt,
             'accuracy': acc
         };
-    }*/
+    }
 
 }
 $(document).ready(function(){
@@ -88,4 +88,4 @@ $(document).ready(function(){
     console.log("well, hello there");
 });
 
-//AR.context.onLocationChanged = Recognition.locationChanged;
+AR.context.onLocationChanged = Recognition.locationChanged;
