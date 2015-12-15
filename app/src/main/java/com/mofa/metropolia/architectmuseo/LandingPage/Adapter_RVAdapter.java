@@ -21,9 +21,6 @@ import com.mofa.metropolia.architectmuseo.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by wenhaowu on 19/11/15.
- */
 public class Adapter_RVAdapter extends android.support.v7.widget.RecyclerView.Adapter<Adapter_RVAdapter.mViewHolder> {
 
     private ArrayList<Object_RVItem> dataList;
@@ -88,10 +85,14 @@ public class Adapter_RVAdapter extends android.support.v7.widget.RecyclerView.Ad
         Uri uri = null;
         if (position==0){
             holder.txtV.setText("All");
-
             uri = Uri.parse("http://www.arkkitehtuurimuseo.fi/newpro/Wikitude_1/public/img/c1.jpg");
-            holder.imgV.setImageURI(uri);
         }
+        else {
+            holder.txtV.setText(dataList.get(position-1).getCataName());
+            uri = Uri.parse(dataList.get(position-1).getImg_base64());
+        }
+
+        holder.imgV.setImageURI(uri);
 
         holder.imgV.setOnClickListener(new View.OnClickListener() {
             @Override

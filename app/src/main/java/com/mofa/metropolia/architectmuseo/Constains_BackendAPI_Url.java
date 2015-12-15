@@ -1,8 +1,5 @@
 package com.mofa.metropolia.architectmuseo;
 
-/**
- * Created by wenhaowu on 11/10/15.
- */
 public class Constains_BackendAPI_Url {
     public static final String URL_POIList_Distant =
             "http://www.arkkitehtuurimuseo.fi/newpro/Wikitude_1/geoLocator/distance_matrix.php?lat=";//+60+"&lng="+24+"&cate="+String;
@@ -34,5 +31,5 @@ public class Constains_BackendAPI_Url {
             "http://www.arkkitehtuurimuseo.fi/newpro/Wikitude_1/public/get_third_view.php";
 
     public static final String URL_GetCatagories =
-            "http://www.arkkitehtuurimuseo.fi/newpro/Wikitude_1/geoLocator/Catagories.php";
+            "http://arkkitehtuurimuseo.fi/newpro/Wikitude_1/geoLocator/Catagories.php";
 }

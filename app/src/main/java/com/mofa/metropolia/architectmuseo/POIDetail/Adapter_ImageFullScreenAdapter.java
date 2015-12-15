@@ -17,9 +17,6 @@ import com.mofa.metropolia.architectmuseo.R;
 
 import java.util.List;
 
-/**
- * Created by wenhaowu on 22/10/15.
- */
 public class Adapter_ImageFullScreenAdapter extends PagerAdapter {
 
     private Activity activity;

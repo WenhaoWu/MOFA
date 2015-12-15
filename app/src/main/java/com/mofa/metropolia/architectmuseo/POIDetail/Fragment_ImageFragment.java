@@ -14,9 +14,6 @@ import android.widget.ImageView;
 
 import com.mofa.metropolia.architectmuseo.R;
 
-/**
- * Created by wenhaowu on 07/10/15.
- */
 public class Fragment_ImageFragment extends Fragment {
 
     private static final String PIC_URI = "PictureURI";

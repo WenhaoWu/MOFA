@@ -1,8 +1,6 @@
 package com.mofa.metropolia.architectmuseo.LandingPage;
 
-/**
- * Created by wenhaowu on 19/11/15.
- */
+
 public class Object_RVItem {
     private String img_base64;
     private String cataName;

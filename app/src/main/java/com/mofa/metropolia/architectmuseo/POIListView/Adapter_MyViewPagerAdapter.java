@@ -4,9 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-/**
- * Created by wenhaowu on 23/09/15.
- */
 public class Adapter_MyViewPagerAdapter extends FragmentPagerAdapter{
 
     private final int PAGE_COUNT = 3;

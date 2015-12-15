@@ -4,7 +4,7 @@
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:padding="6dip" >
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:layout_width="75dp"
         android:layout_height="100dp"
         android:id="@+id/POIRowImage"
@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="6dip"
         android:layout_marginEnd="6dip"
-        android:contentDescription="POI" />
+        android:contentDescription="POI"/>
     
     <TextView
         android:id="@+id/POIRowSecLine"

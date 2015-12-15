@@ -7,9 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by wenhaowu on 07/10/15.
- */
 public class Adapter_ImageSlideAdapter extends FragmentStatePagerAdapter {
 
     private List<String> picList = new ArrayList<>();

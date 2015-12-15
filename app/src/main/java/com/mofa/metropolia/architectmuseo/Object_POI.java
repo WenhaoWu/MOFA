@@ -4,9 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-/**
- * Created by wenhaowu on 14/09/15.
- */
 public class Object_POI implements Parcelable{
 
     private double latitude;

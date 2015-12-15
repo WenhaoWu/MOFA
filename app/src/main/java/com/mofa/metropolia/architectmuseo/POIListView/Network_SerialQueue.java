@@ -10,9 +10,7 @@ import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
 
-/**
- * Created by wenhaowu on 10/11/15.
- */
+
 public class Network_SerialQueue {
     private static final int MAX_CACHE_SIZE = 2097152; //2 MB
     private static final int MAX_SERIAL_THREAD_POOL_SIZE = 1;

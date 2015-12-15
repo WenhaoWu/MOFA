@@ -3,18 +3,15 @@ package com.mofa.metropolia.architectmuseo.POIListView;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +19,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager.BadTokenException;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -33,6 +29,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.mofa.metropolia.architectmuseo.Constains_BackendAPI_Url;
 import com.mofa.metropolia.architectmuseo.Object_POI;
@@ -51,9 +48,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by wenhaowu on 23/09/15.
- */
 public class Fragment_TabFragment extends Fragment {
 
     private static final String ARG_PARM1 = "SortingMethodID";
@@ -168,7 +162,7 @@ public class Fragment_TabFragment extends Fragment {
                                     try {
                                         disTo = response.getJSONObject(i).getInt("distance");
                                         name = response.getJSONObject(i).getString("poi_name");
-                                        imgBase64 = response.getJSONObject(i).getString("compressed_image");
+                                        imgBase64 = response.getJSONObject(i).getString("image");
                                         id = response.getJSONObject(i).getInt("id");
 
                                     } catch (Exception e) {
@@ -180,7 +174,7 @@ public class Fragment_TabFragment extends Fragment {
                                         rate_count = response.getJSONObject(i).getInt("rate_count");
                                         rate_score = response.getJSONObject(i).getDouble("rate_score");
                                         name = response.getJSONObject(i).getString("poi_name");
-                                        imgBase64 = response.getJSONObject(i).getString("compressed_image");
+                                        imgBase64 = response.getJSONObject(i).getString("image");
                                         id = response.getJSONObject(i).getInt("id");
                                     } catch (Exception e) {
                                         Log.e("ResponsePopError", e.toString());
@@ -190,7 +184,7 @@ public class Fragment_TabFragment extends Fragment {
                                     try {
                                         id = response.getJSONObject(i).getInt("id");
                                         name = response.getJSONObject(i).getString("poi_name");
-                                        imgBase64 = response.getJSONObject(i).getString("compressed_image");
+                                        imgBase64 = response.getJSONObject(i).getString("image");
                                         reason = response.getJSONObject(i).getString("reason");
                                     } catch (Exception e) {
                                         Log.e("ResponseSugError", e.toString());
@@ -356,11 +350,12 @@ public class Fragment_TabFragment extends Fragment {
 
             TextView Title = (TextView) rowView.findViewById(R.id.POIRowFriLine);
             TextView RowTwo = (TextView)rowView.findViewById(R.id.POIRowSecLine);
-            ImageView imageView = (ImageView) rowView.findViewById(R.id.POIRowImage);
+            //ImageView imageView = (ImageView) rowView.findViewById(R.id.POIRowImage);
+            SimpleDraweeView sdv = (SimpleDraweeView)rowView.findViewById(R.id.POIRowImage);
             TextView rateScore = (TextView)rowView.findViewById(R.id.POIRowRateScore);
             RatingBar rateBar = (RatingBar)rowView.findViewById(R.id.POIRowRateBar);
 
-            /**/
+            /*
             byte[] decodedString = Base64.decode(values.get(position).getImgBase64(), Base64.DEFAULT);
             if (decodedString!=null){
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -368,7 +363,10 @@ public class Fragment_TabFragment extends Fragment {
                 BitmapDrawable ob = new BitmapDrawable(getResources(), decodedByte);
                 imageView.setBackground(ob);
             }
-
+            */
+            Log.e("Test",values.get(position).getImgBase64());
+            Uri uri = Uri.parse(values.get(position).getImgBase64());
+            sdv.setImageURI(uri);
 
             Title.setText(values.get(position).getName());
 

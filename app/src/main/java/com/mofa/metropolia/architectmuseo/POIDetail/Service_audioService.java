@@ -7,9 +7,6 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.util.Log;
 
-/**
- * Created by wenhaowu on 03/12/15.
- */
 public class Service_audioService extends Service {
 
     public static final String ARG_TRACK = "track_argument";
