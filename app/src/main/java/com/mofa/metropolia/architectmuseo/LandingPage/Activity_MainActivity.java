@@ -49,7 +49,7 @@ public class Activity_MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         /**/
-        //getting the catagories data from back end and attach the adapter to recycle view
+        //getting the categories data from back end and attach the adapter to recycle view
         getCataData(new cataCallBack() {
             @Override
             public void onSuccess(ArrayList<Object_RVItem> Items) {

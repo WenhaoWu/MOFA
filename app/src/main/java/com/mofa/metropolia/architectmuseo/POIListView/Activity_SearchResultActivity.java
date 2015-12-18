@@ -98,7 +98,7 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
                             WebView webview = new WebView(getBaseContext());
                             setContentView(webview);
                             try {
-                                String postData = "Keyword=" + URLEncoder.encode(searchQuery, "UTF-8");
+                                String postData = "keyword=" + URLEncoder.encode(searchQuery, "UTF-8");
                                 Log.e("PostData", postData);
                                 webview.postUrl("http://www.mfa.fi/hakutulokset", postData.getBytes());
                             } catch (UnsupportedEncodingException e) {
@@ -113,6 +113,7 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
         }
         else {
             title.setText(" "+searchQuery+":");
+
         }
 
 
