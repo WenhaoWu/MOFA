@@ -31,14 +31,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.liangfeizc.slidepageindicator.CirclePageIndicator;
 import com.mofa.metropolia.architectmuseo.Constains_BackendAPI_Url;
 import com.mofa.metropolia.architectmuseo.POIListView.Activity_SearchResultActivity;
 import com.mofa.metropolia.architectmuseo.POIListView.Fragment_TabFragment;
 import com.mofa.metropolia.architectmuseo.POIRecognition.CamActivity;
 import com.mofa.metropolia.architectmuseo.R;
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.liangfeizc.slidepageindicator.CirclePageIndicator;
 
 import org.json.JSONArray;
 
@@ -106,7 +106,7 @@ public class Activity_POIActivity extends AppCompatActivity {
         getDetail(new DetailCallback() {
             @Override
             public void onSuccess(List<String> pic_List, final String title, final String descrip, final double lat, final double lng,
-                                  final int model_flag, final String designer, final String year,
+                                  final String model_flag, final String designer, final String year,
                                   final Map<String,String> lang_map, final Map<String, String> audio_map, final String u2bLink,
                                   final String website, final String competition) {
 
@@ -181,7 +181,9 @@ public class Activity_POIActivity extends AppCompatActivity {
                 fab_web.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (websites[0]==null){
+                        Log.e("Website",websites[0]);
+
+                        if (!websites[0].equals(null)){
                             showDesignerPopup(v,websites,1);
                         }
                         else {
@@ -197,7 +199,7 @@ public class Activity_POIActivity extends AppCompatActivity {
                 imgbtn_3d.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (model_flag == 1) {
+                        if (model_flag != "null") {
                             Intent intent = new Intent();
                             intent.setClass(getBaseContext(), CamActivity.class);
                             intent.putExtra("mode", 2);
@@ -365,7 +367,7 @@ public class Activity_POIActivity extends AppCompatActivity {
     }
 
     private interface DetailCallback {
-        void onSuccess(List<String> pic_List, String title, String descrip, double lat, double lng, int model_flag,
+        void onSuccess(List<String> pic_List, String title, String descrip, double lat, double lng, String model_flag,
                        String designer, String year, Map<String,String> lang_map,
                        Map<String,String> audio_map, String u2bLink, String website,
                        String competition);
@@ -392,9 +394,9 @@ public class Activity_POIActivity extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         Log.e("Response Size", response.length()+"");
                         String title_temp = null, descrip_temp = null, designer= null, year=null,
-                                u2bLink=null, website= null, competition=null;
+                                u2bLink=null, website= null, competition=null,model_flag=null;
                         double lat=0, lng=0;
-                        int pic_count=0, model_flag=0, lang_count=0, audio_count=0;
+                        int pic_count=0, lang_count=0, audio_count=0;
                         String keyTemp = null, valueTemp=null;
 
                         try {
@@ -402,7 +404,7 @@ public class Activity_POIActivity extends AppCompatActivity {
                             descrip_temp = response.getJSONObject(0).getString("description");
                             lat = response.getJSONObject(0).getDouble("lat");
                             lng = response.getJSONObject(0).getDouble("lng");
-                            model_flag = response.getJSONObject(0).getInt("Model_flag");
+                            model_flag = response.getJSONObject(0).getString("Model_flag");
                             designer = response.getJSONObject(0).getString("designer");
                             year = response.getJSONObject(0).getString("year");
                             u2bLink = response.getJSONObject(0).getString("Youtube_Link");

@@ -2,16 +2,16 @@ package com.mofa.metropolia.architectmuseo.POIDetail;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.mofa.metropolia.architectmuseo.R;
 
 public class Fragment_ImageFragment extends Fragment {
@@ -32,28 +32,34 @@ public class Fragment_ImageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_poi_detail, container, false);
-        ImageView Poi_Image = (ImageView)rootView.findViewById(R.id.fragment_image);
+        //ImageView Poi_Image = (ImageView)rootView.findViewById(R.id.fragment_image);
+        SimpleDraweeView sdv = (SimpleDraweeView)rootView.findViewById(R.id.fragment_image);
 
         Bundle arguments = getArguments();
         if (arguments != null){
+            /*
             String imgbase64 = arguments.getString(PIC_URI);
             byte[] decodedString = Base64.decode(imgbase64, Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            */
 
-            /**/
+            /*
             //keep the ratio
             Bitmap idealBM = scaleBitmap(decodedByte, Poi_Image);
             Poi_Image.setImageBitmap(idealBM);
-
+            */
 
             /*
             //dont keep the ratio
             BitmapDrawable ob = new BitmapDrawable(getResources(), decodedByte);
             Poi_Image.setBackground(ob);
             */
+
+            Uri uri = Uri.parse(arguments.getString(PIC_URI));
+            sdv.setImageURI(uri);
         }
 
-        Poi_Image.setOnClickListener(new View.OnClickListener() {
+       sdv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();

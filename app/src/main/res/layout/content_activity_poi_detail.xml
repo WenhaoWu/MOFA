@@ -41,6 +41,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/POITitle"
             android:textSize="32sp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_gravity="center_horizontal"
@@ -51,7 +52,11 @@
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            >
 
             <FrameLayout
                 android:layout_width="0dp"
@@ -183,27 +188,6 @@
 
         </LinearLayout> <!--3D,Audio,Video,Language imgBtn-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:textSize="18sp"
-                android:text="@string/detail_txt_competition"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:id="@+id/poi_detail_compe"/>
-
-        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -231,13 +215,35 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:text="READ MORE"
-            android:textColor="@color/pri_dark"
+            android:textColor="@color/pri"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:id="@+id/poi_detail_readmore"
             android:clickable="true"/> <!--Read mORE-->
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/detail_txt_competition"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:id="@+id/poi_detail_compe"/>
+
+        </LinearLayout> <!--Architeture Competition-->
+
         <RatingBar
+            android:scaleX="0.75"
+            android:scaleY="0.75"
             android:id="@+id/POIRatingBar"
             android:layout_width="wrap_content"
             android:layout_height="0dp"

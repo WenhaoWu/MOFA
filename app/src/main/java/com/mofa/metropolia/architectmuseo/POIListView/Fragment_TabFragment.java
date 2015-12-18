@@ -364,7 +364,6 @@ public class Fragment_TabFragment extends Fragment {
                 imageView.setBackground(ob);
             }
             */
-            Log.e("Test",values.get(position).getImgBase64());
             Uri uri = Uri.parse(values.get(position).getImgBase64());
             sdv.setImageURI(uri);
 
