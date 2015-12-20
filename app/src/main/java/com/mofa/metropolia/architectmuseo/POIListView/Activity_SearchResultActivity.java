@@ -4,9 +4,7 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +12,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,7 +20,6 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +29,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.mofa.metropolia.architectmuseo.Constains_BackendAPI_Url;
 import com.mofa.metropolia.architectmuseo.Object_POI;
 import com.mofa.metropolia.architectmuseo.POIDetail.Activity_POIActivity;
@@ -138,7 +135,7 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
                             for (int i=0; i<response.length();i++){
                                 try {
                                     name = response.getJSONObject(i).getString("poi_name");
-                                    imgBase64 = response.getJSONObject(i).getString("compressed_image");
+                                    imgBase64 = response.getJSONObject(i).getString("image");
                                     id = response.getJSONObject(i).getInt("id");
                                     lat = response.getJSONObject(i).getDouble("lat");
                                     lng = response.getJSONObject(i).getDouble("lng");
@@ -201,12 +198,16 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
 
             TextView Title = (TextView)rowView.findViewById(R.id.POIRowFriLine);
             TextView SecLine = (TextView)rowView.findViewById(R.id.POIRowSecLine);
-            ImageView imgView = (ImageView)rowView.findViewById(R.id.POIRowImage);
+            SimpleDraweeView imgView = (SimpleDraweeView)rowView.findViewById(R.id.POIRowImage);
 
+            /*
             byte[] decodedString = Base64.decode(values.get(position).getImgBase64(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             BitmapDrawable ob = new BitmapDrawable(getResources(),decodedByte);
             imgView.setBackground(ob);
+            */
+
+            imgView.setImageURI(Uri.parse(values.get(position).getImgBase64()));
 
             Title.setText(values.get(position).getName());
 
