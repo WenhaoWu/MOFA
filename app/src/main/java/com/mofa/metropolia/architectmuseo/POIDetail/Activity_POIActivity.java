@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -60,7 +61,7 @@ public class Activity_POIActivity extends AppCompatActivity {
     private FloatingActionsMenu fam_web;
     private ImageButton imgbtn_3d, imgbtn_audio, imgbtn_video, imgbtn_language;
     private Button btn_designer, btn_year;
-    private TextView readMore,desTextView, titleTextView, compeTextView;
+    private TextView readMore,desTextView, titleTextView, compeTextView, creditTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +95,14 @@ public class Activity_POIActivity extends AppCompatActivity {
         desTextView = (TextView)findViewById(R.id.POIDescription);
         readMore = (TextView) findViewById(R.id.poi_detail_readmore);
         compeTextView = (TextView)findViewById(R.id.poi_detail_compe);
+        creditTextView = (TextView)findViewById(R.id.poi_detail_credit);
 
+
+        ColorStateList def = titleTextView.getTextColors();
         btn_designer = (Button)findViewById(R.id.poi_detail_designerBtn);
+        btn_designer.setTextColor(def);
         btn_year = (Button)findViewById(R.id.poi_detail_yearBtn);
+        btn_year.setTextColor(def);
 
         //Defining img slide
         final ViewPager pager = (ViewPager)findViewById(R.id.image_pager);
@@ -107,8 +113,8 @@ public class Activity_POIActivity extends AppCompatActivity {
             @Override
             public void onSuccess(List<String> pic_List, final String title, final String descrip, final double lat, final double lng,
                                   final String model_flag, final String designer, final String year,
-                                  final Map<String,String> lang_map, final Map<String, String> audio_map, final String u2bLink,
-                                  final String website, final String competition) {
+                                  final Map<String, String> lang_map, final Map<String, String> audio_map, final String u2bLink,
+                                  final String website, final String competition, final String credits) {
 
                 toolbar.setTitle(title);
 
@@ -149,6 +155,9 @@ public class Activity_POIActivity extends AppCompatActivity {
                 //Architeture competition
                 compeTextView.setText(competition);
 
+                //Credit
+                creditTextView.setText(credits);
+
                 //Navigation btn. It opens google map to navigate
                 fab_navi = (FloatingActionButton) findViewById(R.id.poi_detail_fab_navi);
                 fab_navi.setOnClickListener(new View.OnClickListener() {
@@ -176,18 +185,17 @@ public class Activity_POIActivity extends AppCompatActivity {
                 });
 
                 //web fab menu
-                fab_web = (FloatingActionButton)findViewById(R.id.poi_detail_fab_web);
-                final String[] websites = website.split(",",-1);
+                fab_web = (FloatingActionButton) findViewById(R.id.poi_detail_fab_web);
+                final String[] websites = website.split(",", -1);
                 fab_web.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.e("Website",websites[0]);
+                        Log.e("Website", websites[0]);
 
-                        if (!websites[0].equals(null)){
-                            showDesignerPopup(v,websites,1);
-                        }
-                        else {
-                            Toast.makeText(getBaseContext(),R.string.detail_toast_web,Toast.LENGTH_SHORT).show();
+                        if (!websites[0].equals(null)) {
+                            showDesignerPopup(v, websites, 1);
+                        } else {
+                            Toast.makeText(getBaseContext(), R.string.detail_toast_web, Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -199,6 +207,7 @@ public class Activity_POIActivity extends AppCompatActivity {
                 imgbtn_3d.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        /**/
                         if (model_flag != "null") {
                             Intent intent = new Intent();
                             intent.setClass(getBaseContext(), CamActivity.class);
@@ -210,6 +219,7 @@ public class Activity_POIActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(getBaseContext(), "This POI doesn't support 3D model yet.", Toast.LENGTH_SHORT).show();
                         }
+
                     }
                 });
 
@@ -221,9 +231,8 @@ public class Activity_POIActivity extends AppCompatActivity {
 
                         try {
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(u2bLink)));
-                        }
-                        catch (Exception e){
-                            Toast.makeText(getBaseContext(),R.string.detail_toast_video, Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), R.string.detail_toast_video, Toast.LENGTH_SHORT).show();
                         }
 
                         //next code to make a video overlay in cam view
@@ -245,13 +254,14 @@ public class Activity_POIActivity extends AppCompatActivity {
                 });
 
                 //Putting the audio map keys into popup menu as items
-                imgbtn_audio = (ImageButton)findViewById(R.id.poi_detail_audiobtn);
+                imgbtn_audio = (ImageButton) findViewById(R.id.poi_detail_audiobtn);
                 imgbtn_audio.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (audio_map.isEmpty()){
-                            Toast.makeText(getBaseContext(), R.string.detail_toast_audio,Toast.LENGTH_SHORT).show();
-                        }{
+                        if (audio_map.isEmpty()) {
+                            Toast.makeText(getBaseContext(), R.string.detail_toast_audio, Toast.LENGTH_SHORT).show();
+                        }
+                        {
                             showPopup(v, audio_map, 2);
                         }
 
@@ -262,9 +272,9 @@ public class Activity_POIActivity extends AppCompatActivity {
                 show the first designer if in the backend have multiple
                 the rest will be placed in a popup list.
                 */
-                if (designer != null){
-                    final String[] Designers = designer.split(",",-1);
-                    if (designer.equals(Designers[0])){
+                if (designer != null) {
+                    final String[] Designers = designer.split(",", -1);
+                    if (designer.equals(Designers[0])) {
                         btn_designer.setText(designer);
                         btn_designer.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -276,13 +286,12 @@ public class Activity_POIActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         });
-                    }
-                    else {
-                        btn_designer.setText(Designers[0]+"...");
+                    } else {
+                        btn_designer.setText(Designers[0] + "...");
                         btn_designer.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                showDesignerPopup(v, Designers,0);
+                                showDesignerPopup(v, Designers, 0);
                             }
                         });
                     }
@@ -370,14 +379,13 @@ public class Activity_POIActivity extends AppCompatActivity {
         void onSuccess(List<String> pic_List, String title, String descrip, double lat, double lng, String model_flag,
                        String designer, String year, Map<String,String> lang_map,
                        Map<String,String> audio_map, String u2bLink, String website,
-                       String competition);
+                       String competition, String credit);
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public double getDetail(final DetailCallback callback, int id){
 
         String url = Constains_BackendAPI_Url.URL_POIDetail+ String.valueOf(id);
-        Log.e("DetailUrl", url);
 
 
         final ProgressDialog PD = Fragment_TabFragment.createProgressDialog(Activity_POIActivity.this);
@@ -392,9 +400,8 @@ public class Activity_POIActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.e("Response Size", response.length()+"");
                         String title_temp = null, descrip_temp = null, designer= null, year=null,
-                                u2bLink=null, website= null, competition=null,model_flag=null;
+                                u2bLink=null, website= null, competition=null,model_flag=null, credit = null;
                         double lat=0, lng=0;
                         int pic_count=0, lang_count=0, audio_count=0;
                         String keyTemp = null, valueTemp=null;
@@ -410,6 +417,7 @@ public class Activity_POIActivity extends AppCompatActivity {
                             u2bLink = response.getJSONObject(0).getString("Youtube_Link");
                             website = response.getJSONObject(0).getString("website");
                             competition = response.getJSONObject(0).getString("architecture_composition");
+                            credit = response.getJSONObject(0).getString("credit");
 
                             //Parse pictures
                             pic_count = response.getJSONObject(1).getJSONArray("multiple_image").length();
@@ -438,19 +446,17 @@ public class Activity_POIActivity extends AppCompatActivity {
 
 
                         } catch (Exception e) {
-                            Log.e("JsonPharseError", e.toString());
                         }
 
                         PD.dismiss();
                         callback.onSuccess(PicResult, title_temp, descrip_temp, lat, lng, model_flag,
-                                            designer, year,LangMap, audioMap, u2bLink, website,competition);
+                                            designer, year,LangMap, audioMap, u2bLink, website,competition, credit);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         PD.dismiss();
-                        Log.e("Volley error", error.toString());
                     }
                 });
 
@@ -466,7 +472,6 @@ public class Activity_POIActivity extends AppCompatActivity {
     public void toRate(final RateCallback callback, int id, float newRate, float oldRate){
         String parms = "id="+id+"&rate="+newRate+"&oldRate="+oldRate;
         String url = Constains_BackendAPI_Url.URL_POIRate+parms;
-        Log.e("RateURL", url);
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -480,7 +485,6 @@ public class Activity_POIActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("Rate error", error.toString());
                     }
                 }
         );

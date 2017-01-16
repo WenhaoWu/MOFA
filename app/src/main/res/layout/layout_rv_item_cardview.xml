@@ -23,7 +23,6 @@
                 android:id="@+id/Landing_RV_CV_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                fresco:placeholderImage="@drawable/ic_cached_black_48dp"
                 android:scaleType="fitXY"/>
             <TextView
                 android:id="@+id/Landing_RV_CV_txt"

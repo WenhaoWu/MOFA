@@ -12,6 +12,7 @@
         android:scaleType="fitCenter"
         fresco:actualImageScaleType="fitCenter"
         android:adjustViewBounds="true"
-        android:id="@+id/fragment_image"/>
+        android:id="@+id/fragment_image"
+        fresco:placeholderImage="@drawable/ic_cached_black_48dp"/>
 
 </LinearLayout>

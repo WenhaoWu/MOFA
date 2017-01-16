@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
-import android.util.Log;
 
 public class Service_audioService extends Service {
 
@@ -41,7 +40,6 @@ public class Service_audioService extends Service {
         try{
             player.setDataSource(url);
         } catch(Exception e){
-            Log.e("Cannot open given URL", e.toString());
         }
         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override

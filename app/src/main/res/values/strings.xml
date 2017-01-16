@@ -23,7 +23,7 @@
 
     <string name="searchTitle">search for </string>
     <string name="search_toolbar_title">Search</string>
-    <string name="detail_fab_navi_title">navigation</string>
+    <string name="detail_fab_navi_title">Navigation</string>
     <string name="detail_fab_share_title">Share</string>
     <string name="detail_tv_designer">Designer</string>
     <string name="detail_tv_year">Year</string>
@@ -40,8 +40,11 @@
     <string name="detail_toast_audio">No audio for this POI :(</string>
     <string name="detail_toast_video">No vide for this POI :(</string>
     <string name="detail_fab_web_title">Website</string>
-    <string name="detail_txt_competition">Architecture Competition:</string>
+    <string name="detail_txt_competition">Competition</string>
     <string name="detail_toast_web">No website yet :)</string>
+    <string name="detail_designer">Designer</string>
+    <string name="detail_year">Year</string>
+    <string name="detail_txt_credit">Credits</string>
 
 
 </resources>

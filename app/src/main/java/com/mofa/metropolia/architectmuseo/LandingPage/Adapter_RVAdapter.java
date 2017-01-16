@@ -15,6 +15,8 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mofa.metropolia.architectmuseo.POIListView.Activity_POIMainListView;
 import com.mofa.metropolia.architectmuseo.R;
@@ -85,14 +87,17 @@ public class Adapter_RVAdapter extends android.support.v7.widget.RecyclerView.Ad
         Uri uri = null;
         if (position==0){
             holder.txtV.setText("All");
-            uri = Uri.parse("http://www.arkkitehtuurimuseo.fi/newpro/Wikitude_1/public/img/c1.jpg");
+            uri = Uri.parse("http://www.arkkitehtuurimuseo.fi/newpro/Wikitude_1/public/img/logot_app-2.jpg");
+            GenericDraweeHierarchy hierarchy = holder.imgV.getHierarchy();
+            hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_START);
         }
         else {
             holder.txtV.setText(dataList.get(position-1).getCataName());
             uri = Uri.parse(dataList.get(position-1).getImg_base64());
-        }
 
+        }
         holder.imgV.setImageURI(uri);
+
 
         holder.imgV.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -12,7 +12,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -69,7 +68,6 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
         final String searchQuery = getIntent().getStringExtra(Tag_SearchQuery);
         String query = searchQuery.trim();
         String url = Constains_BackendAPI_Url.URL_POISearch+ query;
-        Log.e("SearchUrl", url);
 
         final TextView title = (TextView)findViewById(R.id.search_query);
 
@@ -96,7 +94,6 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
                             setContentView(webview);
                             try {
                                 String postData = "keyword=" + URLEncoder.encode(searchQuery, "UTF-8");
-                                Log.e("PostData", postData);
                                 webview.postUrl("http://www.mfa.fi/hakutulokset", postData.getBytes());
                             } catch (UnsupportedEncodingException e) {
                                 e.printStackTrace();
@@ -123,7 +120,6 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                          Log.e("SearchResultSize", response.length() + "");
                         if (response.length() == 0){
                             Toast.makeText(getBaseContext(), "Nothing to show", Toast.LENGTH_LONG).show();
                         }
@@ -150,7 +146,6 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
                                 resultList.add(temp);
                             }
 
-                            Log.e("ListSize", resultList.size()+"");
                             searchArrayAdapter adapter = new searchArrayAdapter(getBaseContext(),resultList);
                             searchList.setAdapter(adapter);
 
@@ -170,7 +165,6 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("SearchVolleyError", error.toString());
                         PD.dismiss();
                     }
                 });
@@ -268,8 +262,6 @@ public class Activity_SearchResultActivity extends AppCompatActivity {
 
         double meter=valueResult%1000;
         int  meterInDec= Integer.valueOf(newFormat.format(meter));
-
-        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec + " Meter   " + meterInDec);
 
         return Radius * c;
     }

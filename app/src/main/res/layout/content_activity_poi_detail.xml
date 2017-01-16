@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     tools:showIn="@layout/activity_activity_poi_detail">
 
     <LinearLayout
@@ -40,7 +39,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/POITitle"
-            android:textSize="32sp"
+            android:textSize="30sp"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
@@ -65,15 +64,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Designer"
-                    android:layout_gravity="center_horizontal"/>
+                    android:text="@string/detail_designer"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="16sp"/>
                 <Button
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:background="?android:selectableItemBackground"
                     android:layout_gravity="bottom|center_horizontal"
                     android:gravity="bottom|center_horizontal"
-                    android:id="@+id/poi_detail_designerBtn"/>
+                    android:id="@+id/poi_detail_designerBtn" />
             </FrameLayout>
 
             <FrameLayout
@@ -83,15 +84,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Year"
-                    android:layout_gravity="center_horizontal"/>
+                    android:text="@string/detail_year"
+                    android:layout_gravity="center_horizontal"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
                 <Button
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:background="?android:selectableItemBackground"
                     android:layout_gravity="bottom|center_horizontal"
                     android:gravity="bottom|center_horizontal"
-                    android:id="@+id/poi_detail_yearBtn"/>
+                    android:id="@+id/poi_detail_yearBtn" />
             </FrameLayout>
 
         </LinearLayout> <!--Designer and year imageBtn-->
@@ -118,7 +121,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3D Model"
+                    android:text="@string/detail_tv_3d"
                     android:layout_gravity="bottom|center_horizontal"/>
 
             </FrameLayout>
@@ -139,7 +142,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Audio"
+                    android:text="@string/detail_tv_audio"
                     android:layout_gravity="bottom|center_horizontal"/>
 
             </FrameLayout>
@@ -160,7 +163,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Video"
+                    android:text="@string/detail_tv_video"
                     android:layout_gravity="bottom|center_horizontal"/>
 
             </FrameLayout>
@@ -181,13 +184,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="languages"
+                    android:text="@string/detail_tv_language"
                     android:layout_gravity="bottom|center_horizontal"/>
 
             </FrameLayout>
 
         </LinearLayout> <!--3D,Audio,Video,Language imgBtn-->
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -214,8 +216,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="READ MORE"
-            android:textColor="@color/pri"
+            android:text="@string/detail_tv_readmore"
+            android:textStyle="bold"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:id="@+id/poi_detail_readmore"
@@ -231,13 +233,27 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:text="@string/detail_txt_competition"/>
+                android:text="@string/detail_txt_competition"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:id="@+id/poi_detail_compe"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/detail_txt_credit"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:id="@+id/poi_detail_credit"/>
 
         </LinearLayout> <!--Architeture Competition-->
 

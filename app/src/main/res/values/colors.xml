@@ -4,7 +4,7 @@
     <item name="pri_dark" type="color">#424242</item>
     <item name="acc" type="color">#9575CD</item>
     <item name="acc_clicked" type="color">#673AB7</item>
-    <item name="bac" type="color">#FFFDE7</item>
+    <item name="bac" type="color">#FAFAFA</item>
     <item name="txt" type="color">#455a64</item>
     <item name="nav" type="color">#FDD835</item>
 

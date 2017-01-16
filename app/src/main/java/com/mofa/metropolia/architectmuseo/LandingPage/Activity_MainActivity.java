@@ -6,9 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -74,7 +74,6 @@ public class Activity_MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.e("CataResponse", response.length() + "");
                         ArrayList<Object_RVItem> result = new ArrayList<>();
                         String cataTemp = null, imgTemp = null;
                         for (int i = 0; i < response.length(); i++) {
@@ -82,7 +81,7 @@ public class Activity_MainActivity extends AppCompatActivity {
                                 cataTemp = response.getJSONObject(i).getString("cata_name");
                                 imgTemp = response.getJSONObject(i).getString("cata_url");
                             } catch (JSONException e) {
-                                Log.e("CataResponseErr", e.toString());
+
                             }
                             result.add(new Object_RVItem(cataTemp, imgTemp));
                         }
@@ -93,7 +92,7 @@ public class Activity_MainActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("CataReqErr", error.toString());
+                        Toast.makeText(getBaseContext(),R.string.common_google_play_services_network_error_text,Toast.LENGTH_SHORT).show();
                         PD.dismiss();
                     }
                 });
@@ -134,4 +133,3 @@ public class Activity_MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
-

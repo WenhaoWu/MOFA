@@ -186,6 +186,8 @@ public class Activity_POIMainListView extends AppCompatActivity implements Googl
         // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
         // onConnectionFailed.
         Log.e(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
+        Log.e(TAG, result.toString());
+        Toast.makeText(getBaseContext(),result.getErrorMessage(),Toast.LENGTH_SHORT).show();
     }
 
 

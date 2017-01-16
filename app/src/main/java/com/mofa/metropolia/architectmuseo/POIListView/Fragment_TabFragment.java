@@ -118,7 +118,6 @@ public class Fragment_TabFragment extends Fragment {
                 else {
                     url = Constains_BackendAPI_Url.URL_POIList_Distant +locationStr;
                 }
-                Log.e("POIList URL", url);
                 break;
             case 1:
                 //setListViewByMostviewed();
@@ -150,8 +149,6 @@ public class Fragment_TabFragment extends Fragment {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        Log.e("Response size", response.length() + "");
-
                         for (int i = 0; i < response.length(); i++) {
 
                             String name = null, imgBase64 = null, reason = null;
@@ -166,8 +163,7 @@ public class Fragment_TabFragment extends Fragment {
                                         id = response.getJSONObject(i).getInt("id");
 
                                     } catch (Exception e) {
-                                        Log.e("ResponseDisError", e.toString());
-                                    }
+                                      }
                                     break;
                                 case 1:
                                     try {
@@ -187,7 +183,7 @@ public class Fragment_TabFragment extends Fragment {
                                         imgBase64 = response.getJSONObject(i).getString("image");
                                         reason = response.getJSONObject(i).getString("reason");
                                     } catch (Exception e) {
-                                        Log.e("ResponseSugError", e.toString());
+
                                     }
 
                                 default:
@@ -284,8 +280,6 @@ public class Fragment_TabFragment extends Fragment {
             dir.mkdirs();
         }
 
-        Log.e("FilePath", dir.getAbsolutePath());
-
         try {
             File file = new File (dir, fileName+".wt3");
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
@@ -321,7 +315,7 @@ public class Fragment_TabFragment extends Fragment {
             }
 
         } catch (Exception e) {
-            Log.e("Download3dError", e.toString());
+
             return false;
         }
     }
@@ -380,7 +374,7 @@ public class Fragment_TabFragment extends Fragment {
                     rateBar.setVisibility(View.VISIBLE);
                     rateBar.setRating((float) values.get(position).getRate_score());
                     s = String.format("%.2f", values.get(position).getRate_score());
-                    rateScore.setText(s+" / 5.0");
+                    rateScore.setText(s+" / 5.00");
                     break;
                 case 2:
                     RowTwo.setText(values.get(position).getReasonForSug());

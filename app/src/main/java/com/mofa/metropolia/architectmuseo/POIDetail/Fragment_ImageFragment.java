@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +81,7 @@ public class Fragment_ImageFragment extends Fragment {
         int new_width=ivWidth;
         int new_height = (int) Math.floor((double) bmHeight *( (double) new_width / (double) bmWidth));
 
-        Log.e("ImageView", "wid="+new_width+" hei="+new_height);
+
 
         Bitmap newbitMap = Bitmap.createScaledBitmap(bitMap,new_width,new_height, true);
 
